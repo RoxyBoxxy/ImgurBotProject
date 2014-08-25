@@ -1,4 +1,4 @@
-/* Now you see it, now you still see it. This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API (don't worry, they know) to deliver the most fresh and high quality responses. Hooray. I worked my goddamn butt off on this one. */
+/* Now you see it, now you still see it. This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API (don't worry, they know) to deliver the most fresh and high quality responses. */
 var error = false;
 var URL = "";
 
@@ -7,6 +7,7 @@ function getrequestnumber() {
     xmlHttp.open("GET", "https://api.imgur.com/3/credits", false);
     xmlHttp.setRequestHeader("Authorization", authorization);
     xmlHttp.send(null);
+    return xmlHttp.responseText;
 }
 
 function shifter() {
@@ -43,9 +44,25 @@ var authorization = 'Client-ID ' + clientId;
 function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
     str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML.toLowerCase();
-    str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML.toLowerCase();
-    str4 = $('#messages').children()[$('#messages').children().length - 4].innerHTML.toLowerCase();
-    str5 = $('#messages').children()[$('#messages').children().length - 5].innerHTML.toLowerCase();
+    string3 = $('#messages').children()[$('#messages').children().length - 3];
+    string4 = $('#messages').children()[$('#messages').children().length - 4];
+    string5 = $('#messages').children()[$('#messages').children().length - 5];
+    
+    if (string3 !== "undefined"){
+        str3 = string3.innerHTML.toLowerCase();
+    } else {
+        str3 = "";
+    }
+    if (string4 !== "undefined"){
+        str4 = string4.innerHTML.toLowerCase();
+    } else {
+        str4 = "";
+    }
+    if (string5 !== "undefined"){
+        str5 = string5.innerHTML.toLowerCase();
+    } else {
+        str5 = "";
+    }
 
     var a = str.search("imgurbot");
     var b = str.search("image /r/ ");
@@ -120,7 +137,7 @@ function prepareResponse() {
     if (error === true) {
         if (errortype == "basic") {
             CLIENT.submit("Error: A Basic error occured. For more info ask the Random dude.");
-        }
+        } 
         if (errortype == "supply") {
             CLIENT.submit("Error: All 12,500 daily credits were used up. Sorry.");
         }
