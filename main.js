@@ -145,7 +145,7 @@ $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function(msg) {
         setTimeout(function() {
-            doStuff();
+            main();
         }, 750);
 
 
