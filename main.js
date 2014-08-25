@@ -1,13 +1,4 @@
-function makeid()
-{
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
- 
-    for( var i=0; i < 5; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
- 
-    return text;
-}
+/* Now you see it, now you still see it. This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API (don't worry, they know) to deliver the most fresh and high quality responses. Hooray. I worked my goddamn butt off on this one. */
 
 error = false;
 URL = "";
@@ -31,7 +22,7 @@ function shifter(){
 		httpGet();
 	} else{
 		error = true;
-		errortype = basic;
+		errortype = "basic";
 		prepareResponse();
 	}
 }
@@ -48,9 +39,7 @@ var galleryregex = /gal+ery/ig;
 
 var authorization = 'Client-ID ' + clientId;
 
-$(function() {
-    var socket = io('/' + window.channel);
-    socket.on('message', function(msg) {
+function main() {
         str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
 str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML.toLowerCase();
 str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML.toLowerCase();
@@ -75,7 +64,7 @@ if (a > -1){
 		shifter();
 		} else {
 		error = true;
-		errortype = basic;
+		errortype = "basic";
 		console.log("Not a subreddit")
 		prepareResponse();
 		}
@@ -102,16 +91,13 @@ if (a > -1){
  
     for( var i=0; i < 5; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
-        URL = 
+        URL = "http://i.imgur.com/" + text + ".jpg"
+        prepareImage();
+        itype = "random"
 	}
 	
 }
-	
-	}
-
-
-    });
-});
+}
 
 function httpGet(URL){
 if (requests <= 12498){
@@ -130,10 +116,21 @@ if (requests <= 12498){
 
 function prepareResponse(){
 	if (error = true){
-		
+		if (errortype = "basic"){
+			
+		}
 	} else {
 		
 	}
 }
+
+$(function() {
+    var socket = io('/' + window.channel);
+    socket.on('message', function(msg) {
+	setTimeout(function(){doStuff()}, 750);
+
+
+    });
+});
 
 console.log("ImgurBot Beta has loaded :)");
