@@ -9,6 +9,8 @@ function makeid()
     return text;
 }
 
+error = false;
+
 function shifter(){
 	check = newstr.charAt(0);
 	if (lengthcheck <= 50){
@@ -24,7 +26,7 @@ function shifter(){
 	}
 }
 
-var preimageregex = /ima*ge*\s+\/r\/(w+)/ig;
+var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
 var imageregex = /ima*ge*\s+\/r\//ig;
 
 authorization = 'Client-ID ' + clientId;
@@ -37,17 +39,25 @@ str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML
 str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML.toLowerCase();
  
         a = str.indexOf("imgurbot");
-	b = str.indexOf("image");
+	b = str.indexOf("image /r/");
 	c = str.indexOf("random");
 	
 	if (a > -1){
 	
 	if (b > -1){
-	var n = str.search()
+	var n = str.search(preimageregex);
 	var lengthcheck = 0;
 	var newstr = "";
 	var oldstr = str.replace(imageregex, "");
+	if (n > -1){
 	shifter();
+	
+	} else {
+	error = true;
+	errortype = "Syntax";
+	errormessage = "It seems like that's not a subreddit.";
+	}
+	}
 	}
 	
 	}
