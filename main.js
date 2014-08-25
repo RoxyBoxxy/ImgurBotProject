@@ -18,6 +18,7 @@ function shifter() {
             lengthcheck = lengthcheck + 1;
             shifter();
         } else {
+            itype = "subreddit";
             URL = "https://api.imgur.com/3/gallery/r/" + subreddit;
             httpGet();
         }
@@ -40,7 +41,7 @@ function makeid()
 }
 
 function checkImage(){
-    if (takingtoolong < 7){
+    if (takingtoolong <= 5){
     if (img.height <= 81) { text = makeid(); img = new Image(); img.src = "https://i.imgur.com/" + text + ".jpg"; takingtoolong++; timer();} else {
                 iURL = img.src; itype = "random"; prepareImage();}} else {
                     error = true; errortype = "time"; prepareResponse();
@@ -60,6 +61,8 @@ var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
 var memesregex = /(me|may)+s*/ig;
+var uploadregex = /\.(gif|jpg|png)/g;
+var universalregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -92,6 +95,8 @@ function main() {
     var d = str.search(galleryregex);
     var e = str.search(upvoteregex);
     var f = str.search(downvoteregex);
+    var g = str.search(memesregex);
+    var h = str.search("save to imgur");
 
     if (a > -1) {
 
@@ -110,6 +115,7 @@ function main() {
             }
         }
         if (d > -1) {
+            itype = "gallery";
             URL = "https://api.imgur.com/3/gallery/hot/viral/0.json";
             httpGet();
         }
@@ -131,6 +137,14 @@ function main() {
             img.src = "https://i.imgur.com/" + text + ".jpg";
             takingtoolong = 0;
             timer();
+        }
+        if (g > -1) {
+            itype = "meme"
+            URL = "https://api.imgur.com/3/g/memes"
+            httpGet();
+        }
+        if (h > -1) {
+            
         }
 
     }
