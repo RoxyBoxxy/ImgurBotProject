@@ -15,7 +15,8 @@ function getrequestnumber() {
     xmlHttp.send(null);
     var text = xmlHttp.responseText;
     var res = text.match(/"ClientRemaining":\d{5}/);
-    remaining = res.match(/\d{5}/);
+    var katyperry = res[0];
+    remaining = katyperry.match(/\d{5}/);
 }
 
 function shifter() {
@@ -113,7 +114,7 @@ function main() {
     }
 
     var a = str.search("imgurbot");
-    var b = str.search("image /r/ ");
+    var b = str.search(imageregex);
     var c = str.search("random");
     var d = str.search(galleryregex);
     var e = str.search(upvoteregex);
@@ -124,21 +125,6 @@ function main() {
     var j = str.search(uploadregex);
 
     if (a > -1) {
-
-        if (b > -1) {
-            var n = str.search(preimageregex);
-            var lengthcheck = 0;
-            subreddit = "";
-            oldstr = str.replace(imageregex, "");
-            if (n > -1) {
-                shifter();
-            } else {
-                error = true;
-                errortype = "basic";
-                console.log("Not a subreddit");
-                prepareResponse();
-            }
-        }
         if (d > -1) {
             itype = "gallery";
             URLs = "https://api.imgur.com/3/gallery/hot/viral/0.json";
@@ -175,6 +161,20 @@ function main() {
 
             }
         }
+    }
+    if (b > -1) {
+            var n = str.search(preimageregex);
+            var lengthcheck = 0;
+            subreddit = "";
+            oldstr = str.replace(imageregex, "");
+            if (n > -1) {
+                shifter();
+            } else {
+                error = true;
+                errortype = "basic";
+                console.log("Not a subreddit");
+                prepareResponse();
+            }
     }
 }
 
