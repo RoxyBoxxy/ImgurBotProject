@@ -9,8 +9,14 @@ function makeid()
     return text;
 }
 
-requests = 0;
 error = false;
+
+function getrequestnumber(){
+	 xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", URL, false );
+    xmlHttp.setRequestHeader("Authorization",authorization);
+    xmlHttp.send( null );
+}
 
 function shifter(){
 	check = oldstr.charAt(0);
@@ -31,6 +37,8 @@ function shifter(){
 
 var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
 var imageregex = /ima*ge*\s+\/r\//ig;
+var upvoteregex = /up(vote|boat)/ig;
+var galleryregex = /gal+ery/ig;
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -40,12 +48,13 @@ $(function() {
         str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
 str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML.toLowerCase();
 str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML.toLowerCase();
+str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML.toLowerCase();
  
-       var  a = str.indexOf("imgurbot");
-	var b = str.indexOf("image /r/ ");
-	var c = str.indexOf("random");
-	var d = str.indexOf("galery");
-	var e = str.indexOf("gallery");
+       var  a = str.search("imgurbot");
+	var b = str.search("image /r/ ");
+	var c = str.search("random");
+	var d = str.search(galleryregex);
+	var e = str.search(upvoteregex);
 	
 if (a > -1){
 	
@@ -62,8 +71,12 @@ if (a > -1){
 		prepareResponse();
 		}
 	}
-	if (d > -1 || e > -1){
+	if (d > -1){
 	URL = "https://api.imgur.com/3/gallery/hot/viral/0.json";
+	httpGet();
+	}
+	if (e > -1){
+	
 	}
 	
 }
@@ -75,12 +88,13 @@ if (a > -1){
 });
 
 function httpGet(URL){
-if (requests <= 12499){
+if (requests <= 12498){
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", URL, false );
     xmlHttp.setRequestHeader("Authorization",authorization);
+    xmlHttp.send( null );
+    getrequestnumber();
     return xmlHttp.responseText;
-requests = requests + 1
 } else {
 	error = true;
 	errormesage = "You guys have used up all 12,500 requests. Come back tomorrow!";
