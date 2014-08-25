@@ -9,7 +9,23 @@ function makeid()
     return text;
 }
 
-var imageregex = /ima*ge*\s+\/r\//ig
+function shifter(){
+	check = newstr.charAt(0);
+	if (lengthcheck <= 50){
+	if (check !== " "){
+	newstr = newstr + check
+	lengthcheck = lengthcheck + 1;
+	shifter();
+	}}else{
+		error = true;
+		errortype = "Numerical";
+		errormessage = 'Your "subreddit" has a length of over 50 characters. Please buy a spacebar at http://www.laptopkey.com/';
+		prepareResponse();
+	}
+}
+
+var preimageregex = /ima*ge*\s+\/r\/(w+)/ig;
+var imageregex = /ima*ge*\s+\/r\//ig;
 
 authorization = 'Client-ID ' + clientId;
 
@@ -27,7 +43,11 @@ str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML
 	if (a > -1){
 	
 	if (b > -1){
-	
+	var n = str.search()
+	var lengthcheck = 0;
+	var newstr = "";
+	var oldstr = str.replace(imageregex, "");
+	shifter();
 	}
 	
 	}
