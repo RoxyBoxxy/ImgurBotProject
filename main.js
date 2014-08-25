@@ -1,6 +1,12 @@
 /* Now you see it, now you still see it. This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API (don't worry, they know) to deliver the most fresh and high quality responses. */
+
+//Ran out of variable names that were logical so started using weird ones.
+
 var error = false;
 var URL = "";
+
+var idregex = /{"id":"(\w{5}|\w{7})"/g;
+var idregex2 = /"(\w{5}|\w{7})"/g;
 
 function getrequestnumber() {
     xmlHttp = new XMLHttpRequest();
@@ -9,7 +15,7 @@ function getrequestnumber() {
     xmlHttp.send(null);
     var text = xmlHttp.responseText;
     var res = text.match(/"ClientRemaining":\d{5}/);
-    remaining = res.match(\d{5})
+    remaining = res.match(\d{5});
 }
 
 function shifter() {
@@ -22,7 +28,7 @@ function shifter() {
         } else {
             itype = "subreddit";
             URL = "https://api.imgur.com/3/gallery/r/" + subreddit;
-            httpGet();
+            httpGet(URL);
         }
     } else {
         error = true;
@@ -66,9 +72,6 @@ var memesregex = /(me|may)+s*/ig;
 
 var uploadregex = /\.(gif|jpg|png)/g;
 var universalregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
-
-var idregex = /{"id":"(\w{5}|\w{7})"/g;
-var idregex2 = /"(\w{5}|\w{7})/g;
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -125,7 +128,7 @@ function main() {
         if (d > -1) {
             itype = "gallery";
             URL = "https://api.imgur.com/3/gallery/hot/viral/0.json";
-            httpGet();
+            httpGet(URL);
         }
         if (e > -1) {
             if (URL !== "") {
@@ -147,9 +150,9 @@ function main() {
             timer();
         }
         if (g > -1) {
-            itype = "meme"
-            URL = "https://api.imgur.com/3/g/memes"
-            httpGet();
+            itype = "meme";
+            URL = "https://api.imgur.com/3/g/memes";
+            httpGet(URL);
         }
     }
     if (h > -1) {
@@ -167,7 +170,8 @@ function httpGet(URL) {
         xmlHttp.open("GET", URL, false);
         xmlHttp.setRequestHeader("Authorization", authorization);
         xmlHttp.send(null);
-        return xmlHttp.responseText;
+        basshunter = xmlHttp.responseText;
+        stopRegexTime();
     } else {
         error = true;
         errortype = "supply";
@@ -198,10 +202,32 @@ function prepareResponse() {
     }
 }
 
+function stopRegexTime() {
+    var res = basshunter.match(idregex);
+    var res2 = res.match(idregex2);
+    var string = res2.split('"');
+    var copacobana = string.filter(Boolean);
+    id = copacobana[Math.floor(Math.random() * copacobana.length)];
+    prepareImage();
+}
+
 function prepareImage() {
     if (itype == "random") {
         CLIENT.submit(iURL);
     }
+    if (itype == "subreddit"){
+        getImageData();
+    }
+    if (itype == "gallery"){
+        getImageData();
+    }
+    if (itype == "meme"){
+        getImageData();
+    }
+}
+
+function getImageData(){
+    
 }
 
 $(function() {
