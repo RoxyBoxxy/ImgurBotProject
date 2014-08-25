@@ -28,6 +28,28 @@ function shifter() {
     }
 }
 
+function makeid()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+ 
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+ 
+    return text;
+}
+
+function checkImage(){
+    if (takingtoolong < 7){
+    if (img.height <= 81) { text = makeid(); img = new Image(); img.src = "https://i.imgur.com/" + text + ".jpg"; takingtoolong++; timer();} else {
+                iURL = img.src; itype = "random"; prepareImage();}} else {
+                    error = true; errortype = "time"; prepareResponse();
+                }
+}
+function timer(){
+    setTimeout(function(){checkImage();},250);
+}
+
 function vote() {
 
 }
@@ -48,17 +70,17 @@ function main() {
     string4 = $('#messages').children()[$('#messages').children().length - 4];
     string5 = $('#messages').children()[$('#messages').children().length - 5];
     
-    if (typeof string3 !=== "undefined"){
+    if (typeof string3 !== "undefined"){
         str3 = string3.innerHTML.toLowerCase();
     } else {
         str3 = "";
     }
-    if (typeof string4 !=== "undefined"){
+    if (typeof string4 !== "undefined"){
         str4 = string4.innerHTML.toLowerCase();
     } else {
         str4 = "";
     }
-    if (typeof string5 !=== "undefined"){
+    if (typeof string5 !== "undefined"){
         str5 = string5.innerHTML.toLowerCase();
     } else {
         str5 = "";
@@ -104,14 +126,11 @@ function main() {
             }
         }
         if (c > -1) {
-            var text = "";
-            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-            for (var i = 0; i < 5; i++)
-                text += possible.charAt(Math.floor(Math.random() * possible.length));
-            iURL = "http://i.imgur.com/" + text + ".jpg";
-            prepareImage();
-            itype = "random";
+            text = makeid();
+            img = new Image();
+            img.src = "https://i.imgur.com/" + text + ".jpg";
+            takingtoolong = 0;
+            timer();
         }
 
     }
@@ -140,6 +159,9 @@ function prepareResponse() {
         } 
         if (errortype == "supply") {
             CLIENT.submit("Error: All 12,500 daily credits were used up. Sorry.");
+        }
+        if (errortype == "time"){
+            CLIENT.submit("No images found")
         }
         error = false;
     } else {
