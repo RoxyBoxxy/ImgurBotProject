@@ -10,6 +10,7 @@ function makeid()
 }
 
 error = false;
+URL = "";
 
 function getrequestnumber(){
 	 xmlHttp = new XMLHttpRequest();
@@ -30,14 +31,19 @@ function shifter(){
 		httpGet();
 	} else{
 		error = true;
-		errormessage = 'Your "subreddit" has a length of over 50 characters.';
+		errortype = basic;
 		prepareResponse();
 	}
+}
+
+function vote(){
+	
 }
 
 var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
 var imageregex = /ima*ge*\s+\/r\//ig;
 var upvoteregex = /up(vote|boat)/ig;
+var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
 
 var authorization = 'Client-ID ' + clientId;
@@ -48,13 +54,15 @@ $(function() {
         str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
 str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML.toLowerCase();
 str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML.toLowerCase();
-str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML.toLowerCase();
+str4 = $('#messages').children()[$('#messages').children().length - 4].innerHTML.toLowerCase();
+str5 = $('#messages').children()[$('#messages').children().length - 5].innerHTML.toLowerCase();
  
        var  a = str.search("imgurbot");
 	var b = str.search("image /r/ ");
 	var c = str.search("random");
 	var d = str.search(galleryregex);
 	var e = str.search(upvoteregex);
+	var f = str.search(downvoteregex);
 	
 if (a > -1){
 	
@@ -67,7 +75,8 @@ if (a > -1){
 		shifter();
 		} else {
 		error = true;
-		errormessage = "It seems like that's not a subreddit.";
+		errortype = basic;
+		console.log("Not a subreddit")
 		prepareResponse();
 		}
 	}
@@ -76,7 +85,24 @@ if (a > -1){
 	httpGet();
 	}
 	if (e > -1){
-	
+	if (URL !== ""){
+		up = true;
+		vote();
+	}
+	}
+	if (f > -1){
+	if (URL !== ""){
+		up = false;
+		vote();
+	}
+	}
+	if (c > -1){
+	var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+ 
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+        URL = 
 	}
 	
 }
@@ -100,6 +126,14 @@ if (requests <= 12498){
 	errormesage = "You guys have used up all 12,500 requests. Come back tomorrow!";
 	prepareResponse();
 	
+}
+
+function prepareResponse(){
+	if (error = true){
+		
+	} else {
+		
+	}
 }
 
 console.log("ImgurBot Beta has loaded :)");
