@@ -7,7 +7,9 @@ function getrequestnumber() {
     xmlHttp.open("GET", "https://api.imgur.com/3/credits", false);
     xmlHttp.setRequestHeader("Authorization", authorization);
     xmlHttp.send(null);
-    return xmlHttp.responseText;
+    var text = xmlHttp.responseText;
+    var res = text.match(/"ClientRemaining":\d{5}/);
+    remaining = res.match(\d{5})
 }
 
 function shifter() {
@@ -61,9 +63,12 @@ var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
 var memesregex = /(me|may)+s*/ig;
+
 var uploadregex = /\.(gif|jpg|png)/g;
-var universalregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/
-var idregex = /{"id":"(\w{5}|\w{7})"/
+var universalregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
+
+var idregex = /{"id":"(\w{5}|\w{7})"/g;
+var idregex2 = /"(\w{5}|\w{7})/g;
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -97,7 +102,9 @@ function main() {
     var e = str.search(upvoteregex);
     var f = str.search(downvoteregex);
     var g = str.search(memesregex);
-    var h = str.search("save to imgur");
+    var h = str.search("save");
+    var i = str.search("imgur");
+    var j = str.search(uploadregex);
 
     if (a > -1) {
 
@@ -144,20 +151,22 @@ function main() {
             URL = "https://api.imgur.com/3/g/memes"
             httpGet();
         }
-        if (h > -1) {
-            
+    }
+    if (h > -1) {
+        if (i > -1){
+            if (h < i){
+                
+            }
         }
-
     }
 }
 
 function httpGet(URL) {
-    if (requests <= 12498) {
+    if (remaining > 0) {
         xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", URL, false);
         xmlHttp.setRequestHeader("Authorization", authorization);
         xmlHttp.send(null);
-        getrequestnumber();
         return xmlHttp.responseText;
     } else {
         error = true;
@@ -205,5 +214,7 @@ $(function() {
 
     });
 });
+
+getrequestnumber();
 
 console.log("ImgurBot Beta has loaded :)");
