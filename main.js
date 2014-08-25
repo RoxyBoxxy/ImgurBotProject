@@ -48,17 +48,17 @@ function main() {
     string4 = $('#messages').children()[$('#messages').children().length - 4];
     string5 = $('#messages').children()[$('#messages').children().length - 5];
     
-    if (string3 !== "undefined"){
+    if (typeof string3 !=== "undefined"){
         str3 = string3.innerHTML.toLowerCase();
     } else {
         str3 = "";
     }
-    if (string4 !== "undefined"){
+    if (typeof string4 !=== "undefined"){
         str4 = string4.innerHTML.toLowerCase();
     } else {
         str4 = "";
     }
-    if (string5 !== "undefined"){
+    if (typeof string5 !=== "undefined"){
         str5 = string5.innerHTML.toLowerCase();
     } else {
         str5 = "";
