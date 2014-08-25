@@ -5,7 +5,7 @@ URL = "";
 
 function getrequestnumber(){
 	 xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", URL, false );
+    xmlHttp.open( "GET", "https://api.imgur.com/3/credits", false );
     xmlHttp.setRequestHeader("Authorization",authorization);
     xmlHttp.send( null );
 }
@@ -36,6 +36,7 @@ var imageregex = /ima*ge*\s+\/r\//ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
+var memesregex = /(me|may)+s*/ig;
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -91,7 +92,7 @@ if (a > -1){
  
     for( var i=0; i < 5; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
-        URL = "http://i.imgur.com/" + text + ".jpg"
+        iURL = "http://i.imgur.com/" + text + ".jpg"
         prepareImage();
         itype = "random"
 	}
@@ -109,7 +110,7 @@ if (requests <= 12498){
     return xmlHttp.responseText;
 } else {
 	error = true;
-	errormesage = "You guys have used up all 12,500 requests. Come back tomorrow!";
+	errortype = "supply";
 	prepareResponse();
 	
 }
@@ -117,10 +118,25 @@ if (requests <= 12498){
 function prepareResponse(){
 	if (error = true){
 		if (errortype = "basic"){
-			
+			CLIENT.submit("Error: A Basic error occured. For more info ask the Random dude.");
 		}
+		if (errortype = "supply"){
+			CLIENT.submit("Error: All 12,500 daily credits were used up. Sorry.");
+		}
+		error = false;
 	} else {
-		
+		if (up = true){
+			CLIENT.submit("The image has been " + str.match(upvoteregex) + "ed");
+		}
+		if (up = false){
+			CLIENT.submit("The image has been " + str.match(downvoteregex) + "ed");
+		}
+	}
+}
+
+function prepareImage(){
+	(if itype == "random"){
+		CLIENT.submit(iURL);
 	}
 }
 
