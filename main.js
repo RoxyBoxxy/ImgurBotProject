@@ -63,6 +63,7 @@ var galleryregex = /gal+ery/ig;
 var memesregex = /(me|may)+s*/ig;
 var uploadregex = /\.(gif|jpg|png)/g;
 var universalregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/
+var idregex = /{"id":"(\w{5}|\w{7})"/
 
 var authorization = 'Client-ID ' + clientId;
 
