@@ -9,6 +9,7 @@ function makeid()
     return text;
 }
 
+requests = 0;
 error = false;
 
 function shifter(){
@@ -19,10 +20,10 @@ function shifter(){
 	lengthcheck = lengthcheck + 1;
 	shifter();
 	} else {
-		stopAJAXtime();
+		URL = "https://api.imgur.com/3/gallery/r/" + subreddit;
+		httpGet();
 	} else{
 		error = true;
-		errortype = "Numerical";
 		errormessage = 'Your "subreddit" has a length of over 50 characters.';
 		prepareResponse();
 	}
@@ -31,7 +32,7 @@ function shifter(){
 var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
 var imageregex = /ima*ge*\s+\/r\//ig;
 
-authorization = 'Client-ID ' + clientId;
+var authorization = 'Client-ID ' + clientId;
 
 $(function() {
     var socket = io('/' + window.channel);
@@ -40,26 +41,32 @@ $(function() {
 str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML.toLowerCase();
 str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML.toLowerCase();
  
-        a = str.indexOf("imgurbot");
-	b = str.indexOf("image /r/ ");
-	c = str.indexOf("random");
+       var  a = str.indexOf("imgurbot");
+	var b = str.indexOf("image /r/ ");
+	var c = str.indexOf("random");
+	var d = str.indexOf("galery");
+	var e = str.indexOf("gallery");
 	
-	if (a > -1){
+if (a > -1){
 	
 	if (b > -1){
 	var n = str.search(preimageregex);
 	var lengthcheck = 0;
-	var subreddit = "";
-	var oldstr = str.replace(imageregex, "");
-	if (n > -1){
-	shifter();
-	} else {
-	error = true;
-	errortype = "Syntax";
-	errormessage = "It seems like that's not a subreddit.";
+	subreddit = "";
+	oldstr = str.replace(imageregex, "");
+		if (n > -1){
+		shifter();
+		} else {
+		error = true;
+		errormessage = "It seems like that's not a subreddit.";
+		prepareResponse();
+		}
 	}
+	if (d > -1 || e > -1){
+	URL = "https://api.imgur.com/3/gallery/hot/viral/0.json";
 	}
-	}
+	
+}
 	
 	}
 
@@ -67,21 +74,18 @@ str3 = $('#messages').children()[$('#messages').children().length - 3].innerHTML
     });
 });
 
-function stopAJAXtime(){
-$.ajax({
-      url: 'https://api.imgur.com/3/image',
-      method: 'POST',
-      headers: {
-        Authorization: authorization,
-        Accept: 'application/json'
-      },
-      data: {
-        image: localStorage.dataBase64,
-        type: 'base64'
-      },
-      success: function(result) {
-        var id = result.data.id;
-        window.location = 'https://imgur.com/gallery/' + id;
-      }
-    });
+function httpGet(URL){
+if (requests <= 12499){
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", URL, false );
+    xmlHttp.setRequestHeader("Authorization",authorization);
+    return xmlHttp.responseText;
+requests = requests + 1
+} else {
+	error = true;
+	errormesage = "You guys have used up all 12,500 requests. Come back tomorrow!";
+	prepareResponse();
+	
 }
+
+console.log("ImgurBot Beta has loaded :)");
