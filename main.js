@@ -16,7 +16,8 @@ function getrequestnumber() {
     var text = xmlHttp.responseText;
     var res = text.match(/"ClientRemaining":\d{5}/);
     var katyperry = res[0];
-    remaining = katyperry.match(/\d{5}/);
+    remained = katyperry.match(/\d{5}/);
+    remaining = remained[0];
 }
 
 function shifter() {
@@ -164,7 +165,7 @@ function main() {
     }
     if (b > -1) {
             var n = str.search(preimageregex);
-            var lengthcheck = 0;
+            lengthcheck = 0;
             subreddit = "";
             oldstr = str.replace(imageregex, "");
             if (n > -1) {
