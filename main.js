@@ -53,19 +53,18 @@ function timer() {
     }, 250);
 }
 
-function vote() {
+function favorite() {
     if (typeof id !== undefined){
+        if (remaining > 0){
     xmlHttp = new XMLHttpRequest();
-    if (up === true){
-        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/up", false);
-    }
-    if (up === false){
-        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/down", false);
-    }
+        xmlHttp.open("POST", "https://api.imgur.com/3/image/" + id + "/favorite" , false);
         xmlHttp.setRequestHeader("Authorization", authorization);
         xmlHttp.send(null);
         prepareResponse();
-    } else {
+        remaining--;
+    }else{error = true;
+        errortype = "supply";
+        prepareResponse();}} else {
         error = true;
         errortype = "null";
         prepareResponse();
@@ -74,8 +73,6 @@ function vote() {
 
 var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
-var upvoteregex = /up(vote|boat)/ig;
-var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
 var memesregex = /(me|may){2,}s*/ig;
 var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
@@ -92,7 +89,7 @@ function main() {
     b = str.search(preimageregex);
     c = str.search("random");
     d = str.search(galleryregex);
-    e = str.search(upvoteregex);
+    e = str.search("favorite");
     f = str.search(downvoteregex);
     g = str.search(memesregex);
     h = str.search(saveregex);
@@ -142,13 +139,7 @@ for (var i = 0; i < arrayLength; i++) {
         httpGet(URLs);
     }
      if (e > -1) {
-                up = true;
-                vote();
-        }
-        if (f > -1) {
-                up = false;
-                vote();
-        }
+    favorite();
 }
 
 function httpGet(URL) {
@@ -174,19 +165,17 @@ function prepareResponse() {
             console.log("Basic Error: A Basic error occurred. For more info ask the Random dude.");
         }
         if (errortype == "supply") {
+            if (score < 5){
             CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
+            score++
+            }
         }
         if (errortype == "null"){
-            CLIENT.submit("Null Error: You are referencing a nonexistent object.");
+            console.log("Null Error: You are referencing a nonexistent object.");
         }
         error = false;
     } else {
-        if (up === true) {
-            CLIENT.submit("The image has been " + str.match(upvoteregex) + "ed");
-            score++;
-        }
-        if (up === false) {
-            CLIENT.submit("The image has been " + str.match(downvoteregex) + "ed");
+            CLIENT.submit("The image has been favorited");
             score++;
         }
     }
@@ -225,7 +214,6 @@ function stopRegexTime() {
 function prepareImage() {
     if (itype == "random") {
         CLIENT.submit(iURL);
-        score++;
     }
     if (itype == "subreddit") {
         CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
@@ -252,12 +240,12 @@ function uploadImage(){
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function(msg) {
-        if (score < 4){
+        if (score < 5){
         setTimeout(function() {
             main();
         }, 750);
 }else{
-    if (score == 4){
+    if (score == 5){
     CLIENT.submit("Please wait 10 seconds before sending again");
     }
 }
