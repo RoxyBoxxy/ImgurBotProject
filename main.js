@@ -2,7 +2,7 @@
 var error = false;
 var URLs = "";
 var score = 0;
-var sort = ["week","month","year","all"]
+var sort = ["week", "month", "year", "all"];
 
 setInterval(function() {
     if (score > 0) {
@@ -58,16 +58,22 @@ function timer() {
 }
 
 function vote() {
-    if (typeof id !== undefined){
-    xmlHttp = new XMLHttpRequest();
-    if (up === true){
-        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/up", false);
-    }
-    if (up === false){
-        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/down", false);
-    }
+    if (typeof id !== undefined) {
+        xmlHttp = new XMLHttpRequest();
+        if (up === true) {
+            xmlHttp.open("POST", "https://api.imgur.com/3/gallery/" + id + "/vote/up", false);
+        }
+        if (up === false) {
+            xmlHttp.open("POST", "https://api.imgur.com/3/gallery/" + id + "/vote/down", false);
+        }
         xmlHttp.setRequestHeader("Authorization", authorization);
         xmlHttp.send(null);
+        if (undo == "0") {
+            undo = 1;
+        } else {
+            undo = 0;
+        }
+        remaining--;
         prepareResponse();
     } else {
         error = true;
@@ -81,6 +87,8 @@ var imageregex = /\/r\/(\w+)/i;
 var galleryregex = /gal+ery/ig;
 var memesregex = /(me|may){2,}s*/ig;
 var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
+var upvoteregex = /up(vote|boat)/ig;
+var downvoteregex = /down(vote|boat)/ig;
 
 var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
 
@@ -94,6 +102,8 @@ function main() {
     b = str.search(preimageregex);
     c = str.search("random");
     d = str.search(galleryregex);
+    e = str.search(upvoteregex);
+    f = str.search(downvoteregex);
     g = str.search(memesregex);
     h = str.search(saveregex);
     k = str.search("commands");
@@ -120,10 +130,10 @@ function main() {
             CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme)],img /r/<subreddit>, (up|down)vote, and save to imgur");
             score++;
         }
-        if (l > -1){
+        if (l > -1) {
             itype = "best";
             sortresult = sort[Math.floor(Math.random() * sort.length)];
-            URLs = "https://api.imgur.com/3/gallery/top/"+sortresult;
+            URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
         }
     }
@@ -148,43 +158,59 @@ function main() {
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
     }
-
-    function httpGet(URL) {
-        if (remaining > 0) {
-            xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", URL, false);
-            xmlHttp.setRequestHeader("Authorization", authorization);
-            xmlHttp.send(null);
-            basshunter = xmlHttp.responseText;
-            remaining--;
-            stopRegexTime();
-        } else {
-            error = true;
-            errortype = "supply";
-            prepareResponse();
-
-        }
+    if (e > -1) {
+        up = true;
+        vote();
     }
+    if (f > -1) {
+        up = false;
+        vote();
+    }
+}
 
-    function prepareResponse() {
-        if (error === true) {
-            if (errortype == "basic") {
-                console.log("Basic Error: A Basic error occurred. For more info ask the Random dude.");
-            }
-            if (errortype == "supply") {
-                if (score < 5) {
-                    CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
-                    score++;
-                }
-            }
-            if (errortype == "null") {
-                console.log("Null Error: You are referencing a nonexistent object.");
-            }
-            error = false;
-        } else {
-            CLIENT.submit("The image has been favorited");
-            score++;
+function httpGet(URL) {
+    if (remaining > 0) {
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", URL, false);
+        xmlHttp.setRequestHeader("Authorization", authorization);
+        xmlHttp.send(null);
+        basshunter = xmlHttp.responseText;
+        remaining--;
+        stopRegexTime();
+    } else {
+        error = true;
+        errortype = "supply";
+        prepareResponse();
+
+    }
+}
+
+function prepareResponse() {
+    if (error === true) {
+        if (errortype == "basic") {
+            console.log("Basic Error: A Basic error occurred. For more info ask the Random dude.");
         }
+        if (errortype == "supply") {
+            if (score < 5) {
+                CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
+                score++;
+            }
+        }
+        if (errortype == "null") {
+            console.log("Null Error: You are referencing a nonexistent object.");
+        }
+        error = false;
+    } else {
+        if (undo == "0") {
+            if (up === true) {
+                CLIENT.submit("The image has been " + str.match(upvoteregex) + "ed");
+                score++;
+            }
+            if (up === false) {
+                CLIENT.submit("The image has been " + str.match(downvoteregex) + "ed");
+                score++;
+            }
+        } else {}
     }
 }
 
@@ -238,6 +264,7 @@ function prepareImage() {
         CLIENT.submit("Best of Imgur\nhttps://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
     }
+    undo = 1;
 }
 
 function uploadImage() {
