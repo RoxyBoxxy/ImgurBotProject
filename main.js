@@ -87,7 +87,7 @@ function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
     largearray = $('#messages').children();
 
-    a = str.search("imgurbot");
+    a = str.search("imgur");
     b = str.search(preimageregex);
     c = str.search("random");
     d = str.search(galleryregex);
@@ -96,6 +96,7 @@ function main() {
     g = str.search(memesregex);
     h = str.search("save");
     z = str.search("imgur");
+    k = str.search("commands");
 
     if (a > -1) {
         if (d > -1) {
@@ -145,6 +146,10 @@ for (var i = 0; i < arrayLength; i++) {
         subreddit = hawaii[0];
         URLs = "https://api.imgur.com/3/gallery"+subreddit;
         httpGet(URLs);
+    }
+    if (k > -1){
+        CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme)],img /r/<subreddit>, upvote, and save to imgur");
+        score++;
     }
 }
 
@@ -203,15 +208,15 @@ function stopRegexTime() {
     var res2 = preres2.match(idregex2);
     res2 = stringify(res2);
     var string = res2.split('"');
-    var copacobana = string.filter(Boolean);
+    copacobana = string.filter(Boolean);
     special = Math.floor(Math.random() * copacobana.length);
     id = copacobana[special];
     var bit = basshunter.match(titleregex);
     var prebit2 = stringify(bit);
     var bit2 = prebit2.match(titleregex2);
     bit2 = stringify(bit2);
-    var byte = bit2.split('"title"');
-    title = byte[special];
+    byte = bit2.split('"title"');
+    title = byte[special+1];
     prepareImage();
     if (title == "null") {
         title = "No Title";
