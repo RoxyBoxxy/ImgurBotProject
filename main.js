@@ -115,30 +115,22 @@ function main() {
             itype = "gallery";
             URLs = "https://api.imgur.com/3/gallery/hot/viral/0.json";
             httpGet(URLs);
-        }
-        if (c > -1) {
+        } else if (c > -1) {
             id = makeid();
             img = new Image();
             img.src = "https://i.imgur.com/" + id + ".jpg";
             timer();
-        }
-        if (g > -1) {
+        } else if (g > -1) {
             itype = "meme";
             URLs = "https://api.imgur.com/3/g/memes";
             httpGet(URLs);
-        }
-        if (k > -1) {
-            CLIENT.submit("Commands Include:[Imgur + (gallery, !random, meme, !best)],img /r/<subreddit>, (up|down)vote, and save to imgur");
-            score++;
-        }
-        if (l > -1) {
+        } else if (l > -1) {
             itype = "best";
             sortresult = sort[Math.floor(Math.random() * sort.length)];
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
         }
-    }
-    if (h > -1) {
+    } else if (h > -1) {
         var arrayLength = largearray.length;
         var megastr = "";
         for (var i = 0; i < arrayLength; i++) {
@@ -154,19 +146,16 @@ function main() {
             errortype = "null";
             prepareResponse();
         }
-    }
-    if (b > -1) {
+    } else if (b > -1) {
         itype = "subreddit";
         hawaii = str.match(imageregex);
         subreddit = hawaii[0];
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
-    }
-    if (e > -1) {
+    } else if (e > -1) {
         up = true;
         vote();
-    }
-    if (f > -1) {
+    } else if (f > -1) {
         up = false;
         vote();
     }
@@ -328,7 +317,7 @@ $(function() {
         if (score < 5) {
             setTimeout(function() {
                 main();
-            }, 750);
+            }, 650);
         } else {
             if (score == 5) {
                 CLIENT.submit("$Arial|#red*Please wait 10 seconds before sending again*");
