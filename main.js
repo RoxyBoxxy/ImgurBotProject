@@ -77,7 +77,7 @@ var imageregex = /\/r\/(\w+)/i;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
-var memesregex = /(me|may)+s*/ig;
+var memesregex = /(me|may){2,}s*/ig;
 
 var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
 
@@ -87,15 +87,15 @@ function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
     largearray = $('#messages').children();
 
-    var a = str.search("imgurbot");
-    var b = str.search(preimageregex);
-    var c = str.search("random");
-    var d = str.search(galleryregex);
-    var e = str.search(upvoteregex);
-    var f = str.search(downvoteregex);
-    var g = str.search(memesregex);
-    var h = str.search("save");
-    var z = str.search("imgur");
+    a = str.search("imgurbot");
+    b = str.search(preimageregex);
+    c = str.search("random");
+    d = str.search(galleryregex);
+    e = str.search(upvoteregex);
+    f = str.search(downvoteregex);
+    g = str.search(memesregex);
+    h = str.search("save");
+    z = str.search("imgur");
 
     if (a > -1) {
         if (d > -1) {
@@ -192,7 +192,7 @@ function prepareResponse() {
 function stringify (strArray){
     var tempstring = "";
     for (var j=0; j<strArray.length; j++) {
-        var tempstring = tempstring + strArray[j];
+        tempstring = tempstring + strArray[j];
     }
     return tempstring;
 }
@@ -211,7 +211,7 @@ function stopRegexTime() {
     var bit2 = prebit2.match(titleregex2);
     bit2 = stringify(bit2);
     var byte = bit2.split('"title"');
-    title = northpole[special];
+    title = byte[special];
     prepareImage();
     if (title == "null") {
         title = "No Title";
@@ -253,7 +253,7 @@ $(function() {
             main();
         }, 750);
 }else{
-    if (score = 6){
+    if (score == 6){
     CLIENT.submit("Please wait 6 seconds before sending again :)");
     }
 }
