@@ -57,10 +57,11 @@ function vote() {
         xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/"+up, false);
     }
     if (up === false){
-        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/"+up, false);
+        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/"+down, false);
     }
         xmlHttp.setRequestHeader("Authorization", authorization);
         xmlHttp.send(null);
+        prepareResponse();
     } else {
         error = true;
         errortype = "null";
@@ -187,8 +188,8 @@ function returnArray (str, strArray) {
     for (var j=0; j<strArray.length; j++) {
         var tempstring = "";
         tempstring = tempstring + strArray[j];
-        return tempstring.match(str);
     }
+    return tempstring.match(str);
 }
 
 function stringify (strArray){
@@ -224,13 +225,13 @@ function prepareImage() {
         CLIENT.submit(iURL);
     }
     if (itype == "subreddit") {
-        CLIENT.submit(id + "\n" + title);
+        CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
     }
     if (itype == "gallery") {
-        CLIENT.submit(id + "\n" + title);
+        CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
     }
     if (itype == "meme") {
-        CLIENT.submit(id + "\n" + title);
+        CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
     }
 }
 
