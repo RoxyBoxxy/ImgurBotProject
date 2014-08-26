@@ -1,10 +1,14 @@
 /* Now you see it, now you still see it. This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API (don't worry, they know) to deliver the most fresh and high quality responses. */
-
 var error = false;
 var URLs = "";
 var score = 0;
+var sort = ["week","month","year","all"]
 
-setInterval(function(){if (score > 0){score--;}}, 10000);
+setInterval(function() {
+    if (score > 0) {
+        score--;
+    }
+}, 10000);
 
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
@@ -35,22 +39,41 @@ function makeid() {
 
 function checkImage() {
 
-        if (img.height <= 81) {
-            text = makeid();
-            img = new Image();
-            img.src = "https://i.imgur.com/" + text + ".jpg";
-            timer();
-        } else {
-            iURL = img.src;
-            itype = "random";
-            prepareImage();
-        }
+    if (img.height <= 81) {
+        text = makeid();
+        img = new Image();
+        img.src = "https://i.imgur.com/" + text + ".jpg";
+        timer();
+    } else {
+        iURL = img.src;
+        itype = "random";
+        prepareImage();
     }
+}
 
 function timer() {
     setTimeout(function() {
         checkImage();
     }, 250);
+}
+
+function vote() {
+    if (typeof id !== undefined){
+    xmlHttp = new XMLHttpRequest();
+    if (up === true){
+        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/up", false);
+    }
+    if (up === false){
+        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/down", false);
+    }
+        xmlHttp.setRequestHeader("Authorization", authorization);
+        xmlHttp.send(null);
+        prepareResponse();
+    } else {
+        error = true;
+        errortype = "null";
+        prepareResponse();
+    }
 }
 
 var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
@@ -74,6 +97,7 @@ function main() {
     g = str.search(memesregex);
     h = str.search(saveregex);
     k = str.search("commands");
+    l = str.search("best");
 
     if (a > -1) {
         if (d > -1) {
@@ -92,75 +116,81 @@ function main() {
             URLs = "https://api.imgur.com/3/g/memes";
             httpGet(URLs);
         }
-        if (k > -1){
-        CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme)],img /r/<subreddit>, upvote, and save to imgur");
-        score++;
-    }
+        if (k > -1) {
+            CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme)],img /r/<subreddit>, (up|down)vote, and save to imgur");
+            score++;
+        }
+        if (l > -1){
+            itype = "best";
+            sortresult = sort[Math.floor(Math.random() * sort.length)];
+            URLs = "https://api.imgur.com/3/gallery/top/"+sortresult;
+            httpGet(URLs);
+        }
     }
     if (h > -1) {
-            if (h < i) {
-var arrayLength = largearray.length;
-var megastr = "";
-for (var i = 0; i < arrayLength; i++) {
-    megastr = megastr + largearray[i].innerHTML.toLowerCase();
-}
-                var rosalyn = megastr.lastIndexOf(urlregex);
-                var substringAlpha = megastr.substring(rosalyn);
-                var jake = substringAlpha.match(urlregex);
-                appendix = jake[0];
-                uploadImage();
+        if (h < i) {
+            var arrayLength = largearray.length;
+            var megastr = "";
+            for (var i = 0; i < arrayLength; i++) {
+                megastr = megastr + largearray[i].innerHTML.toLowerCase();
             }
+            var rosalyn = megastr.lastIndexOf(urlregex);
+            var substringAlpha = megastr.substring(rosalyn);
+            var jake = substringAlpha.match(urlregex);
+            appendix = jake[0];
+            uploadImage();
+        }
     }
     if (b > -1) {
         itype = "subreddit";
         hawaii = str.match(imageregex);
         subreddit = hawaii[0];
-        URLs = "https://api.imgur.com/3/gallery"+subreddit;
+        URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
     }
 
-function httpGet(URL) {
-    if (remaining > 0) {
-        xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", URL, false);
-        xmlHttp.setRequestHeader("Authorization", authorization);
-        xmlHttp.send(null);
-        basshunter = xmlHttp.responseText;
-        remaining--;
-        stopRegexTime();
-    } else {
-        error = true;
-        errortype = "supply";
-        prepareResponse();
+    function httpGet(URL) {
+        if (remaining > 0) {
+            xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", URL, false);
+            xmlHttp.setRequestHeader("Authorization", authorization);
+            xmlHttp.send(null);
+            basshunter = xmlHttp.responseText;
+            remaining--;
+            stopRegexTime();
+        } else {
+            error = true;
+            errortype = "supply";
+            prepareResponse();
 
+        }
     }
-}
 
-function prepareResponse() {
-    if (error === true) {
-        if (errortype == "basic") {
-            console.log("Basic Error: A Basic error occurred. For more info ask the Random dude.");
-        }
-        if (errortype == "supply") {
-            if (score < 5){
-            CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
-            score++;
+    function prepareResponse() {
+        if (error === true) {
+            if (errortype == "basic") {
+                console.log("Basic Error: A Basic error occurred. For more info ask the Random dude.");
             }
-        }
-        if (errortype == "null"){
-            console.log("Null Error: You are referencing a nonexistent object.");
-        }
-        error = false;
-    } else {
+            if (errortype == "supply") {
+                if (score < 5) {
+                    CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
+                    score++;
+                }
+            }
+            if (errortype == "null") {
+                console.log("Null Error: You are referencing a nonexistent object.");
+            }
+            error = false;
+        } else {
             CLIENT.submit("The image has been favorited");
             score++;
         }
     }
 }
 
-function stringify (strArray){
+function stringify(strArray) {
     var tempstring = "";
-    for (var j=0; j<strArray.length; j++) {
+    for (var j = 0; j < strArray.length; j++) {
         tempstring = tempstring + strArray[j];
     }
     return tempstring;
@@ -180,8 +210,8 @@ function stopRegexTime() {
     var bit2 = prebit2.match(titleregex2);
     bit2 = stringify(bit2);
     byte = bit2.split('"title"');
-    pretitle = byte[special+1];
-    title = pretitle.replace('\"','"');
+    pretitle = byte[special + 1];
+    title = pretitle.replace('\"', '"');
     prepareImage();
     if (title == "null") {
         title = "No Title";
@@ -193,39 +223,43 @@ function prepareImage() {
         CLIENT.submit(iURL);
     }
     if (itype == "subreddit") {
-        CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
+        CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
     }
     if (itype == "gallery") {
-        CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
+        CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
     }
     if (itype == "meme") {
-        CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
+        CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+        score++;
+    }
+    if (itype == "best") {
+        CLIENT.submit("Best of Imgur\nhttps://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
     }
 }
 
-function uploadImage(){
+function uploadImage() {
     xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("POST", "https://api.imgur.com/3/upload", false);
-        xmlHttp.setRequestHeader("Authorization", authorization);
-        xmlHttp.send(null);
-        basshunter = xmlHttp.responseText;
+    xmlHttp.open("POST", "https://api.imgur.com/3/upload", false);
+    xmlHttp.setRequestHeader("Authorization", authorization);
+    xmlHttp.send(null);
+    basshunter = xmlHttp.responseText;
 }
 
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function(msg) {
-        if (score < 5){
-        setTimeout(function() {
-            main();
-        }, 750);
-}else{
-    if (score == 5){
-    CLIENT.submit("Please wait 10 seconds before sending again");
-    }
-}
+        if (score < 5) {
+            setTimeout(function() {
+                main();
+            }, 750);
+        } else {
+            if (score == 5) {
+                CLIENT.submit("Please wait 10 seconds before sending again");
+            }
+        }
 
     });
 });
