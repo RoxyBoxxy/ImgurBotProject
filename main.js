@@ -4,7 +4,7 @@ var error = false;
 var URLs = "";
 var score = 0;
 
-setInterval(function(){if (score > 0){score--;}}, 6000);
+setInterval(function(){if (score > 0){score--;}}, 10000);
 
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
@@ -54,13 +54,13 @@ function timer() {
 }
 
 function vote() {
-    xmlHttp = new XMLHttpRequest();
     if (typeof id !== undefined){
+    xmlHttp = new XMLHttpRequest();
     if (up === true){
-        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/"+up, false);
+        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/up", false);
     }
     if (up === false){
-        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/"+down, false);
+        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/down", false);
     }
         xmlHttp.setRequestHeader("Authorization", authorization);
         xmlHttp.send(null);
@@ -104,14 +104,6 @@ function main() {
             URLs = "https://api.imgur.com/3/gallery/hot/viral/0.json";
             httpGet(URLs);
         }
-        if (e > -1) {
-                up = true;
-                vote();
-        }
-        if (f > -1) {
-                up = false;
-                vote();
-        }
         if (c > -1) {
             id = makeid();
             img = new Image();
@@ -123,6 +115,10 @@ function main() {
             URLs = "https://api.imgur.com/3/g/memes";
             httpGet(URLs);
         }
+        if (k > -1){
+        CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme)],img /r/<subreddit>, upvote, and save to imgur");
+        score++;
+    }
     }
     if (h > -1) {
             if (h < i) {
@@ -145,10 +141,14 @@ for (var i = 0; i < arrayLength; i++) {
         URLs = "https://api.imgur.com/3/gallery"+subreddit;
         httpGet(URLs);
     }
-    if (k > -1){
-        CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme)],img /r/<subreddit>, upvote, and save to imgur");
-        score++;
-    }
+     if (e > -1) {
+                up = true;
+                vote();
+        }
+        if (f > -1) {
+                up = false;
+                vote();
+        }
 }
 
 function httpGet(URL) {
@@ -214,7 +214,8 @@ function stopRegexTime() {
     var bit2 = prebit2.match(titleregex2);
     bit2 = stringify(bit2);
     byte = bit2.split('"title"');
-    title = byte[special+1];
+    pretitle = byte[special+1];
+    title = pretitle.replace('\"','"');
     prepareImage();
     if (title == "null") {
         title = "No Title";
@@ -251,13 +252,13 @@ function uploadImage(){
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function(msg) {
-        if (score < 6){
+        if (score < 4){
         setTimeout(function() {
             main();
         }, 750);
 }else{
-    if (score == 6){
-    CLIENT.submit("Please wait 6 seconds before sending again :)");
+    if (score == 4){
+    CLIENT.submit("Please wait 10 seconds before sending again");
     }
 }
 
