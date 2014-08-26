@@ -36,7 +36,6 @@ function checkImage() {
             text = makeid();
             img = new Image();
             img.src = "https://i.imgur.com/" + text + ".jpg";
-            takingtoolong++;
             timer();
         } else {
             iURL = img.src;
@@ -82,7 +81,7 @@ var authorization = 'Client-ID ' + clientId;
 
 function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
-    megastr = $('#messages').innerHTML.toLowerCase();
+    largearray = $('#messages').children();
 
     var a = str.search("imgurbot");
     var b = str.search(preimageregex);
@@ -92,7 +91,7 @@ function main() {
     var f = str.search(downvoteregex);
     var g = str.search(memesregex);
     var h = str.search("save");
-    var i = str.search("imgur");
+    var z = str.search("imgur");
 
     if (a > -1) {
         if (d > -1) {
@@ -121,8 +120,13 @@ function main() {
         }
     }
     if (h > -1) {
-        if (i > -1) {
+        if (z > -1) {
             if (h < i) {
+var arrayLength = largearray.length;
+var megastr = "";
+for (var i = 0; i < arrayLength; i++) {
+    megastr = megastr + largearray[i].innerHTML.toLowerCase();
+}
                 var rosalyn = megastr.lastIndexOf(urlregex);
                 var substringAlpha = megastr.substring(rosalyn);
                 var jake = substringAlpha.match(urlregex);
@@ -135,7 +139,7 @@ function main() {
         itype = "subreddit";
         hawaii = str.match(imageregex);
         subreddit = hawaii[0];
-        URLs = "https://api.imgur.com/3/gallery"+subreddit
+        URLs = "https://api.imgur.com/3/gallery"+subreddit;
         httpGet(URLs);
     }
 }
@@ -166,7 +170,7 @@ function prepareResponse() {
             CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
         }
         if (errortype == "null"){
-            CLIENT.submit("Null Error: You are referencing a nonexistent object.")
+            CLIENT.submit("Null Error: You are referencing a nonexistent object.");
         }
         error = false;
     } else {
