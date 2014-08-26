@@ -61,10 +61,10 @@ function vote() {
     if (typeof id !== undefined) {
         xmlHttp = new XMLHttpRequest();
         if (up === true) {
-            xmlHttp.open("POST", "https://api.imgur.com/3/gallery/" + id + "/vote/up", false);
+            xmlHttp.open("POST", "https://api.imgur.com/3/gallery/image/" + id + "/vote/up", false);
         }
         if (up === false) {
-            xmlHttp.open("POST", "https://api.imgur.com/3/gallery/" + id + "/vote/down", false);
+            xmlHttp.open("POST", "https://api.imgur.com/3/gallery/image/" + id + "/vote/down", false);
         }
         xmlHttp.setRequestHeader("Authorization", authorization);
         xmlHttp.send(null);
@@ -261,7 +261,7 @@ function prepareImage() {
         score++;
     }
     if (itype == "best") {
-        CLIENT.submit("Best of Imgur\nhttps://i.imgur.com/" + id + ".jpg" + "\n" + title);
+        CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
     }
     undo = 1;
