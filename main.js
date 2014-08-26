@@ -210,11 +210,10 @@ function stopRegexTime() {
     var prebit2 = stringify(bit);
     var bit2 = prebit2.match(titleregex2);
     bit2 = stringify(bit2);
-    var byte = bit2.split('"');
-    var northpole = byte.filter(Boolean);
+    var byte = bit2.split('"title"');
     title = northpole[special];
     prepareImage();
-    if (title == "title") {
+    if (title == "null") {
         title = "No Title";
     }
 }
