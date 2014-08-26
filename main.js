@@ -78,6 +78,7 @@ var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
 var memesregex = /(me|may){2,}s*/ig;
+var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 
 var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
 
@@ -94,8 +95,7 @@ function main() {
     e = str.search(upvoteregex);
     f = str.search(downvoteregex);
     g = str.search(memesregex);
-    h = str.search("save");
-    z = str.search("imgur");
+    h = str.search(saveregex);
     k = str.search("commands");
 
     if (a > -1) {
@@ -125,7 +125,6 @@ function main() {
         }
     }
     if (h > -1) {
-        if (z > -1) {
             if (h < i) {
 var arrayLength = largearray.length;
 var megastr = "";
@@ -138,7 +137,6 @@ for (var i = 0; i < arrayLength; i++) {
                 appendix = jake[0];
                 uploadImage();
             }
-        }
     }
     if (b > -1) {
         itype = "subreddit";
