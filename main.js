@@ -76,7 +76,7 @@ var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
 var memesregex = /(me|may)+s*/ig;
 
-var universalregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
+var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -123,7 +123,11 @@ function main() {
     if (h > -1) {
         if (i > -1) {
             if (h < i) {
-                str.lastIndexOf()
+                var rosalyn = megastr.lastIndexOf(urlregex);
+                var substringAlpha = megastr.substring(rosalyn);
+                var jake = substringAlpha.match(urlregex);
+                appendix = jake[0];
+                uploadImage();
             }
         }
     }
@@ -206,6 +210,14 @@ function prepareImage() {
     if (itype == "meme") {
         CLIENT.submit(id + "\n" + title);
     }
+}
+
+function uploadImage(){
+    xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", "https://api.imgur.com/3/upload", false);
+        xmlHttp.setRequestHeader("Authorization", authorization);
+        xmlHttp.send(null);
+        basshunter = xmlHttp.responseText;
 }
 
 $(function() {
