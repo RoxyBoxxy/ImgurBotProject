@@ -1,5 +1,5 @@
 /* Now you see it, now you still see it. This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API (don't worry, they know) to deliver the most fresh and high quality responses. */
-//Ran out of variable names that were logical so started using weird ones.
+
 var error = false;
 var URLs = "";
 
@@ -20,25 +20,6 @@ function getrequestnumber() {
     remaining = remained[0];
 }
 
-function shifter() {
-    check = oldstr.charAt(0);
-    if (lengthcheck <= 50) {
-        if (check !== " ") {
-            subreddit = subreddit + check;
-            lengthcheck = lengthcheck + 1;
-            shifter();
-        } else {
-            itype = "subreddit";
-            URLs = "https://api.imgur.com/3/gallery/r/" + subreddit;
-            httpGet(URLs);
-        }
-    } else {
-        error = true;
-        errortype = "basic";
-        prepareResponse();
-    }
-}
-
 function makeid() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -50,7 +31,7 @@ function makeid() {
 }
 
 function checkImage() {
-    if (takingtoolong <= 5) {
+
         if (img.height <= 81) {
             text = makeid();
             img = new Image();
@@ -62,12 +43,7 @@ function checkImage() {
             itype = "random";
             prepareImage();
         }
-    } else {
-        error = true;
-        errortype = "time";
-        prepareResponse();
     }
-}
 
 function timer() {
     setTimeout(function() {
@@ -76,46 +52,40 @@ function timer() {
 }
 
 function vote() {
-
+    xmlHttp = new XMLHttpRequest();
+    if (typeof id !== undefined){
+    if (up === true){
+        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/"+up, false);
+    }
+    if (up === false){
+        xmlHttp.open("POST", "https://api.imgur.com/3/comment/"+id+"/vote/"+up, false);
+    }
+        xmlHttp.setRequestHeader("Authorization", authorization);
+        xmlHttp.send(null);
+    } else {
+        error = true;
+        errortype = "null";
+        prepareResponse();
+    }
 }
 
 var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
-var imageregex = /ima*ge*\s+\/r\//ig;
+var imageregex = /\/r\/(\w+)/i;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var galleryregex = /gal+ery/ig;
 var memesregex = /(me|may)+s*/ig;
 
-var uploadregex = /\.(gif|jpg|png)/g;
 var universalregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
 
 var authorization = 'Client-ID ' + clientId;
 
 function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
-    str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML.toLowerCase();
-    string3 = $('#messages').children()[$('#messages').children().length - 3];
-    string4 = $('#messages').children()[$('#messages').children().length - 4];
-    string5 = $('#messages').children()[$('#messages').children().length - 5];
-
-    if (typeof string3 !== "undefined") {
-        str3 = string3.innerHTML.toLowerCase();
-    } else {
-        str3 = "";
-    }
-    if (typeof string4 !== "undefined") {
-        str4 = string4.innerHTML.toLowerCase();
-    } else {
-        str4 = "";
-    }
-    if (typeof string5 !== "undefined") {
-        str5 = string5.innerHTML.toLowerCase();
-    } else {
-        str5 = "";
-    }
+    megastr = $('#messages').innerHTML.toLowerCase();
 
     var a = str.search("imgurbot");
-    var b = str.search(imageregex);
+    var b = str.search(preimageregex);
     var c = str.search("random");
     var d = str.search(galleryregex);
     var e = str.search(upvoteregex);
@@ -123,7 +93,6 @@ function main() {
     var g = str.search(memesregex);
     var h = str.search("save");
     var i = str.search("imgur");
-    var j = str.search(uploadregex);
 
     if (a > -1) {
         if (d > -1) {
@@ -132,22 +101,17 @@ function main() {
             httpGet(URLs);
         }
         if (e > -1) {
-            if (URL !== "") {
                 up = true;
                 vote();
-            }
         }
         if (f > -1) {
-            if (URL !== "") {
                 up = false;
                 vote();
-            }
         }
         if (c > -1) {
-            text = makeid();
+            id = makeid();
             img = new Image();
-            img.src = "https://i.imgur.com/" + text + ".jpg";
-            takingtoolong = 0;
+            img.src = "https://i.imgur.com/" + id + ".jpg";
             timer();
         }
         if (g > -1) {
@@ -159,23 +123,16 @@ function main() {
     if (h > -1) {
         if (i > -1) {
             if (h < i) {
-
+                str.lastIndexOf()
             }
         }
     }
     if (b > -1) {
-            var n = str.search(preimageregex);
-            lengthcheck = 0;
-            subreddit = "";
-            oldstr = str.replace(imageregex, "");
-            if (n > -1) {
-                shifter();
-            } else {
-                error = true;
-                errortype = "basic";
-                console.log("Not a subreddit");
-                prepareResponse();
-            }
+        itype = "subreddit";
+        hawaii = str.match(imageregex);
+        subreddit = hawaii[0];
+        URLs = "https://api.imgur.com/3/gallery"+subreddit
+        httpGet(URLs);
     }
 }
 
@@ -186,6 +143,7 @@ function httpGet(URL) {
         xmlHttp.setRequestHeader("Authorization", authorization);
         xmlHttp.send(null);
         basshunter = xmlHttp.responseText;
+        remaining--;
         stopRegexTime();
     } else {
         error = true;
@@ -198,13 +156,13 @@ function httpGet(URL) {
 function prepareResponse() {
     if (error === true) {
         if (errortype == "basic") {
-            CLIENT.submit("Error: A Basic error occured. For more info ask the Random dude.");
+            CLIENT.submit("Basic Error: A Basic error occurred. For more info ask the Random dude.");
         }
         if (errortype == "supply") {
-            CLIENT.submit("Error: All 12,500 daily credits were used up. Sorry.");
+            CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
         }
-        if (errortype == "time") {
-            CLIENT.submit("No images found");
+        if (errortype == "null"){
+            CLIENT.submit("Null Error: You are referencing a nonexistent object.")
         }
         error = false;
     } else {
