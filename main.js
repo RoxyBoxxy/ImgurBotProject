@@ -147,7 +147,7 @@ function prepareResponse() {
         if (errortype == "supply") {
             if (score < 5){
             CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
-            score++
+            score++;
             }
         }
         if (errortype == "null"){
