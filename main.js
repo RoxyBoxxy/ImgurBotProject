@@ -235,7 +235,7 @@ function stopRegexTime() {
     pretitle = byte[special + 1];
     title = pretitle.replace('\"', '"');
     prepareImage();
-    if (title == "null") {
+    if (title == "untitled") {
         title = "No Title";
     }
 }
@@ -267,6 +267,8 @@ function prepareImage() {
         unlockslowly();
     }
     undo = 1;
+    antispam = true;
+    setTimeout(function(){antispam=false;}, 650);
 }
 
 function uploadImage() {
@@ -315,9 +317,7 @@ $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function(msg) {
         if (score < 5) {
-            setTimeout(function() {
                 main();
-            }, 650);
         } else {
             if (score == 5) {
                 CLIENT.submit("$Arial|#red*Please wait 10 seconds before sending again*");
