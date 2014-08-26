@@ -183,15 +183,33 @@ function prepareResponse() {
     }
 }
 
+function returnArray (str, strArray) {
+    for (var j=0; j<strArray.length; j++) {
+        var tempstring = "";
+        tempstring = tempstring + strArray[j];
+        return tempstring.match(str);
+    }
+}
+
+function stringify (strArray){
+    for (var j=0; j<strArray.length; j++) {
+        var tempstring = "";
+        tempstring = tempstring + strArray[j];
+    }
+    return tempstring;
+}
+
 function stopRegexTime() {
     var res = basshunter.match(idregex);
-    var res2 = res.match(idregex2);
+    var res2 = returnArray(idregex2,res);
+    res2 = stringify(res2);
     var string = res2.split('"');
     var copacobana = string.filter(Boolean);
     special = Math.floor(Math.random() * copacobana.length);
     id = copacobana[special];
     var bit = basshunter.match(titleregex);
-    var bit2 = bit.match(titleregex2);
+    var bit2 = returnArray(titleregex2,bit);
+    bit2 = stringify(bit2);
     var byte = bit2.split('"');
     var northpole = byte.filter(Boolean);
     title = northpole[special];
