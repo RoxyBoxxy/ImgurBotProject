@@ -128,7 +128,7 @@ function main() {
             httpGet(URLs);
         }
         if (k > -1) {
-            CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme, best)],img /r/<subreddit>, (up|down)vote, and save to imgur");
+            CLIENT.submit("Commands Include:[Imgur + (gallery, !random, meme, !best)],img /r/<subreddit>, (up|down)vote, and save to imgur");
             score++;
         }
         if (l > -1) {
@@ -272,7 +272,7 @@ function prepareImage() {
         score++;
     }
     if (itype == "response") {
-        CLIENT.submit("Here is your image URL: imgur.com/" + URLz +);
+        CLIENT.submit("Here is your image URL: https://imgur.com/" + URLz);
         score++;
         locked = 1;
         unlockslowly();
