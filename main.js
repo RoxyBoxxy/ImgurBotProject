@@ -227,6 +227,7 @@ function stringify(strArray) {
 
 function stopRegexTime() {
     var res = basshunter.match(idregex);
+    if (res !== null){
     var preres2 = stringify(res);
     var res2 = preres2.match(idregex2);
     res2 = stringify(res2);
@@ -241,9 +242,10 @@ function stopRegexTime() {
     byte = bit2.split('"title"');
     pretitle = byte[special + 1];
     title = pretitle.replace('\"', '"');
-    prepareImage();
-    if (title == "untitled") {
+        if (title == "untitled") {
         title = "No Title";
+    }
+    prepareImage();
     }
 }
 
@@ -324,7 +326,7 @@ function returnUrl() {
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function(msg) {
-        if (AntiSpam === false)
+      if (AntiSpam === false){
         if (score < 5) {
                 main();
         } else {
