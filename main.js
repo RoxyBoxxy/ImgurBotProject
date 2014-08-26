@@ -118,9 +118,6 @@ for (var i = 0; i < arrayLength; i++) {
         URLs = "https://api.imgur.com/3/gallery"+subreddit;
         httpGet(URLs);
     }
-     if (e > -1) {
-    favorite();
-}
 
 function httpGet(URL) {
     if (remaining > 0) {
