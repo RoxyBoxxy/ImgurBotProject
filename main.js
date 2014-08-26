@@ -4,6 +4,7 @@ var URLs = "";
 var score = 0;
 var sort = ["week", "month", "year"];
 var locked = 0;
+var AntiSpam = false;
 
 setInterval(function() {
     if (score > 0) {
@@ -187,6 +188,8 @@ function prepareResponse() {
             if (score < 5) {
                 CLIENT.submit("$Arial|#redSupply Error: All 12,500 daily credits have been used up. Sorry.");
                 score++;
+                AntiSpam = true;
+                setTimeout(function(){AntiSpam=false;}, 650);
             }
         }
         if (errortype == "null") {
@@ -201,10 +204,14 @@ function prepareResponse() {
             if (up === true) {
                 CLIENT.submit("The image has been upvoted");
                 score++;
+                AntiSpam = true;
+                setTimeout(function(){AntiSpam=false;}, 650);
             }
             if (up === false) {
                 CLIENT.submit("The image has been downvoted");
                 score++;
+                AntiSpam = true;
+                setTimeout(function(){AntiSpam=false;}, 650);
             }
         } else {}
     }
@@ -262,13 +269,14 @@ function prepareImage() {
     }
     if (itype == "response") {
         CLIENT.submit("Here is your image URL: https://imgur.com/" + URLz);
+        AntiSpam = true;
         score++;
         locked = 1;
         unlockslowly();
     }
     undo = 1;
-    antispam = true;
-    setTimeout(function(){antispam=false;}, 650);
+    AntiSpam = true;
+    setTimeout(function(){AntiSpam=false;}, 650);
 }
 
 function uploadImage() {
@@ -316,12 +324,15 @@ function returnUrl() {
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function(msg) {
+        if (AntiSpam === false)
         if (score < 5) {
                 main();
         } else {
             if (score == 5) {
                 CLIENT.submit("$Arial|#red*Please wait 10 seconds before sending again*");
             }
+        }} else {
+            console.log("Bot is being SPAMMED");
         }
 
     });
