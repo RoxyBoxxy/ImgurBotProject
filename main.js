@@ -2,7 +2,7 @@
 var error = false;
 var URLs = "";
 var score = 0;
-var sort = ["week", "month", "year", "all"];
+var sort = ["week", "month", "year"];
 
 setInterval(function() {
     if (score > 0) {
@@ -138,17 +138,20 @@ function main() {
         }
     }
     if (h > -1) {
-        if (h < i) {
-            var arrayLength = largearray.length;
-            var megastr = "";
-            for (var i = 0; i < arrayLength; i++) {
-                megastr = megastr + largearray[i].innerHTML.toLowerCase();
-            }
-            var rosalyn = megastr.lastIndexOf(urlregex);
-            var substringAlpha = megastr.substring(rosalyn);
-            var jake = substringAlpha.match(urlregex);
-            appendix = jake[0];
+        var arrayLength = largearray.length;
+        var megastr = "";
+        for (var i = 0; i < arrayLength; i++) {
+            megastr = megastr + largearray[i].innerHTML.toLowerCase();
+        }
+        var valid = megastr.search(urlregex);
+        if (valid !== -1) {
+            var jake = megastr.match(urlregex);
+            appendix = jake[jake.length - 1];
             uploadImage();
+        } else {
+            error = true;
+            errortype = "null";
+            prepareResponse();
         }
     }
     if (b > -1) {
@@ -192,22 +195,25 @@ function prepareResponse() {
         }
         if (errortype == "supply") {
             if (score < 5) {
-                CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
+                CLIENT.submit("$Arial|#redSupply Error: All 12,500 daily credits have been used up. Sorry.");
                 score++;
             }
         }
         if (errortype == "null") {
             console.log("Null Error: You are referencing a nonexistent object.");
         }
+        if (errortype == "locked") {
+            console.log("Lock Error: Must wait 10 seconds before saving to Imgur.");
+        }
         error = false;
     } else {
         if (undo == "0") {
             if (up === true) {
-                CLIENT.submit("The image has been " + str.match(upvoteregex) + "ed");
+                CLIENT.submit("The image has been upvoted");
                 score++;
             }
             if (up === false) {
-                CLIENT.submit("The image has been " + str.match(downvoteregex) + "ed");
+                CLIENT.submit("The image has been downvoted");
                 score++;
             }
         } else {}
@@ -264,15 +270,55 @@ function prepareImage() {
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
     }
+    if (itype == "response") {
+        CLIENT.submit("Here is your image URL: " + "\\" + "https://i.imgur.com/" + URLz + ".jpg");
+        score++;
+        locked = 1;
+        unlockslowly();
+    }
     undo = 1;
 }
 
 function uploadImage() {
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "https://api.imgur.com/3/upload", false);
-    xmlHttp.setRequestHeader("Authorization", authorization);
-    xmlHttp.send(null);
-    basshunter = xmlHttp.responseText;
+    if (locked == "0") {
+        response = "";
+        $.ajax({
+            url: 'https://api.imgur.com/3/image',
+            headers: {
+                'Authorization': authorization
+            },
+            type: 'POST',
+            data: {
+                'image': appendix
+            },
+            success: function(text) {
+                response = text;
+                returnUrl();
+            }
+        });
+    } else {
+        error = true;
+        errortype = "locked";
+        prepareResponse();
+    }
+}
+
+function unlockslowly() {
+    setTimeout(function() {
+        locked = "0";
+    }, 10000);
+}
+
+function returnUrl() {
+    var solar = JSON.stringify(response);
+    var sunlight = solar.match(idregex);
+    var maple = stringify(sunlight);
+    var oak = maple.match(idregex2);
+    var palmtree = stringify(oak);
+    var preURL = palmtree.replace('"', "");
+    URLz = preURL.replace('"', "");
+    itype = "response";
+    prepareImage();
 }
 
 $(function() {
@@ -284,7 +330,7 @@ $(function() {
             }, 750);
         } else {
             if (score == 5) {
-                CLIENT.submit("Please wait 10 seconds before sending again");
+                CLIENT.submit("$Arial|#red*Please wait 10 seconds before sending again*");
             }
         }
 
