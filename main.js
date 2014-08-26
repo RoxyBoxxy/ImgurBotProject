@@ -53,24 +53,6 @@ function timer() {
     }, 250);
 }
 
-function favorite() {
-    if (typeof id !== undefined){
-        if (remaining > 0){
-    xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("POST", "https://api.imgur.com/3/image/" + id + "/favorite" , false);
-        xmlHttp.setRequestHeader("Authorization", authorization);
-        xmlHttp.send(null);
-        prepareResponse();
-        remaining--;
-    }else{error = true;
-        errortype = "supply";
-        prepareResponse();}} else {
-        error = true;
-        errortype = "null";
-        prepareResponse();
-    }
-}
-
 var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
 var galleryregex = /gal+ery/ig;
@@ -89,8 +71,6 @@ function main() {
     b = str.search(preimageregex);
     c = str.search("random");
     d = str.search(galleryregex);
-    e = str.search("favorite");
-    f = str.search(downvoteregex);
     g = str.search(memesregex);
     h = str.search(saveregex);
     k = str.search("commands");
