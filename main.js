@@ -3,6 +3,7 @@ var error = false;
 var URLs = "";
 var score = 0;
 var sort = ["week", "month", "year"];
+var locked = 0;
 
 setInterval(function() {
     if (score > 0) {
@@ -90,7 +91,7 @@ var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 
-var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|png)/;
+var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg)/g;
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -98,16 +99,16 @@ function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
     largearray = $('#messages').children();
 
-    a = str.search("imgur");
+    a = str.search("imgurbot");
     b = str.search(preimageregex);
-    c = str.search("random");
+    c = str.search("!random");
     d = str.search(galleryregex);
     e = str.search(upvoteregex);
     f = str.search(downvoteregex);
     g = str.search(memesregex);
     h = str.search(saveregex);
-    k = str.search("commands");
-    l = str.search("best");
+    k = str.search("!commands");
+    l = str.search("!best");
 
     if (a > -1) {
         if (d > -1) {
@@ -127,7 +128,7 @@ function main() {
             httpGet(URLs);
         }
         if (k > -1) {
-            CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme)],img /r/<subreddit>, (up|down)vote, and save to imgur");
+            CLIENT.submit("Commands Include:[Imgur + (gallery, random, meme, best)],img /r/<subreddit>, (up|down)vote, and save to imgur");
             score++;
         }
         if (l > -1) {
@@ -271,7 +272,7 @@ function prepareImage() {
         score++;
     }
     if (itype == "response") {
-        CLIENT.submit("Here is your image URL: " + "\\" + "https://i.imgur.com/" + URLz + ".jpg");
+        CLIENT.submit("Here is your image URL: imgur.com/" + URLz +);
         score++;
         locked = 1;
         unlockslowly();
