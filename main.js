@@ -2,6 +2,9 @@
 
 var error = false;
 var URLs = "";
+var score = 0;
+
+setInterval(function(){if (score > 0){score--;}}, 6000);
 
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
@@ -165,7 +168,7 @@ function httpGet(URL) {
 function prepareResponse() {
     if (error === true) {
         if (errortype == "basic") {
-            CLIENT.submit("Basic Error: A Basic error occurred. For more info ask the Random dude.");
+            console.log("Basic Error: A Basic error occurred. For more info ask the Random dude.");
         }
         if (errortype == "supply") {
             CLIENT.submit("Supply Error: All 12,500 daily credits have been used up. Sorry.");
@@ -177,9 +180,11 @@ function prepareResponse() {
     } else {
         if (up === true) {
             CLIENT.submit("The image has been " + str.match(upvoteregex) + "ed");
+            score++;
         }
         if (up === false) {
             CLIENT.submit("The image has been " + str.match(downvoteregex) + "ed");
+            score++;
         }
     }
 }
@@ -217,15 +222,19 @@ function stopRegexTime() {
 function prepareImage() {
     if (itype == "random") {
         CLIENT.submit(iURL);
+        score++;
     }
     if (itype == "subreddit") {
         CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
+        score++;
     }
     if (itype == "gallery") {
         CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
+        score++;
     }
     if (itype == "meme") {
         CLIENT.submit("https://i.imgur.com/"+id+".jpg" + "\n" + title);
+        score++;
     }
 }
 
@@ -240,10 +249,15 @@ function uploadImage(){
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function(msg) {
+        if (score < 6){
         setTimeout(function() {
             main();
         }, 750);
-
+}else{
+    if (score = 6){
+    CLIENT.submit("Please wait 6 seconds before sending again :)");
+    }
+}
 
     });
 });
