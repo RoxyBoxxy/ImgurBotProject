@@ -86,9 +86,9 @@ function vote() {
 
 var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
-var galleryregex = /gal+ery/ig;
-var memesregex = /(me|may){2,}s*/ig;
-var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
+var galleryregex = /#gal+ery/ig;
+var memesregex = /#(me|may){2,}s*/ig;
+var saveregex = /#(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 
@@ -100,16 +100,15 @@ function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
     largearray = $('#messages').children();
 
-    a = str.search("imgurbot");
+    a = str.search("");
     b = str.search(preimageregex);
-    c = str.search("!random");
+    c = str.search("#random");
     d = str.search(galleryregex);
     e = str.search(upvoteregex);
     f = str.search(downvoteregex);
     g = str.search(memesregex);
     h = str.search(saveregex);
-    k = str.search("!commands");
-    l = str.search("!best");
+    l = str.search("#best");
 
     if (a > -1) {
         if (d > -1) {
