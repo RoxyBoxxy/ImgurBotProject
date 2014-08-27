@@ -172,7 +172,14 @@ function httpGet(URL) {
         xmlHttp.send(null);
         basshunter = xmlHttp.responseText;
         remaining--;
+        var data = basshunter.search('{"data":[],')
+        if (data > -1){
         stopRegexTime();
+        } else {
+            error = true;
+            errortype = "basic";
+            prepareResponse();
+        }
     } else {
         error = true;
         errortype = "supply";
