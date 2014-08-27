@@ -83,7 +83,7 @@ var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
 var galleryregex = /#gal+ery/ig;
 var memesregex = /#(me|may){2,}s*/ig;
-var saveregex = /#(save|post)+ *(to|at|on|in) *imgur/ig;
+var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 
