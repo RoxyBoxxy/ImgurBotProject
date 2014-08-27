@@ -256,7 +256,11 @@ function prepareImage() {
         score++;
     }
     if (itype == "meme") {
+        if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+        } else {
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + link);
+        }
         score++;
     }
     if (itype == "best") {
