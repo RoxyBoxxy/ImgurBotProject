@@ -95,7 +95,6 @@ function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
     largearray = $('#messages').children();
 
-    a = str.search("");
     b = str.search(preimageregex);
     c = str.search("#random");
     d = str.search(galleryregex);
@@ -105,7 +104,6 @@ function main() {
     h = str.search(saveregex);
     l = str.search("#best");
 
-    if (a > -1) {
         if (d > -1) {
             itype = "gallery";
             URLs = "https://api.imgur.com/3/gallery/hot/viral/0.json";
@@ -124,7 +122,6 @@ function main() {
             sortresult = sort[Math.floor(Math.random() * sort.length)];
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
-        }
     } else if (h > -1) {
         var arrayLength = largearray.length;
         var megastr = "";
