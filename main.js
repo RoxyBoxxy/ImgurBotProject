@@ -2,7 +2,7 @@
 var error = false;
 var URLs = "";
 var score = 0;
-var sort = ["week", "month", "year"];
+var sort = ["day", "week", "month", "year" , "all"];
 var locked = 0;
 var AntiSpam = false;
 
@@ -86,6 +86,9 @@ var memesregex = /#(me|may){2,}s*/ig;
 var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
+
+var idregex = /{"id":"(\w{5}|\w{7})"/g;
+var idregex2 = /"(\w{5}|\w{7})"/g;
 
 var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg)/g;
 
@@ -220,7 +223,13 @@ function stopRegexTime() {
     var copacobana = JSON.parse(basshunter).data;
     if (copacobana !== null){
     special = copacobana[Math.floor(Math.random() * copacobana.length)];
+    album = special.is_album
+    if (album === false){
     id = special.id;
+    } else {
+        id = special.cover;
+        albumlink = special.link;
+    }
     pretitle = special.title;
     title = pretitle.replace('\"', '"');
         if (title == "untitled") {
@@ -239,7 +248,11 @@ function prepareImage() {
         score++;
     }
     if (itype == "gallery") {
+        if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+        } else {
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + link);
+        }
         score++;
     }
     if (itype == "meme") {
