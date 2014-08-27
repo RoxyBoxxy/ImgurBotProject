@@ -12,11 +12,6 @@ setInterval(function() {
     }
 }, 10000);
 
-var idregex = /{"id":"(\w{5}|\w{7})"/g;
-var idregex2 = /"(\w{5}|\w{7})"/g;
-var titleregex = /"title":"(.)+?[^\\"]+"/g;
-var titleregex2 = /"(.)+?[^\\"]+"/g;
-
 function getrequestnumber() {
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "https://api.imgur.com/3/credits", false);
@@ -225,21 +220,11 @@ function stringify(strArray) {
 }
 
 function stopRegexTime() {
-    var res = basshunter.match(idregex);
-    if (res !== null){
-    var preres2 = stringify(res);
-    var res2 = preres2.match(idregex2);
-    res2 = stringify(res2);
-    var string = res2.split('"');
-    copacobana = string.filter(Boolean);
-    special = Math.floor(Math.random() * copacobana.length);
-    id = copacobana[special];
-    var bit = basshunter.match(titleregex);
-    var prebit2 = stringify(bit);
-    var bit2 = prebit2.match(titleregex2);
-    bit2 = stringify(bit2);
-    byte = bit2.split('"title"');
-    pretitle = byte[special + 1];
+    var copacobana = JSON.parse(basshunter).data;
+    if (copacobana !== null){
+    special = copacobana[Math.floor(Math.random() * copacobana.length)];
+    id = special.id;
+    pretitle = special.title;
     title = pretitle.replace('\"', '"');
         if (title == "untitled") {
         title = "No Title";
