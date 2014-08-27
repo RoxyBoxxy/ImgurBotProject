@@ -86,6 +86,7 @@ var memesregex = /#(me|may){2,}s*/ig;
 var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
+var hashtagregex = /#(\w)+/i;
 
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
@@ -98,6 +99,7 @@ function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
     largearray = $('#messages').children();
 
+    a = str.search(hashtagregex);
     b = str.search(preimageregex);
     c = str.search("#random");
     d = str.search(galleryregex);
@@ -147,7 +149,13 @@ function main() {
         subreddit = hawaii[0];
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
-    } else if (e > -1) {
+    } else if (a > -1){
+        itype = "subreddit";
+        alaska = str.match(hashtagregex);
+        subreddit = "/r/" + alaska[0].substring(1);
+        URLs = "https://api.imgur.com/3/gallery" + subreddit;
+        httpGet(URLs);
+    }else if (e > -1) {
         up = true;
         vote();
     } else if (f > -1) {
