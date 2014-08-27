@@ -173,7 +173,7 @@ function httpGet(URL) {
         basshunter = xmlHttp.responseText;
         remaining--;
         var data = basshunter.search('{"data":[],')
-        if (data > -1){
+        if (data == -1){
         stopRegexTime();
         } else {
             error = true;
