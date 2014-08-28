@@ -136,7 +136,7 @@ function main() {
         httpGet(URLs);
             }
         }
-    } else if (h > -1) {
+   else if (h > -1) {
         var arrayLength = largearray.length;
         var megastr = "";
         for (var i = 0; i < arrayLength; i++) {
@@ -241,7 +241,7 @@ function stopRegexTime() {
     var copacobana = JSON.parse(basshunter).data;
     if (copacobana !== null){
     special = copacobana[Math.floor(Math.random() * copacobana.length)];
-    album = special.is_album
+    album = special.is_album;
     if (album === false){
     id = special.id;
     } else {
