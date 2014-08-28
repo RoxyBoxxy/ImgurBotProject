@@ -109,7 +109,7 @@ function main() {
     h = str.search(saveregex);
     l = str.search("#best");
 
-        if (d > -1) {
+        if (d > -1 && a > -1) {
             itype = "gallery";
             URLs = "https://api.imgur.com/3/gallery/hot/viral/0.json";
             httpGet(URLs);
@@ -118,11 +118,11 @@ function main() {
             img = new Image();
             img.src = "https://i.imgur.com/" + id + ".jpg";
             timer();
-        } else if (g > -1) {
+        } else if (g > -1 && a > -1) {
             itype = "meme";
             URLs = "https://api.imgur.com/3/g/memes";
             httpGet(URLs);
-        } else if (l > -1) {
+        } else if (l > -1 && a > -1) {
             itype = "best";
             sortresult = sort[Math.floor(Math.random() * sort.length)];
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
