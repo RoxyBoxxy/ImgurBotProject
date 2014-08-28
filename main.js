@@ -260,39 +260,42 @@ function stopRegexTime() {
 }
 
 function prepareImage() {
-    if (itype == "random") {
+    switch (itype){
+    case "random":
         CLIENT.submit(iURL);
-    }
-    if (itype == "subreddit") {
+        score++;
+        break;
+    case "subreddit":
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
-    }
-    if (itype == "gallery") {
+        break;
+    case "gallery":
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + link);
         }
         score++;
-    }
-    if (itype == "meme") {
+        break;
+    case "meme":
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + link);
         }
         score++;
-    }
-    if (itype == "best") {
+        break;
+    case "best":
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
-    }
-    if (itype == "response") {
+        break;
+    case "response":
         CLIENT.submit("Here is your image URL: https://imgur.com/" + URLz);
         AntiSpam = true;
         score++;
         locked = 1;
         unlockslowly();
+        break;
     }
     undo = 1;
     AntiSpam = true;
@@ -343,7 +346,7 @@ function returnUrl() {
 
 $(function() {
     var socket = io('/' + window.channel);
-    socket.on('message', function(msg) {
+    socket.on('message', function() {
       if (AntiSpam === false){
         if (score < 5) {
                 main();
