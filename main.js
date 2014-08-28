@@ -109,7 +109,8 @@ function main() {
     h = str.search(saveregex);
     l = str.search("#best");
 
-        if (d > -1 && a > -1) {
+        if (a > -1) {
+            if (d > -1){
             itype = "gallery";
             URLs = "https://api.imgur.com/3/gallery/hot/viral/0.json";
             httpGet(URLs);
@@ -118,15 +119,23 @@ function main() {
             img = new Image();
             img.src = "https://i.imgur.com/" + id + ".jpg";
             timer();
-        } else if (g > -1 && a > -1) {
+        } else if (g > -1) {
             itype = "meme";
             URLs = "https://api.imgur.com/3/g/memes";
             httpGet(URLs);
-        } else if (l > -1 && a > -1) {
+        } else if (l > -1) {
             itype = "best";
             sortresult = sort[Math.floor(Math.random() * sort.length)];
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
+        } else {
+        itype = "subreddit";
+        alaska = str.match(hashtagregex);
+        subreddit = "/r/" + alaska[0].substring(1);
+        URLs = "https://api.imgur.com/3/gallery" + subreddit;
+        httpGet(URLs);
+            }
+        }
     } else if (h > -1) {
         var arrayLength = largearray.length;
         var megastr = "";
@@ -149,13 +158,7 @@ function main() {
         subreddit = hawaii[0];
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
-    } else if (a > -1){
-        itype = "subreddit";
-        alaska = str.match(hashtagregex);
-        subreddit = "/r/" + alaska[0].substring(1);
-        URLs = "https://api.imgur.com/3/gallery" + subreddit;
-        httpGet(URLs);
-    }else if (e > -1) {
+    } else if (e > -1) {
         up = true;
         vote();
     } else if (f > -1) {
