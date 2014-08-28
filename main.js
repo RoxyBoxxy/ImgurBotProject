@@ -1,4 +1,6 @@
-/* Now you see it, now you still see it. This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API (don't worry, they know) to deliver the most fresh and high quality responses. */
+//This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API to deliver 
+//the most fresh and high quality responses.
+
 var error = false;
 var URLs = "";
 var score = 0;
