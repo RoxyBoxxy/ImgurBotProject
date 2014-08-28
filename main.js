@@ -172,7 +172,7 @@ function httpGet(URL) {
         xmlHttp.send(null);
         basshunter = xmlHttp.responseText;
         remaining--;
-        var data = basshunter.search('{"data":[],')
+        var data = basshunter.indexOf('{"data":[],');
         if (data == -1){
         stopRegexTime();
         } else {
