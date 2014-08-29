@@ -273,7 +273,7 @@ function prepareImage() {
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
-            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + link);
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
         }
         score++;
         break;
@@ -281,12 +281,16 @@ function prepareImage() {
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
-            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + link);
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
         }
         score++;
         break;
     case "best":
+        if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+        } else {
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
+        }
         score++;
         break;
     case "response":
