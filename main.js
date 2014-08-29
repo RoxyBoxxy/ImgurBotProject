@@ -260,46 +260,39 @@ function stopRegexTime() {
 }
 
 function prepareImage() {
-    switch (itype){
-    case "random":
+    if (itype == "random"){
         CLIENT.submit(iURL);
         score++;
-        break;
-    case "subreddit":
+    } else if (itype == "subreddit"){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
-        break;
-    case "gallery":
+    } else if (itype == "gallery"){
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
         }
         score++;
-        break;
-    case "meme":
+    } else if (itype == "meme"){
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
         }
         score++;
-        break;
-    case "best":
+    } else if (itype == "best"){
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
         }
         score++;
-        break;
-    case "response":
+    } else if (itype == "response"){
         CLIENT.submit("Here is your image URL: https://imgur.com/" + URLz);
         AntiSpam = true;
         score++;
         locked = 1;
         unlockslowly();
-        break;
     }
     undo = 1;
     AntiSpam = true;
