@@ -89,6 +89,7 @@ var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var hashtagregex = /#(\w)+/i;
+var bestregexlel = /#best(?!\w)/ig;
 
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
@@ -109,7 +110,7 @@ function main() {
     f = str.search(downvoteregex);
     g = str.search(memesregex);
     h = str.search(saveregex);
-    l = str.search("#best");
+    l = str.search(bestregexlel);
 
         if (a > -1) {
             if (d > -1){
@@ -270,21 +271,21 @@ function prepareImage() {
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
-            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
         }
         score++;
     } else if (itype == "meme"){
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
-            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
         }
         score++;
     } else if (itype == "best"){
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
-            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "Read more at " + albumlink);
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
         }
         score++;
     } else if (itype == "response"){
