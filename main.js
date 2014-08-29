@@ -81,7 +81,7 @@ function vote() {
     }
 }
 
-var preimageregex = /ima*ge*\s+\/r\/(\w+)/ig;
+var preimageregex = /ima*ge*\s*\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
 var galleryregex = /#gal+ery/ig;
 var memesregex = /#(me|may){2,}s*/ig;
