@@ -83,13 +83,14 @@ function vote() {
 
 var preimageregex = /ima*ge*\s*\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
-var galleryregex = /#gal+ery/ig;
-var memesregex = /#(me|may){2,}s*/ig;
+var galleryregex = /#gal+ery(?!\w)/ig;
+var memesregex = /#(me|may){2,}s*(?!\w)/ig;
 var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var hashtagregex = /#(\w)+/i;
 var bestregexlel = /#best(?!\w)/ig;
+var randomregex = /#random(?!\w)/ig;
 
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
@@ -104,7 +105,7 @@ function main() {
 
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
-    c = str.search("#random");
+    c = str.search(randomregex);
     d = str.search(galleryregex);
     e = str.search(upvoteregex);
     f = str.search(downvoteregex);
