@@ -88,7 +88,7 @@ var memesregex = /#(me|may){2,}s*(?!\w)/ig;
 var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
-var hashtagregex = /#(\w)+/i;
+var hashtagregex = /#(\w)+/gi;
 var bestregexlel = /#best(?!\w)/ig;
 var randomregex = /#random(?!\w)/ig;
 
@@ -104,6 +104,8 @@ function main() {
     largearray = $('#messages').children();
 
     a = str.search(hashtagregex);
+    prea = str.match(hashtagregex);
+    fakes = str.match(/color: /g);
     b = str.search(preimageregex);
     c = str.search(randomregex);
     d = str.search(galleryregex);
@@ -132,10 +134,10 @@ function main() {
             sortresult = sort[Math.floor(Math.random() * sort.length)];
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
-        } else {
+        } else if (prea.length > fakes.length) {
         itype = "subreddit";
         alaska = str.match(hashtagregex);
-        subreddit = "/r/" + alaska[0].substring(1);
+        subreddit = "/r/" + alaska[fakes.length].substring(1);
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
             }
