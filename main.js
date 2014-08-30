@@ -104,8 +104,6 @@ function main() {
     largearray = $('#messages').children();
 
     a = str.search(hashtagregex);
-    prea = str.match(hashtagregex);
-    fakes = str.match(/color: /g);
     b = str.search(preimageregex);
     c = str.search(randomregex);
     d = str.search(galleryregex);
@@ -134,10 +132,10 @@ function main() {
             sortresult = sort[Math.floor(Math.random() * sort.length)];
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
-        } else if (prea.length > fakes.length) {
+        } else {
         itype = "subreddit";
         alaska = str.match(hashtagregex);
-        subreddit = "/r/" + alaska[fakes.length].substring(1);
+        subreddit = "/r/" + alaska[alaska.length-1].substring(1);
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
             }
