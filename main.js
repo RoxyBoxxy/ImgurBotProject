@@ -133,11 +133,16 @@ function main() {
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
         } else {
-        itype = "subreddit";
         alaska = str.match(hashtagregex);
-        subreddit = "/r/" + alaska[alaska.length-1].substring(1);
+        canada = alaska[alaska.length-1];
+        if (str.lastIndexOf("color: ")+7 < str.lastIndexOf(canada)){
+        itype = "subreddit";        
+        subreddit = "/r/" + canada.substring(1);
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
+        } else {
+            console.log("Autoreject of #COLOR");
+        }
             }
         }
    else if (h > -1) {
