@@ -193,13 +193,14 @@ var authorization = 'Client-ID ' + clientId;
 
 $('head').append('<script src="https://www.google.com/jsapi"></script>');
 
-setTimeout(function(){google();}, 10000);
+setTimeout(function(){google();}, 8000);
 
-function google (google.load('feeds', 1, {
+function google(){google.load('feeds', 1, {
         callback: function() {
             // do stuff, if you want - it doesn't matter, because the page isn't blank!
         }
-    } ));
+    } )
+}
 var feedlimit = 10;
 
 function loadit(){ 
