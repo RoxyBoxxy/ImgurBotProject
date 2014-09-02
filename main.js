@@ -193,7 +193,7 @@ var authorization = 'Client-ID ' + clientId;
 
 $('head').append('<script src="https://www.google.com/jsapi"></script>');
 
-setTimeout(function(){google();}, 5000);
+setTimeout(function(){google();}, 10000);
 
 function google (google.load('feeds', 1, {
         callback: function() {
