@@ -267,6 +267,7 @@ function stopRegexTime() {
 }
 
 function prepareImage() {
+    if (score < 5){
     if (itype == "random"){
         CLIENT.submit(iURL);
         score++;
@@ -304,6 +305,13 @@ function prepareImage() {
     undo = 1;
     AntiSpam = true;
     setTimeout(function(){AntiSpam=false;}, 650);
+    } else if (score == 5){
+        CLIENT.submit("$Arial|#red*Please wait some time before sending again*");
+        undo = 1;
+        score++
+    AntiSpam = true;
+    setTimeout(function(){AntiSpam=false;}, 650);
+    }
 }
 
 function uploadImage() {
@@ -352,12 +360,10 @@ $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function() {
       if (AntiSpam === false){
-        if (score < 5) {
+        if (score < 6) {
                 main();
         } else {
-            if (score == 5) {
-                CLIENT.submit("$Arial|#red*Please wait 10 seconds before sending again*");
-            }
+            console.log("Bot is being SPAMMED"); 
         }} else {
             console.log("Bot is being SPAMMED");
         }
