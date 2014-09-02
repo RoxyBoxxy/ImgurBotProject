@@ -193,13 +193,14 @@ var authorization = 'Client-ID ' + clientId;
 
 $('head').append('<script src="https://www.google.com/jsapi"></script>');
 
-setTimeout(function(){google();}, 8000);
+setTimeout(function(){google();}, 10000);
 
 function google(){google.load('feeds', 1, {
         callback: function() {
             // do stuff, if you want - it doesn't matter, because the page isn't blank!
         }
     } )
+    console.log("Google Feeds API has succesfully loaded :)");
 }
 var feedlimit = 10;
 
