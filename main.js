@@ -197,7 +197,7 @@ function guugle(){google.load('feeds', 1, {
         callback: function() {
             // do stuff, if you want - it doesn't matter, because the page isn't blank!
         }
-    } )
+    } );
     console.log("Google Feeds API has succesfully loaded :)");
 }
 
@@ -218,12 +218,44 @@ function runfunction(result){
 }
 
 function loadit(){ 
-    feed.load(runfunction)
+    feed.load(runfunction);
 }
 
 var newsURL = "http://news.google.com/?output=rss";
 var boxregex = /&url=(https*:\/\/(.)+)/gi;
 var finalboxregex = /(https*:\/\/(.)+)/gi;
+
+/*\
+|*|
+|*| Dictionary Widget
+|*|
+\*/
+
+var define1regex = /wh*at does (?!that|this)(\w)+ mean/gi;
+var define2regex = /define (\w)+/gi;
+
+function extractcase1() {
+    preword3 = str.match(define1regex);
+    preword2 = preword3[0];
+    preword = preword2.split(" ");
+    daword = preword[preword.length-2];
+}
+
+function extractcase2(){
+    preword3 = str.match(define2regex);
+    preword2 = preword3[0];
+    preword = preword2.split(" ");
+    daword = preword[preword.length-1];
+}
+
+function define(word){
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase="+word+"&pretty=true", false);
+        xmlHttp.send(null);
+        basshunter = xmlHttp.responseText;
+        array = JSON.parse(basshunter).tuc;
+        return array[0].meanings[0].text;
+}
 
 /*\
 |*|
@@ -311,6 +343,16 @@ function main() {
     } else if (f > -1) {
         up = false;
         vote();
+    } else if (n > -1){
+        itype = "define";
+        extractcase1();
+        meaning = define(daword);
+        prepareImage();
+    } else if (o > -1){
+        itype = "define";
+        extractcase2();
+        meaning = define(daword);
+        prepareImage();
     }
 }
 
@@ -398,6 +440,9 @@ function prepareImage() {
     } else if (itype == "news"){
         CLIENT.submit(title + "\n" + link);
         score++;
+    } else if (itype == "define"){
+        CLIENT.submit(daword + ": " + meaning);
+        score++;
     }
     undo = 1;
     AntiSpam = true;
@@ -405,7 +450,7 @@ function prepareImage() {
     } else if (score == 5){
         CLIENT.submit("$Arial|#red*Please wait some time before sending again*");
         undo = 1;
-        score++
+        score++;
     AntiSpam = true;
     setTimeout(function(){AntiSpam=false;}, 650);
     }
