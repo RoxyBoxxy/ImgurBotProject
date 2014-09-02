@@ -210,7 +210,10 @@ function runfunction(result){
     newsarray = mayme;
     newsresult = newsarray[Math.floor(Math.random() * newsarray.length)];
     title = newsresult.title;
-    link = newsresult.link;
+    prelink = newsresult.link;
+    link1 = prelink.match(boxregex);
+    link2 = stringify(link1).match(finalboxregex);
+    link = link2[0];
     prepareImage();
 }
 
@@ -219,6 +222,8 @@ function loadit(){
 }
 
 var newsURL = "http://news.google.com/?output=rss";
+var boxregex = /&url=(https*:\/\/(.)+)/i;
+var finalboxregex = /(https*:\/\/(.)+)/i;
 
 /*\
 |*|
