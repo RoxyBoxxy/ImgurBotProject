@@ -205,12 +205,17 @@ setTimeout(function(){guugle();}, 7000);
 
 var feedlimit = 10;
 
-function loadit(){ 
-    feed.load(runfunction)
+function runfunction(result){
+    mayme = result.feed.entries;
+    newsarray = mayme;
+    newsresult = newsarray[Math.floor(Math.random() * newsarray.length)];
+    title = newsresult.title;
+    link = newsresult.link;
+    prepareImage();
 }
 
-function runfunction(result){
-    return result.feed.entries;
+function loadit(){ 
+    feed.load(runfunction)
 }
 
 var newsURL = "http://news.google.com/?output=rss";
@@ -258,13 +263,8 @@ function main() {
         } else if (m > -1){
             itype = "news";
             feed = new google.feeds.Feed(newsURL);
-            alert("Feed has been created succesfully");
             feed.setNumEntries(feedlimit);
-            newsarray = loadit();
-            newsresult = newsarray[Math.floor(Math.random() * newsarray.length)];
-            title = newsresult.title;
-            link = newsresult.link;
-            prepareImage();
+            loadit();
         } else {
         alaska = str.match(hashtagregex);
         canada = alaska[alaska.length-1];
