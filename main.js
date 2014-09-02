@@ -222,8 +222,8 @@ function loadit(){
 }
 
 var newsURL = "http://news.google.com/?output=rss";
-var boxregex = /&url=(https*:\/\/(.)+)/i;
-var finalboxregex = /(https*:\/\/(.)+)/i;
+var boxregex = /&url=(https*:\/\/(.)+)/gi;
+var finalboxregex = /(https*:\/\/(.)+)/gi;
 
 /*\
 |*|
