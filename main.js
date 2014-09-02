@@ -1,5 +1,11 @@
-//This is the ImgurBot v2.0. Handcrafted specially for the Spooky Chat, it uses the sooper seekret Imgur API to deliver 
+//This is the SpooksBot v2.5. Handcrafted specially for the Spooky Chat, it uses various sooper seekret APIs to deliver 
 //the most fresh and high quality responses.
+
+/*\ 
+|*|
+|*| ImgurBot Presetting
+|*|
+\*/
 
 var error = false;
 var URLs = "";
@@ -24,6 +30,62 @@ function getrequestnumber() {
     var katyperry = res[0];
     remained = katyperry.match(/\d{5}/);
     remaining = remained[0];
+}
+
+function stopRegexTime() {
+    var copacobana = JSON.parse(basshunter).data;
+    if (copacobana !== null){
+    special = copacobana[Math.floor(Math.random() * copacobana.length)];
+    album = special.is_album;
+    if (album === false){
+    id = special.id;
+    } else {
+        id = special.cover;
+        albumlink = special.link;
+    }
+    pretitle = special.title;
+    title = pretitle.replace('\"', '"');
+        if (title == "untitled") {
+        title = "No Title";
+    }
+    prepareImage();
+    }
+}
+
+function uploadImage() {
+    if (locked == "0") {
+        response = "";
+        $.ajax({
+            url: 'https://api.imgur.com/3/image',
+            headers: {
+                'Authorization': authorization
+            },
+            type: 'POST',
+            data: {
+                'image': appendix
+            },
+            success: function(text) {
+                response = text;
+                returnUrl();
+            }
+        });
+    } else {
+        error = true;
+        errortype = "locked";
+        prepareResponse();
+    }
+}
+
+function returnUrl() {
+    var solar = JSON.stringify(response);
+    var sunlight = solar.match(idregex);
+    var maple = stringify(sunlight);
+    var oak = maple.match(idregex2);
+    var palmtree = stringify(oak);
+    var preURL = palmtree.replace('"', "");
+    URLz = preURL.replace('"', "");
+    itype = "response";
+    prepareImage();
 }
 
 function makeid() {
@@ -81,6 +143,30 @@ function vote() {
     }
 }
 
+function httpGet(URL) {
+    if (remaining > 0) {
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", URL, false);
+        xmlHttp.setRequestHeader("Authorization", authorization);
+        xmlHttp.send(null);
+        basshunter = xmlHttp.responseText;
+        remaining--;
+        var data = basshunter.indexOf('{"data":[],');
+        if (data == -1){
+        stopRegexTime();
+        } else {
+            error = true;
+            errortype = "basic";
+            prepareResponse();
+        }
+    } else {
+        error = true;
+        errortype = "supply";
+        prepareResponse();
+
+    }
+}
+
 var preimageregex = /ima*ge*\s*\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
 var galleryregex = /#gal+ery(?!\w)/ig;
@@ -99,6 +185,36 @@ var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg)/g;
 
 var authorization = 'Client-ID ' + clientId;
 
+/*\
+|*|
+|*| News (RSS) Sourcing API
+|*|
+\*/
+
+$('head').append('<script src="https://www.google.com/jsapi"></script>');
+google.load('feeds', 1, {
+        callback: function() {
+            // do stuff, if you want - it doesn't matter, because the page isn't blank!
+        }
+    } );
+var feedlimit = 10;
+
+function loadit(){ 
+    feed.load(runfunction)
+}
+
+function runfunction(result){
+    return result.feed.entries;
+}
+
+var newsURL = "http://news.google.com/?output=rss";
+
+/*\
+|*|
+|*| The Main Portion
+|*|
+\*/
+
 function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
     largearray = $('#messages').children();
@@ -112,6 +228,7 @@ function main() {
     g = str.search(memesregex);
     h = str.search(saveregex);
     l = str.search(bestregexlel);
+    m = str.indexOf("#news");
 
         if (a > -1) {
             if (d > -1){
@@ -132,6 +249,15 @@ function main() {
             sortresult = sort[Math.floor(Math.random() * sort.length)];
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
+        } else if (m > -1){
+            itype = "news";
+            feed = new google.feeds.Feed(newsURL);
+            feed.setNumEntries(feedlimit);
+            newsarray = loadit();
+            newsresult = newsarray[Math.floor(Math.random() * newsarray.length)];
+            title = newsresult.title;
+            link = newsresult.link;
+            prepareImage();
         } else {
         alaska = str.match(hashtagregex);
         canada = alaska[alaska.length-1];
@@ -173,30 +299,6 @@ function main() {
     } else if (f > -1) {
         up = false;
         vote();
-    }
-}
-
-function httpGet(URL) {
-    if (remaining > 0) {
-        xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", URL, false);
-        xmlHttp.setRequestHeader("Authorization", authorization);
-        xmlHttp.send(null);
-        basshunter = xmlHttp.responseText;
-        remaining--;
-        var data = basshunter.indexOf('{"data":[],');
-        if (data == -1){
-        stopRegexTime();
-        } else {
-            error = true;
-            errortype = "basic";
-            prepareResponse();
-        }
-    } else {
-        error = true;
-        errortype = "supply";
-        prepareResponse();
-
     }
 }
 
@@ -246,26 +348,6 @@ function stringify(strArray) {
     return tempstring;
 }
 
-function stopRegexTime() {
-    var copacobana = JSON.parse(basshunter).data;
-    if (copacobana !== null){
-    special = copacobana[Math.floor(Math.random() * copacobana.length)];
-    album = special.is_album;
-    if (album === false){
-    id = special.id;
-    } else {
-        id = special.cover;
-        albumlink = special.link;
-    }
-    pretitle = special.title;
-    title = pretitle.replace('\"', '"');
-        if (title == "untitled") {
-        title = "No Title";
-    }
-    prepareImage();
-    }
-}
-
 function prepareImage() {
     if (score < 5){
     if (itype == "random"){
@@ -301,6 +383,9 @@ function prepareImage() {
         score++;
         locked = 1;
         unlockslowly();
+    } else if (itype == "news"){
+        CLIENT.submit(title + "\n" + link);
+        score++;
     }
     undo = 1;
     AntiSpam = true;
@@ -314,46 +399,10 @@ function prepareImage() {
     }
 }
 
-function uploadImage() {
-    if (locked == "0") {
-        response = "";
-        $.ajax({
-            url: 'https://api.imgur.com/3/image',
-            headers: {
-                'Authorization': authorization
-            },
-            type: 'POST',
-            data: {
-                'image': appendix
-            },
-            success: function(text) {
-                response = text;
-                returnUrl();
-            }
-        });
-    } else {
-        error = true;
-        errortype = "locked";
-        prepareResponse();
-    }
-}
-
 function unlockslowly() {
     setTimeout(function() {
         locked = "0";
     }, 10000);
-}
-
-function returnUrl() {
-    var solar = JSON.stringify(response);
-    var sunlight = solar.match(idregex);
-    var maple = stringify(sunlight);
-    var oak = maple.match(idregex2);
-    var palmtree = stringify(oak);
-    var preURL = palmtree.replace('"', "");
-    URLz = preURL.replace('"', "");
-    itype = "response";
-    prepareImage();
 }
 
 $(function() {
@@ -373,4 +422,4 @@ $(function() {
 
 getrequestnumber();
 
-console.log("ImgurBot Beta has loaded :)");
+console.log("SpooksBot Beta has loaded :)");
