@@ -256,6 +256,7 @@ function main() {
         } else if (m > -1){
             itype = "news";
             feed = new google.feeds.Feed(newsURL);
+            alert("Feed has been created succesfully");
             feed.setNumEntries(feedlimit);
             newsarray = loadit();
             newsresult = newsarray[Math.floor(Math.random() * newsarray.length)];
