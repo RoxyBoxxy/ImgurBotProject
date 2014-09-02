@@ -201,7 +201,7 @@ function guugle(){google.load('feeds', 1, {
     console.log("Google Feeds API has succesfully loaded :)");
 }
 
-setTimeout(function(){guugle();}, 7000);
+setTimeout(function(){guugle();}, 3000);
 
 var feedlimit = 10;
 
