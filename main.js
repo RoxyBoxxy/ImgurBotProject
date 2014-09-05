@@ -242,10 +242,11 @@ function processString() {
         dubslength = dubsarray[0].length;
         dubspos = checkthis.search(dubsregex);
         finalstring = checkthis.insert(dubspos,"#FFD700");
-        finalstring = finalstring.insert(dubspos+dubslength,"#FFFFFF");
+        finalstring = finalstring.insert(dubspos+dubslength,"#FFF");
         prepareImage();
     } else {
-        
+        finalstring = checkthis.insert(0,"#FFF");
+        prepareImage();
     }
 }
 
@@ -525,6 +526,9 @@ function prepareImage() {
         score++;
     } else if (itype == "define"){
         CLIENT.submit(daword + ": " + meaning);
+        score++;
+    } else if (itype == "checkem"){
+        CLIENT.submit("#FFF" + finalstring);
         score++;
     }
     undo = 1;
