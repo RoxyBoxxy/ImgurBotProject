@@ -245,7 +245,6 @@ function processString() {
         finalstring = finalstring.insert(dubspos+dubslength,"#FFF");
         prepareImage();
     } else {
-        finalstring = checkthis.insert(0,"#FFF");
         prepareImage();
     }
 }
