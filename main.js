@@ -187,6 +187,61 @@ var authorization = 'Client-ID ' + clientId;
 
 /*\
 |*|
+|*| Checking Function
+|*|
+\*/
+
+function checkem() {
+    var text = "";
+    var possible = "0123456789";
+
+    for (var i = 0; i < 6; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
+var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+(ing|em|in)+/ig;
+var dubsregex = /(\d)\1+/g;
+var increasingregex = /(123|234|345|456|567|678|789|890|098|987|876|765|654|543|432|321|1234|2345|3456|4567|5678|6789|7890|0987|9876|8765|7654|6543|5432|4321|12345|23456|34567|45678|56789|67890|09876|98765|87654|76543|65432|54321|123456|234567|345678|456789|567890|098765|987654|876543|765432|654321)/g;
+
+var dubsregexA = /(\d)(\d)\2(\d)\2\2/g;
+var dubsregexB = /(\d)\1(\d){2}\1\1/g;
+var dubsregexC = /(\d)\1(\d)\1\1(\d)/g;
+
+var sixregex = /(\d)\1{5}/g;
+var fiveregex = /(\d)\1{4}/g;
+
+function processString() {
+    lastindexing = 0;
+    dubsarray = checkthis.match(dubsregex);
+    lengtharray = [];
+    for (var j = 0; j < dubsarray.length; j++) {
+        lengtharray.push(dubsarray[j].length);
+    }
+    checkstring = stringify(dubsarray);
+    if (checkstring.search(dubsregexA) > -1 || checkstring.search(dubsregexB) > -1 || checkstring.search(dubsregexC) > -1){
+        if (checkstring.search(sixregex) = -1 && checkstring.search(fiveregex) = -1){
+            lastindexing = 1;
+            gohighlight();
+        } else {
+            gohighlight();
+        }
+    } else {
+        gohighlight();
+    }
+}
+
+function gohighlight(){
+    if (lastindexing = 1){
+        
+    } else {
+        
+    }
+}
+
+/*\
+|*|
 |*| News (RSS) Sourcing API
 |*|
 \*/
@@ -277,6 +332,7 @@ function main() {
     h = str.search(saveregex);
     l = str.search(bestregexlel);
     m = str.indexOf("#news");
+    p = str.search(checkemregex);
 
         if (a > -1) {
             if (d > -1){
@@ -353,6 +409,10 @@ function main() {
         extractcase2();
         meaning = define(daword);
         prepareImage();
+    } else if (p > -1){
+        itype = "checkem";
+        checkthis = checkem();
+        processString();
     }
 }
 
