@@ -236,7 +236,11 @@ function gohighlight(){
     if (lastindexing = 1){
         
     } else {
-        
+        finalstring = checkthis;
+        insertXarray = [];
+        for (var i = 0; i < dubsarray.length; i++){
+            insertXarray.push(checkthis.search(dubsarray[i]));
+        }
     }
 }
 
@@ -465,8 +469,10 @@ function stringify(strArray) {
 function prepareImage() {
     if (score < 5){
     if (itype == "random"){
+        if (score < 6){
         CLIENT.submit(iURL);
         score++;
+        }
     } else if (itype == "subreddit"){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         score++;
