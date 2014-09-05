@@ -201,6 +201,13 @@ function checkem() {
     return text;
 }
 
+String.prototype.insert = function (index, string) {
+  if (index > 0)
+    return this.substring(0, index) + string + this.substring(index, this.length);
+  else
+    return string + this;
+};
+
 var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+(ing|em|in)+/ig;
 var dubsregex = /(\d)\1+/g;
 var increasingregex = /(123|234|345|456|567|678|789|890|098|987|876|765|654|543|432|321|1234|2345|3456|4567|5678|6789|7890|0987|9876|8765|7654|6543|5432|4321|12345|23456|34567|45678|56789|67890|09876|98765|87654|76543|65432|54321|123456|234567|345678|456789|567890|098765|987654|876543|765432|654321)/g;
@@ -215,6 +222,7 @@ var fiveregex = /(\d)\1{4}/g;
 function processString() {
     lastindexing = 0;
     dubsarray = checkthis.match(dubsregex);
+    if (dubsarray.length > 1){
     lengtharray = [];
     for (var j = 0; j < dubsarray.length; j++) {
         lengtharray.push(dubsarray[j].length);
@@ -229,6 +237,15 @@ function processString() {
         }
     } else {
         gohighlight();
+    }
+    } else if (dubsarray.length = 1) {
+        dubslength = dubsarray[0].length;
+        dubspos = checkthis.search(dubsregex);
+        finalstring = checkthis.insert(dubspos,"#FFD700");
+        finalstring = finalstring.insert(dubspos+dubslength,"#FFFFFF");
+        prepareImage();
+    } else {
+        
     }
 }
 
