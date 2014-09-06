@@ -228,16 +228,13 @@ function processString() {
     dubs = false;
     lastindexing = 0;
     dubsarray = checkthis.match(dubsregex);
-    console.log("dubs="+dubs);
     console.log("dubsarray="+dubsarray);
     console.log("checkthis="+checkthis);
     console.log("n="+n);
-    alert("checkpoint3");
     if (dubsarray == null){
         dubsarray = [];
     }
     console.log(dubsarray.length);
-    alert("checkpoint4");
     if (dubsarray.length > 1){
     alert("optionA");
     dubs = true;
@@ -257,17 +254,14 @@ function processString() {
         gohighlight();
     }
     } else if (dubsarray.length == 1) {
-        alert("optionB");
         dubs = true;
         finalstring = checkthis;
         dubslength = dubsarray[0].length;
         dubspos = checkthis.search(dubsregex);
         finalstring = finalstring.insert(dubspos,"#FFD700");
-        finalstring = finalstring.insert(dubspos+dubslength+6,"#FFF");
+        finalstring = finalstring.insert(dubspos+dubslength+7,"#FFFFFF");
         prepareImage();
     } else {
-        console.log("itype="+itype);
-        alert("optionC");
         finalstring = checkthis;
         prepareImage();
     }
