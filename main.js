@@ -228,7 +228,18 @@ function processString() {
     dubs = false;
     lastindexing = 0;
     dubsarray = checkthis.match(dubsregex);
+    console.log("dubs="+dubs);
+    console.log("dubsarray="+dubsarray);
+    console.log("checkthis="+checkthis);
+    console.log("n="+n);
+    alert("checkpoint3");
+    if (dubsarray == null){
+        dubsarray = [];
+    }
+    console.log(dubsarray.length);
+    alert("checkpoint4");
     if (dubsarray.length > 1){
+    alert("optionA");
     dubs = true;
     lengtharray = [];
     for (var j = 0; j < dubsarray.length; j++) {
@@ -246,14 +257,18 @@ function processString() {
         gohighlight();
     }
     } else if (dubsarray.length == 1) {
+        alert("optionB");
         dubs = true;
         finalstring = checkthis;
         dubslength = dubsarray[0].length;
         dubspos = checkthis.search(dubsregex);
         finalstring = finalstring.insert(dubspos,"#FFD700");
-        finalstring = finalstring.insert(dubspos+dubslength,"#FFF");
+        finalstring = finalstring.insert(dubspos+dubslength+6,"#FFF");
         prepareImage();
     } else {
+        console.log("itype="+itype);
+        alert("optionC");
+        finalstring = checkthis;
         prepareImage();
     }
 }
@@ -280,7 +295,7 @@ function gohighlight(){
             insertYarray.push(insertXarray[1]+2);
             for (var i = 0; i < insertXarray.length; i++){
                 finalstring = finalstring.insert(insertXarray[i]+11*i,"#FFD700");
-                finalstring = finalstring.insert(insertYarray[i]+7*(i+1)+4*i,"#FFF");
+                finalstring = finalstring.insert(insertYarray[i]+7*(2*i+1),"#FFFFFF");
             }
             prepareImage();
         }
@@ -294,7 +309,7 @@ function gohighlight(){
         }
         for (var l = 0; l < insertXarray.length; l++){
             finalstring = finalstring.insert(insertXarray[l]+11*l,"#FFD700");
-            finalstring = finalstring.insert(insertYarray[l]+7*(l+1)+4*l,"#FFF");
+            finalstring = finalstring.insert(insertYarray[l]+7*(2*l+1),"#FFFFFF");
         }
         prepareImage();
     }
@@ -392,7 +407,7 @@ function main() {
     h = str.search(saveregex);
     l = str.search(bestregexlel);
     m = str.indexOf("#news");
-    p = str.search(checkemregex);
+    n = str.search(checkemregex);
 
         if (a > -1) {
             if (d > -1){
@@ -460,16 +475,6 @@ function main() {
         up = false;
         vote();
     } else if (n > -1){
-        itype = "define";
-        extractcase1();
-        meaning = define(daword);
-        prepareImage();
-    } else if (o > -1){
-        itype = "define";
-        extractcase2();
-        meaning = define(daword);
-        prepareImage();
-    } else if (p > -1){
         itype = "checkem";
         checkthis = checkem();
         processString();
@@ -567,9 +572,9 @@ function prepareImage() {
         score++;
     } else if (itype == "checkem"){
         if (dubs === false){
-        CLIENT.submit("#FFF" + finalstring);
+        CLIENT.submit("#FFFFFF" + finalstring);
         } else {
-            CLIENT.submit("#FFF" + finalstring + "\n" + "https://i.imgur.com/Xpb0MWj.png");
+            CLIENT.submit("#FFFFFF" + finalstring + "\n" + "https://i.imgur.com/Xpb0MWj.png");
         }
         score++;
     }
