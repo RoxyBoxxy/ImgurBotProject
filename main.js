@@ -219,10 +219,17 @@ var dubsregexC = /(\d)\1(\d)\1\1(\d)/g;
 var sixregex = /(\d)\1{5}/g;
 var fiveregex = /(\d)\1{4}/g;
 
+var tripsregexA = /(\d)\1\1(\d)\1\1/g;
+var tripsregexB = /(\d)\1(\d)\1\1\1/g;
+
+dubs = false;
+
 function processString() {
+    dubs = false;
     lastindexing = 0;
     dubsarray = checkthis.match(dubsregex);
     if (dubsarray.length > 1){
+    dubs = true;
     lengtharray = [];
     for (var j = 0; j < dubsarray.length; j++) {
         lengtharray.push(dubsarray[j].length);
@@ -239,9 +246,11 @@ function processString() {
         gohighlight();
     }
     } else if (dubsarray.length = 1) {
+        dubs = true;
+        finalstring = checkthis;
         dubslength = dubsarray[0].length;
         dubspos = checkthis.search(dubsregex);
-        finalstring = checkthis.insert(dubspos,"#FFD700");
+        finalstring = finalstring.insert(dubspos,"#FFD700");
         finalstring = finalstring.insert(dubspos+dubslength,"#FFF");
         prepareImage();
     } else {
@@ -250,14 +259,44 @@ function processString() {
 }
 
 function gohighlight(){
-    if (lastindexing = 1){
-        
-    } else {
         finalstring = checkthis;
+    if (lastindexing = 1){
+        if(checkstring.search(tripsregexA) > -1){
+            finalstring = finalstring.insert(0,"#FFD700");
+            finalstring = finalstring.insert(10,"#FFF");
+            finalstring = finalstring.insert(15,"#FFD700");
+            prepareImage();
+        } else if(checkstring.search(tripsregexB) > -1){
+            finalstring = finalstring.insert(0,"#FFD700");
+            finalstring = finalstring.insert(9,"#FFF");
+            finalstring = finalstring.insert(14,"#FFD700");
+            prepareImage();
+        } else {
+            insertXarray = [];
+            insertXarray.push(checkthis.indexOf(dubsarray[0]));
+            insertXarray.push(checkthis.lastIndexOf(dubsarray[0]));
+            insertYarray = [];
+            insertYarray.push(insertXarray[0]+2);
+            insertYarray.push(insertXarray[1]+2);
+            for (var i = 0; i < insertXarray.length; i++){
+                finalstring = finalstring.insert(insertXarray[i]+11i,"#FFD700");
+                finalstring = finalstring.insert(insertYarray[i]+7(i+1)+4i,"#FFF");
+            }
+            prepareImage();
+        }
+    } else {
         insertXarray = [];
         for (var i = 0; i < dubsarray.length; i++){
-            insertXarray.push(checkthis.search(dubsarray[i]));
+            insertXarray.push(checkthis.indexOf(dubsarray[i]));
         }
+        for (var i = 0; i < insertXarray.length; i++){
+            insertYarray.push(insertXarray[i]+lengtharray[i]);
+        }
+        for (var i = 0; i < insertXarray.length; i++){
+            finalstring = finalstring.insert(insertXarray[i]+11i,"#FFD700");
+            finalstring = finalstring.insert(insertYarray[i]+7(i+1)+4i,"#FFF");
+        }
+        prepareImage();
     }
 }
 
@@ -527,7 +566,11 @@ function prepareImage() {
         CLIENT.submit(daword + ": " + meaning);
         score++;
     } else if (itype == "checkem"){
+        if (dubs === false){
         CLIENT.submit("#FFF" + finalstring);
+        } else {
+            CLIENT.submit("#FFF" + finalstring + "\n" + "https://i.imgur.com/Xpb0MWj.png");
+        }
         score++;
     }
     undo = 1;
