@@ -236,7 +236,7 @@ function processString() {
     }
     checkstring = stringify(dubsarray);
     if (checkstring.search(dubsregexA) > -1 || checkstring.search(dubsregexB) > -1 || checkstring.search(dubsregexC) > -1){
-        if (checkstring.search(sixregex) = -1 && checkstring.search(fiveregex) = -1){
+        if (checkstring.search(sixregex) == -1 && checkstring.search(fiveregex) == -1){
             lastindexing = 1;
             gohighlight();
         } else {
@@ -245,7 +245,7 @@ function processString() {
     } else {
         gohighlight();
     }
-    } else if (dubsarray.length = 1) {
+    } else if (dubsarray.length == 1) {
         dubs = true;
         finalstring = checkthis;
         dubslength = dubsarray[0].length;
@@ -260,7 +260,7 @@ function processString() {
 
 function gohighlight(){
         finalstring = checkthis;
-    if (lastindexing = 1){
+    if (lastindexing == 1){
         if(checkstring.search(tripsregexA) > -1){
             finalstring = finalstring.insert(0,"#FFD700");
             finalstring = finalstring.insert(10,"#FFF");
@@ -279,22 +279,22 @@ function gohighlight(){
             insertYarray.push(insertXarray[0]+2);
             insertYarray.push(insertXarray[1]+2);
             for (var i = 0; i < insertXarray.length; i++){
-                finalstring = finalstring.insert(insertXarray[i]+11i,"#FFD700");
-                finalstring = finalstring.insert(insertYarray[i]+7(i+1)+4i,"#FFF");
+                finalstring = finalstring.insert(insertXarray[i]+11*i,"#FFD700");
+                finalstring = finalstring.insert(insertYarray[i]+7*(i+1)+4*i,"#FFF");
             }
             prepareImage();
         }
     } else {
         insertXarray = [];
-        for (var i = 0; i < dubsarray.length; i++){
-            insertXarray.push(checkthis.indexOf(dubsarray[i]));
+        for (var j = 0; j < dubsarray.length; j++){
+            insertXarray.push(checkthis.indexOf(dubsarray[j]));
         }
-        for (var i = 0; i < insertXarray.length; i++){
-            insertYarray.push(insertXarray[i]+lengtharray[i]);
+        for (var k = 0; k < insertXarray.length; k++){
+            insertYarray.push(insertXarray[k]+lengtharray[k]);
         }
-        for (var i = 0; i < insertXarray.length; i++){
-            finalstring = finalstring.insert(insertXarray[i]+11i,"#FFD700");
-            finalstring = finalstring.insert(insertYarray[i]+7(i+1)+4i,"#FFF");
+        for (var l = 0; l < insertXarray.length; l++){
+            finalstring = finalstring.insert(insertXarray[l]+11*l,"#FFD700");
+            finalstring = finalstring.insert(insertYarray[l]+7*(l+1)+4*l,"#FFF");
         }
         prepareImage();
     }
