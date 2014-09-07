@@ -518,9 +518,6 @@ function prepareImage() {
     } else if (itype == "news"){
         CLIENT.submit(title + "\n" + link);
         score++;
-    } else if (itype == "define"){
-        CLIENT.submit(daword + ": " + meaning);
-        score++;
     } else if (itype == "checkem"){
         if (dubs === false){
         CLIENT.submit("#FFFFFF" + finalstring);
