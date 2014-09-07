@@ -1,11 +1,6 @@
-//This is the SpooksBot v2.5. Handcrafted specially for the Spooky Chat, it uses various sooper seekret APIs to deliver 
-//the most fresh and high quality responses.
+// ImgurBot
 
-/*\ 
-|*|
-|*| ImgurBot Presetting
-|*|
-\*/
+var clientId = "76e0353dbfd399a";
 
 var error = false;
 var URLs = "";
@@ -185,11 +180,7 @@ var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg)/g;
 
 var authorization = 'Client-ID ' + clientId;
 
-/*\
-|*|
-|*| Checking Function
-|*|
-\*/
+// Checkem
 
 function checkem() {
     var text = "";
@@ -318,23 +309,17 @@ function gohighlight(){
         prepareImage();
 }
 
-/*\
-|*|
-|*| News (RSS) Sourcing API
-|*|
-\*/
+// Google News
 
 $('head').append('<script src="https://www.google.com/jsapi"></script>');
 
 function guugle(){google.load('feeds', 1, {
-        callback: function() {
-            // do stuff, if you want - it doesn't matter, because the page isn't blank!
-        }
+        callback: function() {} //intentionally left blank
     } );
     console.log("Google Feeds API has succesfully loaded :)");
 }
 
-setTimeout(function(){guugle();}, 3000);
+setTimeout(function(){guugle();}, 2000);
 
 var feedlimit = 10;
 
@@ -358,43 +343,7 @@ var newsURL = "http://news.google.com/?output=rss";
 var boxregex = /&url=(https*:\/\/(.)+)/gi;
 var finalboxregex = /(https*:\/\/(.)+)/gi;
 
-/*\
-|*|
-|*| Dictionary Widget
-|*|
-\*/
-
-var define1regex = /wh*at does (?!that|this)(\w)+ mean/gi;
-var define2regex = /define (\w)+/gi;
-
-function extractcase1() {
-    preword3 = str.match(define1regex);
-    preword2 = preword3[0];
-    preword = preword2.split(" ");
-    daword = preword[preword.length-2];
-}
-
-function extractcase2(){
-    preword3 = str.match(define2regex);
-    preword2 = preword3[0];
-    preword = preword2.split(" ");
-    daword = preword[preword.length-1];
-}
-
-function define(word){
-        xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase="+word+"&pretty=true", false);
-        xmlHttp.send(null);
-        basshunter = xmlHttp.responseText;
-        array = JSON.parse(basshunter).tuc;
-        return array[0].meanings[0].text;
-}
-
-/*\
-|*|
-|*| The Main Portion
-|*|
-\*/
+// Main Function
 
 function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
