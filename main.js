@@ -208,7 +208,7 @@ String.prototype.insert = function (index, string) {
     return string + this;
 };
 
-var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+ *(ing|(\w)*em|in|this|dese|deze)+/ig;
+var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+ *(ing|(\w)*em|in|this|dese|de+ze*)+/ig;
 var dubsregex = /(\d)\1+/g;
 var increasingregex = /(123|234|345|456|567|678|789|890|098|987|876|765|654|543|432|321|1234|2345|3456|4567|5678|6789|7890|0987|9876|8765|7654|6543|5432|4321|12345|23456|34567|45678|56789|67890|09876|98765|87654|76543|65432|54321|123456|234567|345678|456789|567890|098765|987654|876543|765432|654321)/g;
 
@@ -412,12 +412,18 @@ function main() {
     m = str.indexOf("#news");
     n = str.search(checkemregex);
 
-        if (n > -1){
-            itype = "checkem";
-            checkthis = checkem();
-            dubssurvive();
-        } else if (a > -1) {
-            if (d > -1){
+    if (n > -1) {
+        itype = "checkem";
+        checkthis = checkem();
+        dubssurvive();
+    } else if (b > -1) {
+        itype = "subreddit";
+        hawaii = str.match(imageregex);
+        subreddit = hawaii[0];
+        URLs = "https://api.imgur.com/3/gallery" + subreddit;
+        httpGet(URLs);
+    } else if (a > -1) {
+        if (d > -1) {
             itype = "gallery";
             URLs = "https://api.imgur.com/3/gallery/hot/viral/0.json";
             httpGet(URLs);
@@ -435,25 +441,24 @@ function main() {
             sortresult = sort[Math.floor(Math.random() * sort.length)];
             URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
             httpGet(URLs);
-        } else if (m > -1){
+        } else if (m > -1) {
             itype = "news";
             feed = new google.feeds.Feed(newsURL);
             feed.setNumEntries(feedlimit);
             loadit();
         } else {
-        alaska = str.match(hashtagregex);
-        canada = alaska[alaska.length-1];
-        if (str.lastIndexOf("color: ")+7 < str.lastIndexOf(canada)){
-        itype = "subreddit";        
-        subreddit = "/r/" + canada.substring(1);
-        URLs = "https://api.imgur.com/3/gallery" + subreddit;
-        httpGet(URLs);
-        } else {
-            console.log("Autoreject of #COLOR");
-        }
+            alaska = str.match(hashtagregex);
+            canada = alaska[alaska.length - 1];
+            if (str.lastIndexOf("color: ") + 7 < str.lastIndexOf(canada)) {
+                itype = "subreddit";
+                subreddit = "/r/" + canada.substring(1);
+                URLs = "https://api.imgur.com/3/gallery" + subreddit;
+                httpGet(URLs);
+            } else {
+                console.log("Autoreject of #COLOR");
             }
         }
-   else if (h > -1) {
+    } else if (h > -1) {
         var arrayLength = largearray.length;
         var megastr = "";
         for (var i = 0; i < arrayLength; i++) {
@@ -469,12 +474,6 @@ function main() {
             errortype = "null";
             prepareResponse();
         }
-    } else if (b > -1) {
-        itype = "subreddit";
-        hawaii = str.match(imageregex);
-        subreddit = hawaii[0];
-        URLs = "https://api.imgur.com/3/gallery" + subreddit;
-        httpGet(URLs);
     } else if (e > -1) {
         up = true;
         vote();
