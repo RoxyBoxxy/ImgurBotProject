@@ -208,7 +208,7 @@ String.prototype.insert = function (index, string) {
     return string + this;
 };
 
-var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+(ing|em|in|this|dese)+/ig;
+var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+ *(ing|(\w)*em|in|this|dese|deze)+/ig;
 var dubsregex = /(\d)\1+/g;
 var increasingregex = /(123|234|345|456|567|678|789|890|098|987|876|765|654|543|432|321|1234|2345|3456|4567|5678|6789|7890|0987|9876|8765|7654|6543|5432|4321|12345|23456|34567|45678|56789|67890|09876|98765|87654|76543|65432|54321|123456|234567|345678|456789|567890|098765|987654|876543|765432|654321)/g;
 
