@@ -18,7 +18,7 @@ setInterval(function() {
     if (score > 0) {
         score--;
     }
-}, 10000);
+}, 8000);
 
 function getrequestnumber() {
     xmlHttp = new XMLHttpRequest();
@@ -208,53 +208,60 @@ String.prototype.insert = function (index, string) {
     return string + this;
 };
 
-var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+(ing|em|in)+/ig;
+var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+(ing|em|in|this|dese)+/ig;
 var dubsregex = /(\d)\1+/g;
 var increasingregex = /(123|234|345|456|567|678|789|890|098|987|876|765|654|543|432|321|1234|2345|3456|4567|5678|6789|7890|0987|9876|8765|7654|6543|5432|4321|12345|23456|34567|45678|56789|67890|09876|98765|87654|76543|65432|54321|123456|234567|345678|456789|567890|098765|987654|876543|765432|654321)/g;
 
-var dubsregexA = /(\d)(\d)\2(\d)\2\2/g;
-var dubsregexB = /(\d)\1(\d){2}\1\1/g;
-var dubsregexC = /(\d)\1(\d)\1\1(\d)/g;
+var dubsregexA = /(\d)(\d)\2(\d)(\d)\4/g;
+var dubsregexB = /(\d)\1(\d){2}(\d)\3/g;
+var dubsregexC = /(\d)\1(\d)(\d)\3(\d)/g;
+var dubsregexD = /(\d)\1(\d)\2(\d)\3/g;
 
-var sixregex = /(\d)\1{5}/g;
-var fiveregex = /(\d)\1{4}/g;
-
-var tripsregexA = /(\d)\1\1(\d)\1\1/g;
-var tripsregexB = /(\d)\1(\d)\1\1\1/g;
+var tripsregexA = /(\d)\1\1(\d)(\d)\3/g;
+var tripsregexB = /(\d)\1(\d)(\d)\3\3/g;
 
 dubs = false;
 
-function processString() {
-    dubs = false;
-    lastindexing = 0;
+function dubssurvive(){
     dubsarray = checkthis.match(dubsregex);
-    console.log("dubsarray="+dubsarray);
-    console.log("checkthis="+checkthis);
-    console.log("n="+n);
     if (dubsarray == null){
         dubsarray = [];
     }
-    console.log(dubsarray.length);
-    if (dubsarray.length > 1){
-    alert("optionA");
-    dubs = true;
-    lengtharray = [];
-    for (var j = 0; j < dubsarray.length; j++) {
-        lengtharray.push(dubsarray[j].length);
-    }
-    checkstring = stringify(dubsarray);
-    if (checkstring.search(dubsregexA) > -1 || checkstring.search(dubsregexB) > -1 || checkstring.search(dubsregexC) > -1){
-        if (checkstring.search(sixregex) == -1 && checkstring.search(fiveregex) == -1){
-            lastindexing = 1;
-            gohighlight();
+    if (dubsarray.length >= 1){
+        randomnumber = Math.floor(Math.random()*2);
+        if (randomnumber == 0){
+            processString();
         } else {
-            gohighlight();
+            console.log("this would have been dubs");
+            killdubs();
         }
     } else {
-        gohighlight();
+        dubs = false;
+        finalstring = checkthis;
+        prepareImage();
     }
+    
+}
+
+function killdubs(){
+    checkthis = checkem();
+    isitdubs = checkthis.search(dubsregex);
+    if (isitdubs == -1){
+        dubs = false;
+        finalstring = checkthis;
+        prepareImage();
+    } else {
+        killdubs();
+    }
+}
+
+function processString() {
+    dubs = true;
+    dubsarray = checkthis.match(dubsregex);
+    console.log(dubsarray.length);
+    if (dubsarray.length > 1){
+        gohighlight();
     } else if (dubsarray.length == 1) {
-        dubs = true;
         finalstring = checkthis;
         dubslength = dubsarray[0].length;
         dubspos = checkthis.search(dubsregex);
@@ -277,52 +284,38 @@ function processString() {
         }
         finalstring = finalstring.insert(dubspos+dubslength+7,"#FFFFFF");
         prepareImage();
-    } else {
-        finalstring = checkthis;
-        prepareImage();
     }
 }
 
 function gohighlight(){
         finalstring = checkthis;
-    if (lastindexing == 1){
-        if(checkstring.search(tripsregexA) > -1){
-            finalstring = finalstring.insert(0,"#FFD700");
-            finalstring = finalstring.insert(10,"#FFF");
-            finalstring = finalstring.insert(15,"#FFD700");
-            prepareImage();
-        } else if(checkstring.search(tripsregexB) > -1){
-            finalstring = finalstring.insert(0,"#FFD700");
-            finalstring = finalstring.insert(9,"#FFF");
-            finalstring = finalstring.insert(14,"#FFD700");
-            prepareImage();
-        } else {
-            insertXarray = [];
-            insertXarray.push(checkthis.indexOf(dubsarray[0]));
-            insertXarray.push(checkthis.lastIndexOf(dubsarray[0]));
-            insertYarray = [];
-            insertYarray.push(insertXarray[0]+2);
-            insertYarray.push(insertXarray[1]+2);
-            for (var i = 0; i < insertXarray.length; i++){
-                finalstring = finalstring.insert(insertXarray[i]+11*i,"#FFD700");
-                finalstring = finalstring.insert(insertYarray[i]+7*(2*i+1),"#FFFFFF");
+        if(checkthis.search(tripsregexA) > -1){
+            finalstring = finalstring.insert(0,"#FF00BF");
+            finalstring = finalstring.insert(10,"#FFFFFF");
+            finalstring = finalstring.insert(18,"#FF00BF");
+        } else if(checkthis.search(tripsregexB) > -1){
+            finalstring = finalstring.insert(0,"#FF00BF");
+            finalstring = finalstring.insert(9,"#FFFFFF");
+            finalstring = finalstring.insert(17,"#FF00BF");
+        } else if(checkthis.search(dubsregexA) > -1){
+            finalstring = finalstring.insert(1,"#FF00BF");
+            finalstring = finalstring.insert(10,"#FFFFFF");
+            finalstring = finalstring.insert(18,"#FF00BF");
+        } else if(checkthis.search(dubsregexB) > -1){
+            if (checkthis.search(dubsregexD) > -1){
+                finalstring = finalstring.insert(0,"#FF00BF");
+            } else {
+                finalstring = finalstring.insert(0,"#FF00BF");
+                finalstring = finalstring.insert(9,"#FFFFFF");
+                finalstring = finalstring.insert(18,"#FF00BF");
             }
-            prepareImage();
-        }
-    } else {
-        insertXarray = [];
-        for (var j = 0; j < dubsarray.length; j++){
-            insertXarray.push(checkthis.indexOf(dubsarray[j]));
-        }
-        for (var k = 0; k < insertXarray.length; k++){
-            insertYarray.push(insertXarray[k]+lengtharray[k]);
-        }
-        for (var l = 0; l < insertXarray.length; l++){
-            finalstring = finalstring.insert(insertXarray[l]+11*l,"#FFD700");
-            finalstring = finalstring.insert(insertYarray[l]+7*(2*l+1),"#FFFFFF");
+        } else if(checkthis.search(dubsregexC) > -1){
+            finalstring = finalstring.insert(0,"#FF00BF");
+            finalstring = finalstring.insert(9,"#FFFFFF");
+            finalstring = finalstring.insert(17,"#FF00BF");
+            finalstring = finalstring.insert(26,"#FFFFFF");
         }
         prepareImage();
-    }
 }
 
 /*\
@@ -487,7 +480,7 @@ function main() {
     } else if (n > -1){
         itype = "checkem";
         checkthis = checkem();
-        processString();
+        dubssurvive();
     }
 }
 
@@ -592,7 +585,7 @@ function prepareImage() {
     AntiSpam = true;
     setTimeout(function(){AntiSpam=false;}, 650);
     } else if (score == 5){
-        CLIENT.submit("$Arial|#red*Please wait some time before sending again*");
+        CLIENT.submit("$Arial|#red*Please wait 6 seconds before sending again*");
         undo = 1;
         score++;
     AntiSpam = true;
