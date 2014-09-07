@@ -224,7 +224,7 @@ dubs = false;
 
 function dubssurvive(){
     dubsarray = checkthis.match(dubsregex);
-    if (dubsarray == null){
+    if (dubsarray === null){
         dubsarray = [];
     }
     if (dubsarray.length >= 1){
@@ -412,7 +412,11 @@ function main() {
     m = str.indexOf("#news");
     n = str.search(checkemregex);
 
-        if (a > -1) {
+        if (n > -1){
+            itype = "checkem";
+            checkthis = checkem();
+            dubssurvive();
+        } else if (a > -1) {
             if (d > -1){
             itype = "gallery";
             URLs = "https://api.imgur.com/3/gallery/hot/viral/0.json";
@@ -477,10 +481,6 @@ function main() {
     } else if (f > -1) {
         up = false;
         vote();
-    } else if (n > -1){
-        itype = "checkem";
-        checkthis = checkem();
-        dubssurvive();
     }
 }
 
