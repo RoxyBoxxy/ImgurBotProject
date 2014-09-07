@@ -258,7 +258,23 @@ function processString() {
         finalstring = checkthis;
         dubslength = dubsarray[0].length;
         dubspos = checkthis.search(dubsregex);
-        finalstring = finalstring.insert(dubspos,"#FFD700");
+        switch (dubslength){
+            case 2:
+                finalstring = finalstring.insert(dubspos,"#FFD700");
+                break;
+            case 3:
+                finalstring = finalstring.insert(dubspos,"#8DF0F7");
+                break;
+            case 4:
+                finalstring = finalstring.insert(dubspos,"#8DF0F7");
+                break;
+            case 5:
+                finalstring = finalstring.insert(dubspos,"#ED5132");
+                break;
+            case 6:
+                finalstring = finalstring.insert(dubspos,"#C32BFF");
+                break;
+        }
         finalstring = finalstring.insert(dubspos+dubslength+7,"#FFFFFF");
         prepareImage();
     } else {
