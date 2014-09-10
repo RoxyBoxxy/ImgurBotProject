@@ -215,20 +215,22 @@ dubs = false;
 function processString() {
     dubs = false;
     if (checkthis.search(sexregex) > -1){
-        text = text.prototype.insert(0,"#CC00FF");
+        text = checkthis.insert(0,"#CC00FF");
         dubs = true;
     } else if (checkthis.search(quintsregex) > -1){
-        text = text.prototype.insert(1,"#FF0000");
+        text = checkthis.insert(1,"#FF0000");
         dubs = true;
     } else if (checkthis.search(quadsregex) > -1){
-        text = text.prototype.insert(2,"#00FF15");
+        text = checkthis.insert(2,"#00FF15");
         dubs = true;
     } else if (checkthis.search(tripsregex) > -1){
-        text = text.prototype.insert(3,"#00E1FF");
+        text = checkthis.insert(3,"#00E1FF");
         dubs = true;
     } else if (checkthis.search(dubsregex) > -1){
-        text = text.prototype.insert(4,"#FFE100");
+        text = checkthis.insert(4,"#FFE100");
         dubs = true;
+    } else {
+        text = checkthis;
     }
     prepareImage();
 }
