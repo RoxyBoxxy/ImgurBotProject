@@ -1,3 +1,5 @@
+var clientId = "76e0353dbfd399a";
+
 // ImgurBot
 
 var error = false;
