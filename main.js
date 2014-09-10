@@ -204,7 +204,7 @@ String.prototype.insert = function (index, string) {
 
 var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+ *(ing|(\w)*em|in|this|dese|de+ze*)+/ig;
 
-var dubsregex = /(\d)\1$/g);
+var dubsregex = /(\d)\1$/g;
 var tripsregex = /(\d)\1\1$/g;
 var quadsregex = /(\d)\1\1\1$/g;
 var quintsregex = /(\d)\1\1\1\1$/g;
