@@ -1,7 +1,5 @@
 // ImgurBot
 
-var clientId = "76e0353dbfd399a";
-
 var error = false;
 var URLs = "";
 var score = 0;
