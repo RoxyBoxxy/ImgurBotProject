@@ -169,7 +169,8 @@ var memesregex = /#(me|may){2,}s*(?!\w)/ig;
 var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
-var hashtagregex = /#(\w)+/gi;
+var hashtagregex = /# ?(\w)+/gi;
+var truehashtagregex = /(\w)+/gi;
 var bestregexlel = /#best(?!\w)/ig;
 var randomregex = /#random(?!\w)/ig;
 
@@ -326,7 +327,7 @@ function main() {
             canada = alaska[alaska.length - 1];
             if (str.lastIndexOf("color: ") + 7 < str.lastIndexOf(canada)) {
                 itype = "subreddit";
-                subreddit = "/r/" + canada.substring(1);
+                subreddit = "/r/" + canada.match(truehashtagregex);
                 URLs = "https://api.imgur.com/3/gallery" + subreddit;
                 httpGet(URLs);
             } else {
