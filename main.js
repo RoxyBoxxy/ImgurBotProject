@@ -338,7 +338,7 @@ function main() {
         var arrayLength = largearray.length;
         var megastr = "";
         for (var i = 0; i < arrayLength; i++) {
-            megastr = megastr + largearray[i].innerHTML.toLowerCase();
+            megastr = megastr + largearray[i].innerHTML;
         }
         var valid = megastr.search(urlregex);
         if (valid !== -1) {
