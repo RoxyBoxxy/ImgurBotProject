@@ -202,7 +202,7 @@ String.prototype.insert = function (index, string) {
     return string + this;
 };
 
-var checkemregex = /[A-Za-z]{1,3}(eck|ek|oll)+ *(ing|(\w)*em|in|this|dese|de+ze*)+/ig;
+var checkemregex = /([A-Za-z]{1,3}(eck|ek|oll)|(bowl|rawl))+ *(ing|(\w)*em|in|this|dese|de+ze*)+(?! *((\w)+)|\.)/ig;
 
 var dubsregex = /(\d)\1$/g;
 var tripsregex = /(\d)\1\1$/g;
@@ -412,7 +412,12 @@ function prepareImage() {
         if (dubs === false){
         CLIENT.submit(text);
         } else {
-            CLIENT.submit(text + "\n" + "https://i.imgur.com/Xpb0MWj.png");
+           superrandom = Math.floor(Math.random()*6);
+           if (superrandom !== 5){
+                CLIENT.submit(text + "\n" + "https://i.imgur.com/Xpb0MWj.png");
+           } else {
+                CLIENT.submit(text + "\n" + "https://i.imgur.com/CkdcWVU.gif");
+           }
         }
     } else if (itype == "gallery"){
         if (album === false){
