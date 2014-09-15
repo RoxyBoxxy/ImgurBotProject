@@ -167,6 +167,7 @@ var imageregex = /\/r\/(\w+)/i;
 var galleryregex = /#gal+ery(?!\w)/ig;
 var memesregex = /#(me|may){2,}s*(?!\w)/ig;
 var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
+var dropboxsaveregex = /(save|post)+ *(to|at|on|in) *dropbox/ig;
 var upvoteregex = /up(vote|boat)/ig;
 var downvoteregex = /down(vote|boat)/ig;
 var hashtagregex = /# ?(\w)+/gi;
@@ -180,6 +181,48 @@ var idregex2 = /"(\w{5}|\w{7})"/g;
 var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg)/g;
 
 var authorization = 'Client-ID ' + clientId;
+
+// Dropbox
+
+$('head').append('<script src="//cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.2/dropbox.min.js"></script>');
+
+var client = new Dropbox.Client({ key: "66uhv5e6rv4qr1v" });
+
+function writeImage(){
+client.writeFile("/Spooks/" + dropboxname, appendix, function(error, stat) {
+  if (error) {
+    return showError(error);  // Something went wrong.
+  }
+
+  console.log("File saved as revision " + stat.versionTag);
+});
+readImage();
+}
+
+function readImage(){
+    client.readFile("hello_world.txt", function(error, data) {
+  if (error) {
+    return showError(error);  // Something went wrong.
+  }
+
+  alert(data);  // data has the file's contents
+});
+}
+
+function findImageURL(){
+    var arrayLength = largearray.length;
+        var megastr = "";
+        for (var i = 0; i < arrayLength; i++) {
+            megastr = megastr + largearray[i].innerHTML;
+        }
+        var valid = megastr.search(urlregex);
+        if (valid !== -1) {
+            var jake = megastr.match(urlregex);
+            return jake[jake.length - 1];
+        } else {
+            return "error";
+        }
+}
 
 // Checkem
 
@@ -287,6 +330,7 @@ function main() {
     l = str.search(bestregexlel);
     m = str.indexOf("#news");
     n = str.search(checkemregex);
+    o = str.search(dropboxsaveregex);
 
     if (n > -1) {
         itype = "checkem";
@@ -335,20 +379,22 @@ function main() {
             }
         }
     } else if (h > -1) {
-        var arrayLength = largearray.length;
-        var megastr = "";
-        for (var i = 0; i < arrayLength; i++) {
-            megastr = megastr + largearray[i].innerHTML;
-        }
-        var valid = megastr.search(urlregex);
-        if (valid !== -1) {
-            var jake = megastr.match(urlregex);
-            appendix = jake[jake.length - 1];
-            uploadImage();
-        } else {
+        appendix = findImageURL();
+        if (appendix == "error") {
             error = true;
             errortype = "null";
             prepareResponse();
+        } else {
+            uploadImage();
+        }
+    } else if (o > -1) {
+        appendix = findImageURL();
+        if (appendix == "error") {
+            error = true;
+            errortype = "null";
+            prepareResponse();
+        } else {
+            writeImage();
         }
     } else if (e > -1) {
         up = true;
