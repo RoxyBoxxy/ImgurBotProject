@@ -178,7 +178,7 @@ var randomregex = /#random(?!\w)/ig;
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
 
-var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|jpeg)/g;
+var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|jpeg)/gi;
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -189,9 +189,9 @@ var extension = "";
 
 $('head').append('<script src="//cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.2/dropbox.min.js"></script>');
 
-var extensionregex = /\.(jpg|gif|jpeg)/gi;
+setTimeout(function(){client = new Dropbox.Client({ key: "66uhv5e6rv4qr1v" }); client.authenticate(); console.log("Dropbox has loaded");}, 2000);
 
-var client = new Dropbox.Client({ key: "66uhv5e6rv4qr1v" });
+var extensionregex = /\.(jpg|gif|jpeg)/gi;
 
 function writeImage(){
 client.writeFile("/Spooks/" + dropboxname + extension, appendix, function(error, stat) {
