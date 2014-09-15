@@ -210,8 +210,6 @@ client.makeUrl("/Spooks/" + dropboxname + extension, function(error, shareurl) {
   if (error) {
     return showError(error);  // Something went wrong.
   }
-    
-    extra = shareurl;
     iURL = shareurl.url;
     
   console.log("URL successfully acquired");
