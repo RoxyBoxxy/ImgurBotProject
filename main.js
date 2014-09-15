@@ -184,6 +184,9 @@ var authorization = 'Client-ID ' + clientId;
 
 // Dropbox
 
+var dropboxname = "";
+var extension = "";
+
 $('head').append('<script src="//cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.2/dropbox.min.js"></script>');
 
 var extensionregex = /\.(jpg|gif|jpeg)/gi;
@@ -196,19 +199,38 @@ client.writeFile("/Spooks/" + dropboxname + extension, appendix, function(error,
     return showError(error);  // Something went wrong.
   }
 
+    writeextra = stat;
   console.log("File saved as revision " + stat.versionTag);
 });
-readImage();
+getPublicURL();
 }
 
-function readImage(){
-    client.readFile("/Spooks/" + dropboxname + extension, function(error, data) {
+function getPublicURL(){
+client.makeUrl("/Spooks/" + dropboxname + extension, function(error, shareurl) {
+  if (error) {
+    return showError(error);  // Something went wrong.
+  }
+    
+    extra = shareurl;
+    iURL = shareurl.url;
+    
+  console.log("URL successfully acquired");
+});
+removePrevious();
+}
+
+function removePrevious(){
+    if (oldname !== ""){
+        client.remove("/Spooks/" + oldname + oldextension, function(error, data) {
   if (error) {
     return showError(error);  // Something went wrong.
   }
 
-  alert(data);  // data has the file's contents
+  removedata = data;
+  console.log("File " + data.name + " was removed succesfully");
 });
+    }
+    prepareImage();
 }
 
 function findImageURL(){
@@ -392,6 +414,7 @@ function main() {
             }
         }
     } else if (h > -1) {
+        itype = "response";
         appendix = findImageURL();
         if (appendix == "error") {
             error = true;
@@ -401,12 +424,15 @@ function main() {
             uploadImage();
         }
     } else if (o > -1) {
+        itype = "dropbox";
         appendix = findImageURL();
         if (appendix == "error") {
             error = true;
             errortype = "null";
             prepareResponse();
         } else {
+            oldname = dropboxname;
+            oldextension = extension;
             dropboxname = createRandomName();
             writeImage();
         }
@@ -480,6 +506,8 @@ function prepareImage() {
                 CLIENT.submit(text + "\n" + "https://i.imgur.com/CkdcWVU.gif");
            }
         }
+    } else if (itype == "dropbox"){
+        CLIENT.submit(iURL);
     } else if (itype == "gallery"){
         if (album === false){
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
