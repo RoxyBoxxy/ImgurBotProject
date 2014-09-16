@@ -421,19 +421,6 @@ function main() {
         } else {
             uploadImage();
         }
-    } else if (o > -1) {
-        itype = "dropbox";
-        appendix = findImageURL();
-        if (appendix == "error") {
-            error = true;
-            errortype = "null";
-            prepareResponse();
-        } else {
-            oldname = dropboxname;
-            oldextension = extension;
-            dropboxname = createRandomName();
-            writeImage();
-        }
     } else if (e > -1) {
         up = true;
         vote();
