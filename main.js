@@ -363,7 +363,7 @@ function main() {
     l = str.search(bestregexlel);
     m = str.indexOf("#news");
     n = str.search(checkemregex);
-    o = str.search(dropboxsaveregex);
+ // o = str.search(dropboxsaveregex);
 
     if (n > -1) {
         itype = "checkem";
