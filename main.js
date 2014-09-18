@@ -322,6 +322,18 @@ function main() {
         subreddit = hawaii[0];
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
+    } else if (p > -1 && q > -1) {
+                if (infinite){
+        if (infinitedubs == 0){
+        infinitedubs = 1;
+        CLIENT.submit("Infinte Dubs mode unlocked");
+        score++
+        AntiSpam = true;
+        setTimeout(function(){AntiSpam=false;}, 625);
+        }
+        } else {
+            console.log("disabled");
+        }
     } else if (a > -1) {
         if (d > -1) {
             itype = "gallery";
@@ -374,18 +386,6 @@ function main() {
     } else if (f > -1) {
         up = false;
         vote();
-    } else if (p > -1 && q > -1){
-        if (infinite){
-        if (infinitedubs == 0){
-        infinitedubs = 1;
-        CLIENT.submit("Infinte Dubs mode unlocked");
-        score++
-        AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 625);
-        }
-        } else {
-            console.log("disabled");
-        }
     }
     }
 }
