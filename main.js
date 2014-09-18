@@ -308,7 +308,9 @@ function main() {
  // o = str.search(dropboxsaveregex);
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
-
+    r = str.indexOf("====");
+    
+    if (r == -1){
     if (n > -1) {
         itype = "checkem";
         checkthis = checkem();
@@ -383,6 +385,7 @@ function main() {
         } else {
             console.log("disabled");
         }
+    }
     }
 }
 
