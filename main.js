@@ -292,6 +292,7 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 
 function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
+    PM = $('#messages').children()[$('#messages').children().length - 1].outerHTML.toLowerCase();
     largearray = $('#messages').children();
 
     a = str.search(hashtagregex);
@@ -308,7 +309,7 @@ function main() {
  // o = str.search(dropboxsaveregex);
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
-    r = str.indexOf("====");
+    r = PM.indexOf("personal-message");
     
     if (r == -1){
     if (n > -1) {
