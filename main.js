@@ -225,7 +225,7 @@ String.prototype.insert = function (index, string) {
     return string + this;
 };
 
-var checkemregex = /([A-Za-z]{1,3}(eck|ek|oll)|(bowl|rawl))+ *(ing|(\w)*em|in|this|dese|de+ze*)+(?! *((\w)+)|\.)/ig;
+var checkemregex = /([A-Za-z]{1,3}(ec(h|k)|ek|oll)|(bowl|rawl))+ *(ing|(\w)*em|in|this|dese|de+ze*)+(?! *((\w)+)|\.)/ig;
 
 var dubsregex = /(\d)\1$/g;
 var tripsregex = /(\d)\1\1$/g;
