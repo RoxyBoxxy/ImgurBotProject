@@ -198,7 +198,7 @@ function checkem() {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
         
     return text;
-    } else {
+    } else if (infinitedubs == 1){
         var text = "";
         var possible = "123456789";
         var dubscombo = ["00","11","22","33","44","55","66","77","88","99"];
@@ -210,6 +210,10 @@ function checkem() {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
         
         text += dubscombo[Math.floor(Math.random()*dubscombo.length)];
+        return text;
+    } else {
+        var sexscombo = ["111111","222222","333333","444444","555555","666666","777777","888888","999999"];
+        text = sexscombo[Math.floor(Math.random()*sexscombo.length)];
         return text;
     }
 }
@@ -292,6 +296,7 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 
 function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
+    str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML.toLowerCase();
     PM = $('#messages').children()[$('#messages').children().length - 1].outerHTML.toLowerCase();
     largearray = $('#messages').children();
 
@@ -309,6 +314,7 @@ function main() {
  // o = str.search(dropboxsaveregex);
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
+    s = str2.indexOf("107001000");
     r = PM.indexOf("personal-message");
     
     if (r == -1){
@@ -322,14 +328,20 @@ function main() {
         subreddit = hawaii[0];
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
-    } else if (p > -1 && q > -1) {
+    } else if (p > -1 && q > -1 || q > -1 && s > -1) {
                 if (infinite){
         if (infinitedubs == 0){
         infinitedubs = 1;
-        CLIENT.submit("Infinte Dubs mode unlocked");
+        CLIENT.submit("Infinite Dubs mode unlocked");
         score++
         AntiSpam = true;
         setTimeout(function(){AntiSpam=false;}, 625);
+        } else if (infinitedubs == 1){
+            infinitedubs = 2;
+            CLIENT.submit("??????");
+            score++
+            AntiSpam = true;
+            setTimeout(function(){AntiSpam=false;}, 625);
         }
         } else {
             console.log("disabled");
