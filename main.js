@@ -15,7 +15,7 @@ setInterval(function() {
     if (score > 0) {
         score--;
     }
-}, 8000);
+}, 5000);
 
 function getrequestnumber() {
     xmlHttp = new XMLHttpRequest();
@@ -306,8 +306,8 @@ function main() {
     m = str.indexOf("#news");
     n = str.search(checkemregex);
  // o = str.search(dropboxsaveregex);
-    p = str.search("107001000");
-    q = str.search("-000");
+    p = str.indexOf("107001000");
+    q = str.indexOf("-000");
 
     if (n > -1) {
         itype = "checkem";
@@ -373,7 +373,7 @@ function main() {
         vote();
     } else if (p > -1 && q > -1){
         if (infinite){
-        if (infinite == 0){
+        if (infinitedubs == 0){
         infinitedubs = 1;
         CLIENT.submit("Infinte Dubs mode unlocked");
         score++
