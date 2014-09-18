@@ -100,7 +100,7 @@ function checkImage() {
     if (img.height <= 81) {
         text = makeid();
         img = new Image();
-        img.onload = function(){checkimage();};
+        img.onload = function(){checkImage();};
         img.src = "https://i.imgur.com/" + text + ".jpg";
     } else {
         iURL = img.src;
@@ -348,7 +348,7 @@ function main() {
         } else if (c > -1) {
             id = makeid();
             img = new Image();
-            img.onload = function(){checkimage();};
+            img.onload = function(){checkImage();};
             img.src = "https://i.imgur.com/" + id + ".jpg";
         } else if (g > -1) {
             itype = "meme";
