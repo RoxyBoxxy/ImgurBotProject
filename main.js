@@ -8,6 +8,8 @@ var score = 0;
 var sort = ["day", "week", "month", "year" , "all"];
 var locked = 0;
 var AntiSpam = false;
+var infinite = true;
+var infinitedubs = 0;
 
 setInterval(function() {
     if (score > 0) {
@@ -185,6 +187,7 @@ var authorization = 'Client-ID ' + clientId;
 // Checkem
 
 function checkem() {
+    if (infinitedubs == 0){
     var text = "";
     var possible = "123456789";
     
@@ -195,6 +198,20 @@ function checkem() {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
         
     return text;
+    } else {
+        var text = "";
+        var possible = "123456789";
+        var dubscombo = ["00","11","22","33","44","55","66","77","88","99"];
+        
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+        possible = possible + "0";
+        
+        for (var i = 0; i < 3; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+        
+        text += dubscombo[Math.floor(Math.random()*dubscombo.length)];
+        return text;
+    }
 }
 
 String.prototype.insert = function (index, string) {
@@ -289,6 +306,8 @@ function main() {
     m = str.indexOf("#news");
     n = str.search(checkemregex);
  // o = str.search(dropboxsaveregex);
+    p = str.search("107001000");
+    q = str.search("-000");
 
     if (n > -1) {
         itype = "checkem";
@@ -352,6 +371,18 @@ function main() {
     } else if (f > -1) {
         up = false;
         vote();
+    } else if (p > -1 && q > -1){
+        if (infinite){
+        if (infinite == 0){
+        infinitedubs = 1;
+        CLIENT.submit("Infinte Dubs mode unlocked");
+        score++
+        AntiSpam = true;
+        setTimeout(function(){AntiSpam=false;}, 625);
+        }
+        } else {
+            console.log("disabled");
+        }
     }
 }
 
