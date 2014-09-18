@@ -100,19 +100,13 @@ function checkImage() {
     if (img.height <= 81) {
         text = makeid();
         img = new Image();
+        img.onload = function(){checkimage();};
         img.src = "https://i.imgur.com/" + text + ".jpg";
-        timer();
     } else {
         iURL = img.src;
         itype = "random";
         prepareImage();
     }
-}
-
-function timer() {
-    setTimeout(function() {
-        checkImage();
-    }, 250);
 }
 
 function vote() {
@@ -354,8 +348,8 @@ function main() {
         } else if (c > -1) {
             id = makeid();
             img = new Image();
+            img.onload = function(){checkimage();};
             img.src = "https://i.imgur.com/" + id + ".jpg";
-            timer();
         } else if (g > -1) {
             itype = "meme";
             URLs = "https://api.imgur.com/3/g/memes";
