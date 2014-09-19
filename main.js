@@ -26,6 +26,15 @@ function getrequestnumber() {
     var katyperry = res[0];
     remained = katyperry.match(/\d{5}/);
     remaining = remained[0];
+    
+    $.ajax({
+        type: "GET",
+        url: "https://api.imgur.com/3/credits",
+        headers: {"Authorization": authorization},
+        complete: function(a,b){
+            
+        }
+    })
 }
 
 function stopRegexTime() {
@@ -223,9 +232,8 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 // Main Function
 
 function main() {
-    str = $('#messages').children()[$('#messages').children().length - 1].innerHTML;
+    str = $('#messages').children()[$('#messages').children().length - 1].outerHTML;
     str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML;
-    PM = $('#messages').children()[$('#messages').children().length - 1].outerHTML;
 
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
@@ -238,7 +246,7 @@ function main() {
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
     s = str2.indexOf("107001000");
-    r = PM.indexOf("personal-message");
+    r = str.indexOf("personal-message");
     
     if (r == -1){
     if (n > -1) {
