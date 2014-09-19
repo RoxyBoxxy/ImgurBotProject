@@ -31,7 +31,9 @@ function getrequestnumber() {
         type: "GET",
         url: "https://api.imgur.com/3/credits",
         headers: {"Authorization": authorization},
-        complete: function(a,b){
+        success: function(text){
+            
+        }
             
         }
     })
