@@ -1,5 +1,3 @@
-var clientId = "76e0353dbfd399a";
-
 // ImgurBot
 
 var error = false;
@@ -10,6 +8,7 @@ var locked = 0;
 var AntiSpam = false;
 var infinite = true;
 var infinitedubs = 0;
+var clientId = "76e0353dbfd399a";
 
 setInterval(function() {
     if (score > 0) {
@@ -162,10 +161,6 @@ var preimageregex = /ima*ge*\s*\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
 var galleryregex = /#gal+ery(?!\w)/ig;
 var memesregex = /#(me|may){2,}s*(?!\w)/ig;
-var saveregex = /(save|post)+ *(to|at|on|in) *imgur/ig;
-var dropboxsaveregex = /(save|post)+ *(to|at|on|in) *dropbox/ig;
-var upvoteregex = /up(vote|boat)/ig;
-var downvoteregex = /down(vote|boat)/ig;
 var hashtagregex = /# ?(\w)+/gi;
 var truehashtagregex = /(\w)+/gi;
 var bestregexlel = /#best(?!\w)/ig;
@@ -289,23 +284,18 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 // Main Function
 
 function main() {
-    str = $('#messages').children()[$('#messages').children().length - 1].innerHTML.toLowerCase();
-    str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML.toLowerCase();
-    PM = $('#messages').children()[$('#messages').children().length - 1].outerHTML.toLowerCase();
-    largearray = $('#messages').children();
+    str = $('#messages').children()[$('#messages').children().length - 1].innerHTML;
+    str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML;
+    PM = $('#messages').children()[$('#messages').children().length - 1].outerHTML;
 
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
     c = str.search(randomregex);
     d = str.search(galleryregex);
-    e = str.search(upvoteregex);
-    f = str.search(downvoteregex);
     g = str.search(memesregex);
-    h = str.search(saveregex);
     l = str.search(bestregexlel);
     m = str.indexOf("#news");
     n = str.search(checkemregex);
- // o = str.search(dropboxsaveregex);
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
     s = str2.indexOf("107001000");
@@ -376,23 +366,7 @@ function main() {
                 console.log("Autoreject of #COLOR");
             }
         }
-    } else if (h > -1) {
-        itype = "response";
-        appendix = findImageURL();
-        if (appendix == "error") {
-            error = true;
-            errortype = "null";
-            prepareResponse();
-        } else {
-            uploadImage();
-        }
-    } else if (e > -1) {
-        up = true;
-        vote();
-    } else if (f > -1) {
-        up = false;
-        vote();
-    }
+    } 
     }
 }
 
@@ -411,9 +385,6 @@ function prepareResponse() {
         }
         if (errortype == "null") {
             console.log("Null Error: You are referencing a nonexistent object.");
-        }
-        if (errortype == "locked") {
-            console.log("Lock Error: Must wait 10 seconds before saving to Imgur.");
         }
         error = false;
     } else {
@@ -477,11 +448,6 @@ function prepareImage() {
         } else {
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
         }
-    } else if (itype == "response"){
-        CLIENT.submit("Here is your image URL: https://imgur.com/" + URLz);
-        AntiSpam = true;
-        locked = 1;
-        unlockslowly();
     } else if (itype == "news"){
         CLIENT.submit(title + "\n" + link);
     } else if (itype == "random"){
