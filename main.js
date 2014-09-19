@@ -1,5 +1,3 @@
-// ImgurBot
-
 var error = false,
 URLs = "",
 score = 0,
@@ -16,49 +14,6 @@ setInterval(function() {
     }
 }, 5000);
 
-function getrequestnumber() {
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "https://api.imgur.com/3/credits", false);
-    xmlHttp.setRequestHeader("Authorization", authorization);
-    xmlHttp.send(null);
-    var text = xmlHttp.responseText;
-    var res = text.match(/"ClientRemaining":\d{5}/);
-    var katyperry = res[0];
-    remained = katyperry.match(/\d{5}/);
-    remaining = remained[0];
-    
-    $.ajax({
-        type: "GET",
-        url: "https://api.imgur.com/3/credits",
-        headers: {"Authorization": authorization},
-        success: function(text){
-            
-        }
-            
-        }
-    })
-}
-
-function stopRegexTime() {
-    var copacobana = JSON.parse(basshunter).data;
-    if (copacobana !== null){
-    special = copacobana[Math.floor(Math.random() * copacobana.length)];
-    album = special.is_album;
-    if (album === false){
-    id = special.id;
-    } else {
-        id = special.cover;
-        albumlink = special.link;
-    }
-    pretitle = special.title;
-    title = pretitle.replace('\"', '"');
-        if (title == "untitled") {
-        title = "No Title";
-    }
-    prepareImage();
-    }
-}
-
 function makeid() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -70,7 +25,6 @@ function makeid() {
 }
 
 function checkImage() {
-
     if (img.height <= 81) {
         text = makeid();
         img = new Image();
@@ -84,27 +38,20 @@ function checkImage() {
 }
 
 function httpGet(URL) {
-    if (remaining > 0) {
-        xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", URL, false);
-        xmlHttp.setRequestHeader("Authorization", authorization);
-        xmlHttp.send(null);
-        basshunter = xmlHttp.responseText;
-        remaining--;
-        var data = basshunter.indexOf('{"data":[],');
-        if (data == -1){
-        stopRegexTime();
-        } else {
-            error = true;
-            errortype = "basic";
-            prepareResponse();
+    $.ajax({
+    type: "GET",
+    url: URL,
+    headers: {"Authorization": authorization},
+    success: function(a){
+        var b = a.data;
+        if (b !== undefined){
+            C = b[Math.floor(Math.random() * b.length)];
+            title = C.title;
+            album = C.is_album;
+            prepareImage();
+        } 
         }
-    } else {
-        error = true;
-        errortype = "supply";
-        prepareResponse();
-
-    }
+    });
 }
 
 var preimageregex = /ima*ge*\s*\/r\/(\w+)/ig;
@@ -126,7 +73,7 @@ var authorization = 'Client-ID ' + clientId;
 // Checkem
 
 function checkem() {
-    if (infinitedubs == 0){
+    if (infinitedubs === 0){
     var text = "";
     var possible = "123456789";
     
@@ -266,13 +213,13 @@ function main() {
         if (infinitedubs == 0){
         infinitedubs = 1;
         CLIENT.submit("Infinite Dubs mode unlocked");
-        score++
+        score++;
         AntiSpam = true;
         setTimeout(function(){AntiSpam=false;}, 625);
         } else if (infinitedubs == 1){
             infinitedubs = 2;
             CLIENT.submit("??????");
-            score++
+            score++;
             AntiSpam = true;
             setTimeout(function(){AntiSpam=false;}, 625);
         }
@@ -363,8 +310,8 @@ function stringify(strArray) {
 }
 
 function prepareImage() {
-    if (score < 5){
     if (itype == "subreddit"){
+        id = C.id;
         CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
     } else if (itype == "checkem"){
         if (dubs === false){
@@ -380,37 +327,41 @@ function prepareImage() {
     } else if (itype == "dropbox"){
         CLIENT.submit(iURL);
     } else if (itype == "gallery"){
-        if (album === false){
-        CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+        if (!album){
+            id = C.id;
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
+            id = C.cover;
+            albumlink = C.link;
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
         }
     } else if (itype == "meme"){
-        if (album === false){
-        CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+        if (!album){
+            id = C.id;
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
+            id = C.cover;
+            albumlink = C.link;
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
         }
     } else if (itype == "best"){
-        if (album === false){
-        CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+        if (!album){
+            id = C.id;
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
+            id = C.cover;
+            albumlink = C.link;
             CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
         }
     } else if (itype == "news"){
         CLIENT.submit(title + "\n" + link);
     } else if (itype == "random"){
+        if (score < 5){
         CLIENT.submit(iURL);
+        }
     }
-    undo = 1;
     AntiSpam = true;
     setTimeout(function(){AntiSpam=false;}, 625);
-    } else if (score == 5){
-        CLIENT.submit("$Arial|#red*Please wait 6 seconds before sending again*");
-        undo = 1;
-        AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 625);
-    }
     score++;
 }
 
@@ -418,15 +369,21 @@ $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function() {
       if (AntiSpam === false){
-        if (score < 6) {
+        if (score < 5) {
                 main();
-        } else {
-            console.log("Bot is being SPAMMED"); 
-        }} else {
-            console.log("Bot is being SPAMMED");
-        }
-
+        } else if (score == 5){
+        CLIENT.submit("#redPlease wait 6 seconds before sending again");
+        AntiSpam = true;
+        setTimeout(function(){AntiSpam=false;}, 501);
+        }}
     });
 });
 
-getrequestnumber();
+$.ajax({
+    type: "GET",
+    url: "https://api.imgur.com/3/credits",
+    headers: {"Authorization": authorization},
+    success: function(a){
+        remaining = a.data.ClientRemaining;
+    }
+});
