@@ -48,42 +48,6 @@ function stopRegexTime() {
     }
 }
 
-function uploadImage() {
-    if (locked == "0") {
-        response = "";
-        $.ajax({
-            url: 'https://api.imgur.com/3/image',
-            headers: {
-                'Authorization': authorization
-            },
-            type: 'POST',
-            data: {
-                'image': appendix
-            },
-            success: function(text) {
-                response = text;
-                returnUrl();
-            }
-        });
-    } else {
-        error = true;
-        errortype = "locked";
-        prepareResponse();
-    }
-}
-
-function returnUrl() {
-    var solar = JSON.stringify(response);
-    var sunlight = solar.match(idregex);
-    var maple = stringify(sunlight);
-    var oak = maple.match(idregex2);
-    var palmtree = stringify(oak);
-    var preURL = palmtree.replace('"', "");
-    URLz = preURL.replace('"', "");
-    itype = "response";
-    prepareImage();
-}
-
 function makeid() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -105,31 +69,6 @@ function checkImage() {
         iURL = img.src;
         itype = "random";
         prepareImage();
-    }
-}
-
-function vote() {
-    if (typeof id !== undefined) {
-        xmlHttp = new XMLHttpRequest();
-        if (up === true) {
-            xmlHttp.open("POST", "https://api.imgur.com/3/gallery/image/" + id + "/vote/up", false);
-        }
-        if (up === false) {
-            xmlHttp.open("POST", "https://api.imgur.com/3/gallery/image/" + id + "/vote/down", false);
-        }
-        xmlHttp.setRequestHeader("Authorization", authorization);
-        xmlHttp.send(null);
-        if (undo == "0") {
-            undo = 1;
-        } else {
-            undo = 0;
-        }
-        remaining--;
-        prepareResponse();
-    } else {
-        error = true;
-        errortype = "null";
-        prepareResponse();
     }
 }
 
