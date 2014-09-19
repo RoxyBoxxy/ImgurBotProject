@@ -235,11 +235,10 @@ function main() {
                 if (b !== undefined){
                 C = b[Math.floor(Math.random() * b.length)];
                 title = C.title;
-                album = C.is_album;
                 } 
                 }
                 });
-                        if (!album){
+                        if (!C.is_album){
                 id = C.id;
                 CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
             } else {
@@ -255,7 +254,7 @@ function main() {
         } else if (g > -1) {
             itype = "meme";
             URLs = "https://api.imgur.com/3/g/memes";
-                            $.ajax({
+                $.ajax({
                 type: "GET",
                 url: "https://api.imgur.com/3/g/memes",
                 headers: {"Authorization": authorization},
@@ -264,11 +263,10 @@ function main() {
                 if (b !== undefined){
                 C = b[Math.floor(Math.random() * b.length)];
                 title = C.title;
-                album = C.is_album;
                 } 
                 }
                 });
-            if (!album){
+            if (!C.is_album){
                 id = C.id;
                 CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
             } else {
