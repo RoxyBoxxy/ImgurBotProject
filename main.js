@@ -220,6 +220,12 @@ function main() {
             score++;
             AntiSpam = true;
             setTimeout(function(){AntiSpam=false;}, 625);
+        } else if (infinitedubs == 2){
+            infinitedubs = 0;
+            CLIENT.submit("Cheats Disabled");
+            score++;
+        AntiSpam = true;
+        setTimeout(function(){AntiSpam=false;}, 625);
         }
         } else {
             console.log("disabled");
