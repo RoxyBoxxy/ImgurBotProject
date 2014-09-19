@@ -201,11 +201,23 @@ function main() {
         checkthis = checkem();
         processString();
     } else if (b > -1) {
-        itype = "subreddit";
         hawaii = str.match(imageregex);
-        subreddit = hawaii[0];
-        URLs = "https://api.imgur.com/3/gallery" + subreddit;
-        httpGet(URLs);
+            $.ajax({
+            type: "GET",
+            url: "https://api.imgur.com/3/gallery" + hawaii[0],
+            headers: {"Authorization": authorization},
+            success: function(a){
+            var b = a.data;
+            if (b !== undefined){
+            C = b[Math.floor(Math.random() * b.length)];
+            title = C.title;
+            } 
+            }
+            });
+            CLIENT.submit("https://i.imgur.com/" + C.id + ".jpg" + "\n" + title);
+            AntiSpam = true;
+            setTimeout(function(){AntiSpam=false;}, 625);
+            score++;
     } else if (p > -1 && q > -1) {
                 if (infinite){
         if (infinitedubs == 0){
@@ -278,6 +290,9 @@ function main() {
                 } 
                 }
                 });
+                AntiSpam = true;
+                setTimeout(function(){AntiSpam=false;}, 625);
+                score++;
         } else if (l > -1) {
             itype = "best";
             sortresult = sort[Math.floor(Math.random() * sort.length)];
@@ -330,10 +345,7 @@ function stringify(strArray) {
 }
 
 function prepareImage() {
-    if (itype == "subreddit"){
-        id = C.id;
-        CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
-    } else if (itype == "checkem"){
+    if (itype == "checkem"){
         if (dubs === false){
         CLIENT.submit(text);
         } else {
