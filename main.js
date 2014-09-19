@@ -210,13 +210,12 @@ function main() {
             var b = a.data;
             if (b !== undefined){
             C = b[Math.floor(Math.random() * b.length)];
-            title = C.title;
+            CLIENT.submit("https://i.imgur.com/" + C.id + ".jpg" + "\n" + C.title);
             } 
             }
             });
-            CLIENT.submit("https://i.imgur.com/" + C.id + ".jpg" + "\n" + title);
             AntiSpam = true;
-            setTimeout(function(){AntiSpam=false;}, 625);
+            setTimeout(function(){AntiSpam=false;}, 600);
             score++;
     } else if (p > -1 && q > -1) {
                 if (infinite){
@@ -225,19 +224,19 @@ function main() {
         CLIENT.submit("Infinite Dubs mode unlocked");
         score++;
         AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 625);
+        setTimeout(function(){AntiSpam=false;}, 600);
         } else if (infinitedubs == 1){
             infinitedubs = 2;
             CLIENT.submit("??????");
             score++;
             AntiSpam = true;
-            setTimeout(function(){AntiSpam=false;}, 625);
+            setTimeout(function(){AntiSpam=false;}, 600);
         } else if (infinitedubs == 2){
             infinitedubs = 0;
             CLIENT.submit("Cheats Disabled");
             score++;
         AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 625);
+        setTimeout(function(){AntiSpam=false;}, 600);
         }
         } else {
             console.log("disabled");
@@ -291,7 +290,7 @@ function main() {
                 }
                 });
                 AntiSpam = true;
-                setTimeout(function(){AntiSpam=false;}, 625);
+                setTimeout(function(){AntiSpam=false;}, 600);
                 score++;
         } else if (l > -1) {
             itype = "best";
@@ -307,12 +306,22 @@ function main() {
             alaska = str.match(hashtagregex);
             canada = alaska[alaska.length - 1];
             if (str.lastIndexOf("color: ") + 7 < str.lastIndexOf(canada)) {
-                itype = "subreddit";
                 subreddit = "/r/" + canada.match(truehashtagregex);
-                URLs = "https://api.imgur.com/3/gallery" + subreddit;
-                httpGet(URLs);
-            } else {
-                console.log("Autoreject of #COLOR");
+                    $.ajax({
+                type: "GET",
+                url: "https://api.imgur.com/3/gallery" + subreddit,
+                headers: {"Authorization": authorization},
+                success: function(a){
+                    var b = a.data;
+                    if (b !== undefined){
+                        C = b[Math.floor(Math.random() * b.length)];
+                        CLIENT.submit("https://i.imgur.com/" + C.id + ".jpg" + "\n" + C.title);
+                        } 
+                        }
+                    });
+                    AntiSpam = true;
+                    setTimeout(function(){AntiSpam=false;}, 600);
+                    score++;
             }
         }
     } 
@@ -321,14 +330,6 @@ function main() {
 
 function prepareResponse() {
     if (error === true) {
-        if (errortype == "supply") {
-            if (score < 5) {
-                CLIENT.submit("$Arial|#redSupply Error: All 12,500 daily credits have been used up. Sorry.");
-                score++;
-                AntiSpam = true;
-                setTimeout(function(){AntiSpam=false;}, 650);
-            }
-        }
         if (errortype == "null") {
             console.log("Null Error: You are referencing a nonexistent object.");
         }
@@ -373,7 +374,7 @@ function prepareImage() {
         }
     }
     AntiSpam = true;
-    setTimeout(function(){AntiSpam=false;}, 625);
+    setTimeout(function(){AntiSpam=false;}, 600);
     score++;
 }
 
@@ -386,7 +387,7 @@ $(function() {
         } else if (score == 5){
         CLIENT.submit("#redPlease wait 6 seconds before sending again");
         AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 501);
+        setTimeout(function(){AntiSpam=false;}, 600);
         }}
     });
 });
