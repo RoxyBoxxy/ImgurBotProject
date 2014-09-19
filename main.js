@@ -1,14 +1,14 @@
 // ImgurBot
 
-var error = false;
-var URLs = "";
-var score = 0;
-var sort = ["day", "week", "month", "year" , "all"];
-var locked = 0;
-var AntiSpam = false;
-var infinite = true;
-var infinitedubs = 0;
-var clientId = "76e0353dbfd399a";
+var error = false,
+URLs = "",
+score = 0,
+sort = ["day", "week", "month", "year" , "all"],
+locked = 0,
+AntiSpam = false,
+infinite = true,
+infinitedubs = 0,
+clientId = "76e0353dbfd399a";
 
 setInterval(function() {
     if (score > 0) {
