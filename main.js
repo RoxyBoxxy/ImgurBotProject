@@ -465,12 +465,6 @@ function prepareImage() {
     score++;
 }
 
-function unlockslowly() {
-    setTimeout(function() {
-        locked = "0";
-    }, 10000);
-}
-
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function() {
