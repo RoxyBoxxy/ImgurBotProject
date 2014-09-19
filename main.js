@@ -254,10 +254,10 @@ $('head').append('<script src="https://www.google.com/jsapi"></script>');
 function guugle(){google.load('feeds', 1, {
         callback: function() {} //intentionally left blank
     } );
-    console.log("Google Feeds API has succesfully loaded :)");
+    console.log("Google Feeds API and SpooksBot have succesfully loaded :)");
 }
 
-setTimeout(function(){guugle();}, 2000);
+setTimeout(function(){guugle();}, 1500);
 
 var feedlimit = 10;
 
@@ -481,5 +481,3 @@ $(function() {
 });
 
 getrequestnumber();
-
-console.log("SpooksBot Beta has loaded :)");
