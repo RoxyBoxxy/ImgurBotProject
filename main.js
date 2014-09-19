@@ -182,7 +182,6 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 
 function main() {
     str = $('#messages').children()[$('#messages').children().length - 1].outerHTML;
-    str2 = $('#messages').children()[$('#messages').children().length - 2].innerHTML;
 
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
@@ -194,7 +193,6 @@ function main() {
     n = str.search(checkemregex);
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
-    s = str2.indexOf("107001000");
     r = str.indexOf("personal-message");
     
     if (r == -1){
@@ -208,7 +206,7 @@ function main() {
         subreddit = hawaii[0];
         URLs = "https://api.imgur.com/3/gallery" + subreddit;
         httpGet(URLs);
-    } else if (p > -1 && q > -1 || q > -1 && s > -1) {
+    } else if (p > -1 && q > -1) {
                 if (infinite){
         if (infinitedubs == 0){
         infinitedubs = 1;
