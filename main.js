@@ -241,7 +241,7 @@ function main() {
                 if (b !== undefined){
                 C = b[Math.floor(Math.random() * b.length)];
                 title = C.title;
-                                        if (!C.is_album){
+                    if (!C.is_album){
                     id = C.id;
                     CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
                     } else {
@@ -344,8 +344,6 @@ function prepareImage() {
                 CLIENT.submit(text + "\n" + "https://i.imgur.com/CkdcWVU.gif");
            }
         }
-    } else if (itype == "dropbox"){
-        CLIENT.submit(iURL);
     } else if (itype == "best"){
         if (!album){
             id = C.id;
