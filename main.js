@@ -241,25 +241,23 @@ function main() {
                 if (b !== undefined){
                 C = b[Math.floor(Math.random() * b.length)];
                 title = C.title;
+                                        if (!C.is_album){
+                    id = C.id;
+                    CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+                    } else {
+                    id = C.cover;
+                    albumlink = C.link;
+                    CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
+                    }
                 } 
                 }
                 });
-                        if (!C.is_album){
-                id = C.id;
-                CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
-            } else {
-                id = C.cover;
-                albumlink = C.link;
-                CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
-            }
         } else if (c > -1) {
             id = makeid();
             img = new Image();
             img.onload = function(){checkImage();};
             img.src = "https://i.imgur.com/" + id + ".jpg";
         } else if (g > -1) {
-            itype = "meme";
-            URLs = "https://api.imgur.com/3/g/memes";
                 $.ajax({
                 type: "GET",
                 url: "https://api.imgur.com/3/g/memes",
@@ -269,17 +267,17 @@ function main() {
                 if (b !== undefined){
                 C = b[Math.floor(Math.random() * b.length)];
                 title = C.title;
+                            if (!C.is_album){
+                    id = C.id;
+                    CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+                } else {
+                    id = C.cover;
+                    albumlink = C.link;
+                    CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
+                }
                 } 
                 }
                 });
-            if (!C.is_album){
-                id = C.id;
-                CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
-            } else {
-                id = C.cover;
-                albumlink = C.link;
-                CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
-            }
         } else if (l > -1) {
             itype = "best";
             sortresult = sort[Math.floor(Math.random() * sort.length)];
