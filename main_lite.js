@@ -96,8 +96,6 @@ function checkem() {
     }
 }
 
-var checkemregex = /([A-Za-z]{1,3}(ec(h|k)|ek|oll)|(bowl|rawl))+ *(ing|(\w)*em|in|this|dese|de+ze*)+(?! *((\w)+)|\.)/ig;
-
 // Google News
 
 $('head').append('<script src="https://www.google.com/jsapi"></script>');
@@ -142,7 +140,7 @@ function main() {
     b = str.search(preimageregex);
     c = str.search(/spooksbot random/ig);
     m = str.search(/spooksbot news/ig);
-    n = str.search(checkemregex);
+    n = str.search(/([A-Za-z]{1,3}(ec(h|k)|ek|oll)|(bowl|rawl))+ *(ing|(\w)*em|in|this|dese|de+ze*)+(?! *((\w)+)|\.)/ig);
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
     r = str.indexOf("personal-message");
