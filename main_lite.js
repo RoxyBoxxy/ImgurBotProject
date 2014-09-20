@@ -1,4 +1,4 @@
-console.log("Code Initializing...")
+console.log("... Code Initializing ...");
 
 var error = false,
 URLs = "",
@@ -7,7 +7,6 @@ locked = 0,
 AntiSpam = false,
 infinite = true,
 infinitedubs = 0,
-clientId = "76e0353dbfd399a";
 
 setInterval(function() {
     if (score > 0) {
@@ -27,35 +26,15 @@ function makeid() {
 
 function checkImage() {
     if (img.height <= 81) {
-        text = makeid();
         img = new Image();
         img.onload = function(){checkImage();};
-        img.src = "https://i.imgur.com/" + text + ".jpg";
+        img.src = "https://i.imgur.com/" + makeid() + ".jpg";
     } else {
-        iURL = img.src;
-        itype = "random";
-        prepareImage();
+        if (score < 5){
+            CLIENT.submit(img.src);
+        }
     }
 }
-
-function httpGet(URL) {
-    $.ajax({
-    type: "GET",
-    url: URL,
-    headers: {"Authorization": authorization},
-    success: function(a){
-        var b = a.data;
-        if (b !== undefined){
-            C = b[Math.floor(Math.random() * b.length)];
-            title = C.title;
-            album = C.is_album;
-            prepareImage();
-        } 
-        }
-    });
-}
-
-var authorization = 'Client-ID ' + clientId;
 
 // Checkem
 
@@ -98,7 +77,7 @@ $('head').append('<script src="https://www.google.com/jsapi"></script>');
 function guugle(){google.load('feeds', 1, {
         callback: function() {} //intentionally left blank
     } );
-    console.log("Google Feeds API and SpooksBot have succesfully loaded :)");
+    console.log("... Google Feeds API has loaded ...");
 }
 
 setTimeout(function(){guugle();}, 1500);
@@ -150,7 +129,7 @@ function main() {
             $.ajax({
             type: "GET",
             url: "https://api.imgur.com/3/gallery" + hawaii[0],
-            headers: {"Authorization": authorization},
+            headers: {"Authorization": 'Client-ID 76e0353dbfd399a'},
             success: function(a){
             var b = a.data;
             if (b !== undefined){
@@ -187,17 +166,6 @@ function main() {
             console.log("disabled");
         }
     } else if (a > -1) {
-        if (c > -1) {
-            id = makeid();
-            img = new Image();
-            img.onload = function(){checkImage();};
-            img.src = "https://i.imgur.com/" + id + ".jpg";
-        } else if (m > -1) {
-            itype = "news";
-            feed = new google.feeds.Feed(newsURL);
-            feed.setNumEntries(feedlimit);
-            loadit();
-        } else {
             alaska = str.match(hashtagregex);
             canada = alaska[alaska.length - 1];
             if (str.lastIndexOf("color: ") + 7 < str.lastIndexOf(canada)) {
@@ -205,7 +173,7 @@ function main() {
                     $.ajax({
                 type: "GET",
                 url: "https://api.imgur.com/3/gallery" + subreddit,
-                headers: {"Authorization": authorization},
+                headers: {"Authorization": 'Client-ID 76e0353dbfd399a'},
                 success: function(a){
                     var b = a.data;
                     if (b !== undefined){
@@ -217,18 +185,18 @@ function main() {
                     AntiSpam = true;
                     setTimeout(function(){AntiSpam=false;}, 600);
                     score++;
-            }
         }
-    } 
+    } else if (c > -1){
+            id = makeid();
+            img = new Image();
+            img.onload = function(){checkImage();};
+            img.src = "https://i.imgur.com/" + id + ".jpg";
+    } else if (m > -1){
+            itype = "news";
+            feed = new google.feeds.Feed(newsURL);
+            feed.setNumEntries(feedlimit);
+            loadit();
     }
-}
-
-function prepareResponse() {
-    if (error === true) {
-        if (errortype == "null") {
-            console.log("Null Error: You are referencing a nonexistent object.");
-        }
-        error = false;
     }
 }
 
@@ -243,26 +211,22 @@ function stringify(strArray) {
 function prepareImage() {
   if (itype == "news"){
         CLIENT.submit(title + "\n" + link);
-    } else if (itype == "random"){
-        if (score < 5){
-        CLIENT.submit(iURL);
-        }
     }
-    AntiSpam = true;
-    setTimeout(function(){AntiSpam=false;}, 600);
-    score++;
 }
 
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function() {
-      if (AntiSpam === false){
+      if (!AntiSpam){
         if (score < 5) {
-                main();
+            main();
+            AntiSpam = true;
+            setTimeout(function(){AntiSpam=false;}, 700);
+            score++;
         } else if (score == 5){
         CLIENT.submit("#redPlease wait 6 seconds before sending again");
         AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 600);
+        setTimeout(function(){AntiSpam=false;}, 500);
         }}
     });
 });
