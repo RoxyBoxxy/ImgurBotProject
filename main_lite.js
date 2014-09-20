@@ -1,4 +1,4 @@
-console.log("... Code Initializing ...");
+console.log("... Loading Variables ...");
 
 var error = false,
 URLs = "",
@@ -36,8 +36,6 @@ function checkImage() {
     }
 }
 
-// Checkem
-
 function checkem() {
     if (infinitedubs === 0){
     var text = "";
@@ -72,32 +70,23 @@ function checkem() {
 
 // Google News
 
-$('head').append('<script src="https://www.google.com/jsapi"></script>');
-
-function guugle(){google.load('feeds', 1, {
+$.getScript("https://www.google.com/jsapi", function(){
+    console.log("... Google Feeds API has loaded ..."); google.load('feeds', 1, {
         callback: function() {} //intentionally left blank
     } );
-    console.log("... Google Feeds API has loaded ...");
-}
 
-setTimeout(function(){guugle();}, 1500);
+ });
 
 var feedlimit = 10;
 
-function runfunction(result){
-    mayme = result.feed.entries;
-    newsarray = mayme;
-    newsresult = newsarray[Math.floor(Math.random() * newsarray.length)];
-    title = newsresult.title;
-    prelink = newsresult.link;
-    link1 = prelink.match(boxregex);
-    link2 = stringify(link1).match(finalboxregex);
-    link = link2[0];
-    prepareImage();
-}
-
 function loadit(){ 
-    feed.load(runfunction);
+    feed.load( function(result) {
+    mayme = result.feed.entries;
+    newsresult = mayme[Math.floor(Math.random() * newsarray.length)];
+    title = newsresult.title;
+    link = newsresult.link;
+    CLIENT.submit(title + "\n" + link);
+});
 }
 
 var newsURL = "http://news.google.com/?output=rss";
@@ -138,29 +127,17 @@ function main() {
             } 
             }
             });
-            AntiSpam = true;
-            setTimeout(function(){AntiSpam=false;}, 600);
-            score++;
     } else if (p > -1 && q > -1) {
                 if (infinite){
         if (infinitedubs == 0){
         infinitedubs = 1;
         CLIENT.submit("Infinite Dubs mode unlocked");
-        score++;
-        AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 600);
         } else if (infinitedubs == 1){
             infinitedubs = 2;
             CLIENT.submit("??????");
-            score++;
-            AntiSpam = true;
-            setTimeout(function(){AntiSpam=false;}, 600);
         } else if (infinitedubs == 2){
             infinitedubs = 0;
             CLIENT.submit("Cheats Disabled");
-            score++;
-        AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 600);
         }
         } else {
             console.log("disabled");
@@ -182,9 +159,6 @@ function main() {
                         } 
                         }
                     });
-                    AntiSpam = true;
-                    setTimeout(function(){AntiSpam=false;}, 600);
-                    score++;
         }
     } else if (c > -1){
             id = makeid();
@@ -192,7 +166,6 @@ function main() {
             img.onload = function(){checkImage();};
             img.src = "https://i.imgur.com/" + id + ".jpg";
     } else if (m > -1){
-            itype = "news";
             feed = new google.feeds.Feed(newsURL);
             feed.setNumEntries(feedlimit);
             loadit();
@@ -208,12 +181,6 @@ function stringify(strArray) {
     return tempstring;
 }
 
-function prepareImage() {
-  if (itype == "news"){
-        CLIENT.submit(title + "\n" + link);
-    }
-}
-
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function() {
@@ -227,6 +194,7 @@ $(function() {
         CLIENT.submit("#redPlease wait 6 seconds before sending again");
         AntiSpam = true;
         setTimeout(function(){AntiSpam=false;}, 500);
+        score++;
         }}
     });
 });
