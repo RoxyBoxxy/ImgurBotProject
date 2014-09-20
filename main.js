@@ -181,7 +181,8 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 // Main Function
 
 function main() {
-    str = $('#messages').children()[$('#messages').children().length - 1].outerHTML;
+    
+    str = $('#messages').children().slice(-1)[0].outerHTML;
 
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
