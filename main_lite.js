@@ -1,5 +1,5 @@
 $.getScript("https://www.google.com/jsapi", function() {
-    console.log("... Google Feeds API has loaded ...");
+    console.log("Google Feeds API has loaded ...");
     google.load('feeds', 1, {
         callback: function() {} //intentionally left blank
     });
@@ -12,9 +12,9 @@ setInterval(function() {
     }
 }, 5000);
 
-console.log("... Spam protection loaded ...");
+console.log("Spam protection loaded ...");
 
-console.log("... Loading Variables ...");
+console.log("Loading Variables ...");
 
 var score = 0,
     AntiSpam = false,
@@ -23,10 +23,10 @@ var score = 0,
     feedlimit = 12,
     newsURL = "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
 
-console.log("<News URL is: " + newsURL + "> ... This can be changed in the script.");
-console.log("... Variables have loaded ...");
+console.log("... <News URL is: " + newsURL + "> ... This can be changed in the script.");
+console.log("Variables have loaded ...");
 
-console.log("... Loading Functions ...");
+console.log("Loading Functions ...");
 
 function makeid() {
     var text = "";
@@ -38,7 +38,7 @@ function makeid() {
     return text;
 }
 
-console.log("... ... makeid() ...");
+console.log("... makeid() ...");
 
 function checkImage() {
     if (img.height <= 81) {
@@ -54,7 +54,7 @@ function checkImage() {
     }
 }
 
-console.log("... ... checkImage() ...");
+console.log("... checkImage() ...");
 
 function checkem() {
     if (infinitedubs === 0) {
@@ -88,7 +88,7 @@ function checkem() {
     }
 }
 
-console.log("... ... checkem() ...");
+console.log("... checkem() ...");
 
 function main() {
     str = $('#messages').children().slice(-1)[0].outerHTML;
@@ -140,7 +140,7 @@ function main() {
                 console.log("disabled");
             }
         } else if (a > -1) {
-            alaska = str.match(hashtagregex);
+            alaska = str.match(/# ?(\w)+/gi);
             canada = alaska[alaska.length - 1];
             if (str.lastIndexOf("color: ") + 7 < str.lastIndexOf(canada)) {
                 subreddit = "/r/" + canada.match(/(\w)+/gi);
@@ -171,7 +171,7 @@ function main() {
             feed.setNumEntries(feedlimit);
             feed.load(function(result) {
                 mayme = result.feed.entries;
-                newsresult = mayme[Math.floor(Math.random() * newsarray.length)];
+                newsresult = mayme[Math.floor(Math.random() * mayme.length)];
                 title = newsresult.title;
                 link = newsresult.link;
                 CLIENT.submit(title + "\n" + link);
@@ -180,8 +180,8 @@ function main() {
     }
 }
 
-console.log("... ... main() ...");
-console.log("... Functions have loaded ...");
+console.log("... main() ...");
+console.log("Functions have loaded ...");
 
 $(function() {
     var socket = io('/' + window.channel);
@@ -206,5 +206,5 @@ $(function() {
     });
 });
 
-console.log("... DOM eventlistener added to document ...");
-console.log("... SpooksBot Lite 2.0 has succesfully loaded (I think) :)");
+console.log("DOM eventlistener added to document ...");
+console.log("... SpooksBot Lite 2.0 has succesfully loaded (I think) :) ...");
