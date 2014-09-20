@@ -1,18 +1,31 @@
-console.log("... Loading Variables ...");
+$.getScript("https://www.google.com/jsapi", function(){
+    console.log("... Google Feeds API has loaded ..."); google.load('feeds', 1, {
+        callback: function() {} //intentionally left blank
+    } );
 
-var error = false,
-URLs = "",
-score = 0,
-locked = 0,
-AntiSpam = false,
-infinite = true,
-infinitedubs = 0,
-
+ });
+ 
 setInterval(function() {
     if (score > 0) {
         score--;
     }
 }, 5000);
+
+console.log("... Spam protection loaded ...")''
+
+console.log("... Loading Variables ...");
+
+var score = 0,
+AntiSpam = false,
+infinite = true,
+infinitedubs = 0,
+feedlimit = 12,
+newsURL = "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
+
+console.log("<News URL is: " + newsURL + "> ... This can be changed in the script.");
+console.log("... Variables have loaded ...")
+
+console.log("... Loading Functions ...");
 
 function makeid() {
     var text = "";
@@ -23,6 +36,8 @@ function makeid() {
 
     return text;
 }
+
+console.log("... ... makeid() ...");
 
 function checkImage() {
     if (img.height <= 81) {
@@ -35,6 +50,8 @@ function checkImage() {
         }
     }
 }
+
+console.log("... ... checkImage() ...");
 
 function checkem() {
     if (infinitedubs === 0){
@@ -68,32 +85,7 @@ function checkem() {
     }
 }
 
-// Google News
-
-$.getScript("https://www.google.com/jsapi", function(){
-    console.log("... Google Feeds API has loaded ..."); google.load('feeds', 1, {
-        callback: function() {} //intentionally left blank
-    } );
-
- });
-
-var feedlimit = 10;
-
-function loadit(){ 
-    feed.load( function(result) {
-    mayme = result.feed.entries;
-    newsresult = mayme[Math.floor(Math.random() * newsarray.length)];
-    title = newsresult.title;
-    link = newsresult.link;
-    CLIENT.submit(title + "\n" + link);
-});
-}
-
-var newsURL = "http://news.google.com/?output=rss";
-var boxregex = /&url=(https*:\/\/(.)+)/gi;
-var finalboxregex = /(https*:\/\/(.)+)/gi;
-
-// Main Function
+console.log("... ... checkem() ...");
 
 function main() {
     str = $('#messages').children().slice(-1)[0].outerHTML;
@@ -168,18 +160,19 @@ function main() {
     } else if (m > -1){
             feed = new google.feeds.Feed(newsURL);
             feed.setNumEntries(feedlimit);
-            loadit();
+            feed.load( function(result) {
+            mayme = result.feed.entries;
+            newsresult = mayme[Math.floor(Math.random() * newsarray.length)];
+            title = newsresult.title;
+            link = newsresult.link;
+            CLIENT.submit(title + "\n" + link);
+});
     }
     }
 }
 
-function stringify(strArray) {
-    var tempstring = "";
-    for (var j = 0; j < strArray.length; j++) {
-        tempstring = tempstring + strArray[j];
-    }
-    return tempstring;
-}
+console.log("... ... main() ...");
+console.log("... Functions have loaded ...");
 
 $(function() {
     var socket = io('/' + window.channel);
@@ -198,3 +191,6 @@ $(function() {
         }}
     });
 });
+
+console.log("... DOM eventlistener added to document ...");
+console.log("... SpooksBot Lite 2.0 has succesfully loaded (I think) :)");
