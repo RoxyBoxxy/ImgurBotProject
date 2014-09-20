@@ -1,3 +1,5 @@
+console.log("Code Initializing...")
+
 var error = false,
 URLs = "",
 score = 0,
@@ -52,13 +54,6 @@ function httpGet(URL) {
         }
     });
 }
-
-var preimageregex = /ima*ge*\s*\/r\/(\w+)/ig;
-var imageregex = /\/r\/(\w+)/i;
-var hashtagregex = /# ?(\w)+/gi;
-var truehashtagregex = /(\w)+/gi;
-
-var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|jpeg)/gi;
 
 var authorization = 'Client-ID ' + clientId;
 
@@ -133,18 +128,15 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 // Main Function
 
 function main() {
-    
     str = $('#messages').children().slice(-1)[0].outerHTML;
-
-    a = str.search(hashtagregex);
-    b = str.search(preimageregex);
+    a = str.search(/# ?(\w)+/gi);
+    b = str.search(/ima*ge*\s*\/r\/(\w+)/ig);
     c = str.search(/spooksbot random/ig);
     m = str.search(/spooksbot news/ig);
     n = str.search(/([A-Za-z]{1,3}(ec(h|k)|ek|oll)|(bowl|rawl))+ *(ing|(\w)*em|in|this|dese|de+ze*)+(?! *((\w)+)|\.)/ig);
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
     r = str.indexOf("personal-message");
-    
     if (r == -1){
     if (n > -1) {
         text = checkem();
@@ -154,7 +146,7 @@ function main() {
           CLIENT.submit(text + "\n" + "https://i.imgur.com/Xpb0MWj.png");
         }
     } else if (b > -1) {
-        hawaii = str.match(imageregex);
+        hawaii = str.match(/\/r\/(\w+)/i);
             $.ajax({
             type: "GET",
             url: "https://api.imgur.com/3/gallery" + hawaii[0],
@@ -209,7 +201,7 @@ function main() {
             alaska = str.match(hashtagregex);
             canada = alaska[alaska.length - 1];
             if (str.lastIndexOf("color: ") + 7 < str.lastIndexOf(canada)) {
-                subreddit = "/r/" + canada.match(truehashtagregex);
+                subreddit = "/r/" + canada.match(/(\w)+/gi);
                     $.ajax({
                 type: "GET",
                 url: "https://api.imgur.com/3/gallery" + subreddit,
