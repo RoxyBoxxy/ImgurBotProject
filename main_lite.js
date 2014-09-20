@@ -96,39 +96,7 @@ function checkem() {
     }
 }
 
-String.prototype.insert = function (index, string) {
-  if (index > 0)
-    return this.substring(0, index) + string + this.substring(index, this.length);
-  else
-    return string + this;
-};
-
 var checkemregex = /([A-Za-z]{1,3}(ec(h|k)|ek|oll)|(bowl|rawl))+ *(ing|(\w)*em|in|this|dese|de+ze*)+(?! *((\w)+)|\.)/ig;
-
-dubs = false;
-
-function processString() {
-    dubs = false;
-    if (checkthis.search(/(\d)\1\1\1\1\1$/g) > -1){
-        text = checkthis.insert(0,"#CC00FF");
-        dubs = true;
-    } else if (checkthis.search(/(\d)\1\1\1\1$/g) > -1){
-        text = checkthis.insert(1,"#FF0000");
-        dubs = true;
-    } else if (checkthis.search(/(\d)\1\1\1$/g) > -1){
-        text = checkthis.insert(2,"#00FF15");
-        dubs = true;
-    } else if (checkthis.search(/(\d)\1\1$/g) > -1){
-        text = checkthis.insert(3,"#00E1FF");
-        dubs = true;
-    } else if (checkthis.search(/(\d)\1$/g) > -1){
-        text = checkthis.insert(4,"#FFE100");
-        dubs = true;
-    } else {
-        text = checkthis;
-    }
-    prepareImage();
-}
 
 // Google News
 
@@ -182,7 +150,7 @@ function main() {
     if (r == -1){
     if (n > -1) {
         text = checkem();
-        if (text.search(/(\d)\1$/g) = -1){
+        if (text.search(/(\d)\1$/g) == -1){
           CLIENT.submit(text);
         } else {
           CLIENT.submit(text + "\n" + "https://i.imgur.com/Xpb0MWj.png");
@@ -234,11 +202,6 @@ function main() {
             img = new Image();
             img.onload = function(){checkImage();};
             img.src = "https://i.imgur.com/" + id + ".jpg";
-        } else if (l > -1) {
-            itype = "best";
-            sortresult = sort[Math.floor(Math.random() * sort.length)];
-            URLs = "https://api.imgur.com/3/gallery/top/" + sortresult;
-            httpGet(URLs);
         } else if (m > -1) {
             itype = "news";
             feed = new google.feeds.Feed(newsURL);
