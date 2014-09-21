@@ -105,7 +105,7 @@ function main() {
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
     r = str.indexOf("personal-message");
-    if (r !== -1) {
+    if (r != -1) {
         if (n > -1) {
             text = checkem();
             if (text.search(/(\d)\1$/g) == -1) {
