@@ -50,6 +50,11 @@ function checkImage() {
     } else {
         if (score < 5) {
             CLIENT.submit(img.src);
+            AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
         }
     }
 }
@@ -105,8 +110,18 @@ function main() {
             text = checkem();
             if (text.search(/(\d)\1$/g) == -1) {
                 CLIENT.submit(text);
+                            AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
             } else {
                 CLIENT.submit(text + "\n" + "https://i.imgur.com/Xpb0MWj.png");
+                            AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
             }
         } else if (b > -1) {
             hawaii = str.match(/\/r\/(\w+)/i);
@@ -121,6 +136,11 @@ function main() {
                     if (b !== undefined) {
                         C = b[Math.floor(Math.random() * b.length)];
                         CLIENT.submit("https://i.imgur.com/" + C.id + ".jpg" + "\n" + C.title);
+                                    AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
                     }
                 }
             });
@@ -129,6 +149,7 @@ function main() {
                 if (infinitedubs == 0) {
                     infinitedubs = 1;
                     CLIENT.submit("Infinite Dubs mode unlocked");
+                    
                 } else if (infinitedubs == 1) {
                     infinitedubs = 2;
                     CLIENT.submit("??????");
@@ -136,6 +157,11 @@ function main() {
                     infinitedubs = 0;
                     CLIENT.submit("Cheats Disabled");
                 }
+                            AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
             } else {
                 console.log("disabled");
             }
@@ -155,6 +181,11 @@ function main() {
                         if (b !== undefined) {
                             C = b[Math.floor(Math.random() * b.length)];
                             CLIENT.submit("https://i.imgur.com/" + C.id + ".jpg" + "\n" + C.title);
+                                        AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
                         }
                     }
                 });
@@ -175,6 +206,11 @@ function main() {
                 title = newsresult.title;
                 link = newsresult.link;
                 CLIENT.submit(title + "\n" + link);
+                            AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
             });
         }
     }
@@ -189,11 +225,6 @@ $(function() {
         if (!AntiSpam) {
             if (score < 5) {
                 main();
-                AntiSpam = true;
-                setTimeout(function() {
-                    AntiSpam = false;
-                }, 700);
-                score++;
             } else if (score == 5) {
                 CLIENT.submit("#redPlease wait 6 seconds before sending again");
                 AntiSpam = true;
