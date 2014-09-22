@@ -66,7 +66,29 @@ function main() {
     m = str.search(/@news/ig);
     r = str.indexOf("personal-message");
     if (r == -1) {
-        if (a > -1) {
+        if (c > -1) {
+            id = makeid();
+            img = new Image();
+            img.onload = function() {
+                checkImage();
+            };
+            img.src = "https://i.imgur.com/" + id + ".jpg";
+        } else if (m > -1) {
+            feed = new google.feeds.Feed(newsURL);
+            feed.setNumEntries(feedlimit);
+            feed.load(function(result) {
+                mayme = result.feed.entries;
+                newsresult = mayme[Math.floor(Math.random() * mayme.length)];
+                title = newsresult.title;
+                link = newsresult.link;
+                CLIENT.submit(title + "\n" + link);
+                            AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
+            });
+        } else if (a > -1) {
             alaska = str.match(/@ ?(\w)+/gi);
             canada = alaska[alaska.length - 1];
                 subreddit = "/r/" + canada.match(/(\w)+/gi);
@@ -89,28 +111,6 @@ function main() {
                         }
                     }
                 });
-        } else if (c > -1) {
-            id = makeid();
-            img = new Image();
-            img.onload = function() {
-                checkImage();
-            };
-            img.src = "https://i.imgur.com/" + id + ".jpg";
-        } else if (m > -1) {
-            feed = new google.feeds.Feed(newsURL);
-            feed.setNumEntries(feedlimit);
-            feed.load(function(result) {
-                mayme = result.feed.entries;
-                newsresult = mayme[Math.floor(Math.random() * mayme.length)];
-                title = newsresult.title;
-                link = newsresult.link;
-                CLIENT.submit(title + "\n" + link);
-                            AntiSpam = true;
-            setTimeout(function() {
-                AntiSpam = false;
-            }, 600);
-            score++;
-            });
         }
     }
 }
