@@ -19,7 +19,7 @@ console.log("Loading Variables ...");
     var score = 0,
     AntiSpam = false,
     feedlimit = 12,
-    newsURL = "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
+    newsURL = "http://www.infowars.com/feed/";
 
 console.log("... <News URL is: " + newsURL + "> ... This can be changed in the script.");
 console.log("Variables have loaded ...");
@@ -81,7 +81,7 @@ function main() {
                 newsresult = mayme[Math.floor(Math.random() * mayme.length)];
                 title = newsresult.title;
                 link = newsresult.link;
-                CLIENT.submit(title + "\n" + link);
+                CLIENT.submit(title + "\n" + link + "\nThis news brought to you by InfoWars");
                             AntiSpam = true;
             setTimeout(function() {
                 AntiSpam = false;
