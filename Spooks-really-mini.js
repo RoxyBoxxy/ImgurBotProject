@@ -1,3 +1,5 @@
+// Little code cut from brunos bot
+
 if (text.contains("!motd")) {
             getmotd()
        });
