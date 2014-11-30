@@ -7,24 +7,6 @@ AntiSpam = false,
 infinite = true,
 infinitedubs = 0,
 clientId = "76e0353dbfd399a";
-var masters = ["bruno02468", "sammich", "krynomore"];
-
-var disabled = false;
-
-function send(text) { // Checks for antispam and sends message -- by Bruno
-    if (!AntiSpam && score < 5 && !disabled) {
-        CLIENT.submit(text);
-        spamFilters();
-    }
-}
-
-function spamFilters() { // Increment spam score -- by Bruno
-    score++;
-    AntiSpam = true;
-    setTimeout(function() {
-        AntiSpam = false;
-    }, 600);
-}
 
 setInterval(function() {
     if (score > 0) {
@@ -119,19 +101,6 @@ function checkem() {
         var sexscombo = ["111111","222222","333333","444444","555555","666666","777777","888888","999999"];
         text = sexscombo[Math.floor(Math.random()*sexscombo.length)];
         return text;
-    }
-}
-
-function toggle(name) { // Toggles the bot -- by Bruno
-    if (masters.indexOf(name) > -1) {
-        disabled = !disabled;
-        if (!disabled) {
-            send("#greenBot now enabled.");
-        } else {
-            CLIENT.submit("#redBot now disabled.");
-        }
-    } else {
-        CLIENT.submit("/pm " + name + "|#redYou do not have permission to toggle me. Stop it.");
     }
 }
 
@@ -242,21 +211,33 @@ function main() {
             var b = a.data;
             if (b !== undefined){
             C = b[Math.floor(Math.random() * b.length)];
-            send("https://i.imgur.com/" + C.id + ".jpg" + "\n" + C.title);
+            CLIENT.submit("https://i.imgur.com/" + C.id + ".jpg" + "\n" + C.title);
             } 
             }
             });
+            AntiSpam = true;
+            setTimeout(function(){AntiSpam=false;}, 600);
+            score++;
     } else if (p > -1 && q > -1) {
                 if (infinite){
         if (infinitedubs == 0){
         infinitedubs = 1;
-        send("Infinite Dubs mode unlocked");
+        CLIENT.submit("Infinite Dubs mode unlocked");
+        score++;
+        AntiSpam = true;
+        setTimeout(function(){AntiSpam=false;}, 600);
         } else if (infinitedubs == 1){
             infinitedubs = 2;
-            send("??????");
+            CLIENT.submit("??????");
+            score++;
+            AntiSpam = true;
+            setTimeout(function(){AntiSpam=false;}, 600);
         } else if (infinitedubs == 2){
             infinitedubs = 0;
-            send("Cheats Disabled");
+            CLIENT.submit("Cheats Disabled");
+            score++;
+        AntiSpam = true;
+        setTimeout(function(){AntiSpam=false;}, 600);
         }
         } else {
             console.log("disabled");
@@ -274,11 +255,11 @@ function main() {
                 title = C.title;
                     if (!C.is_album){
                     id = C.id;
-                    send("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+                    CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
                     } else {
                     id = C.cover;
                     albumlink = C.link;
-                    send("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
+                    CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
                     }
                 } 
                 }
@@ -300,15 +281,18 @@ function main() {
                 title = C.title;
                             if (!C.is_album){
                     id = C.id;
-                    send("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+                    CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
                 } else {
                     id = C.cover;
                     albumlink = C.link;
-                    send("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
+                    CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
                 }
                 } 
                 }
                 });
+                AntiSpam = true;
+                setTimeout(function(){AntiSpam=false;}, 600);
+                score++;
         } else if (l > -1) {
             itype = "best";
             sortresult = sort[Math.floor(Math.random() * sort.length)];
@@ -332,10 +316,13 @@ function main() {
                     var b = a.data;
                     if (b !== undefined){
                         C = b[Math.floor(Math.random() * b.length)];
-                        send("https://i.imgur.com/" + C.id + ".jpg" + "\n" + C.title);
+                        CLIENT.submit("https://i.imgur.com/" + C.id + ".jpg" + "\n" + C.title);
                         } 
                         }
                     });
+                    AntiSpam = true;
+                    setTimeout(function(){AntiSpam=false;}, 600);
+                    score++;
             }
         }
     } 
@@ -354,7 +341,7 @@ function prepareResponse() {
 function stringify(strArray) {
     var tempstring = "";
     for (var j = 0; j < strArray.length; j++) {
-        tempstring += strArray[j];
+        tempstring = tempstring + strArray[j];
     }
     return tempstring;
 }
@@ -362,35 +349,46 @@ function stringify(strArray) {
 function prepareImage() {
     if (itype == "checkem"){
         if (dubs === false){
-        send(text);
+        CLIENT.submit(text);
         } else {
            superrandom = Math.floor(Math.random()*6);
            if (superrandom !== 5){
-                send(text + "\n" + "https://i.imgur.com/Xpb0MWj.png");
+                CLIENT.submit(text + "\n" + "https://i.imgur.com/Xpb0MWj.png");
            } else {
-                send(text + "\n" + "https://i.imgur.com/CkdcWVU.gif");
+                CLIENT.submit(text + "\n" + "https://i.imgur.com/CkdcWVU.gif");
            }
         }
     } else if (itype == "best"){
         if (!album){
             id = C.id;
-            send("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
         } else {
             id = C.cover;
             albumlink = C.link;
-            send("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
+            CLIENT.submit("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
         }
     } else if (itype == "news"){
-        send(title + "\n" + link);
+        CLIENT.submit(title + "\n" + link);
     } else if (itype == "random"){
-        send(iURL);
+        if (score < 5){
+        CLIENT.submit(iURL);
+        }
     }
+    AntiSpam = true;
+    setTimeout(function(){AntiSpam=false;}, 600);
+    score++;
 }
 
 $(function() {
     var socket = io('/' + window.channel);
     socket.on('message', function() {
-        send("#redPlease wait 6 seconds before sending again");
+      if (AntiSpam === false){
+        if (score < 5) {
+                main();
+        } else if (score == 5){
+        CLIENT.submit("#redPlease wait 6 seconds before sending again");
+        AntiSpam = true;
+        setTimeout(function(){AntiSpam=false;}, 600);
         }}
     });
 });
