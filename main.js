@@ -191,6 +191,7 @@ function main() {
     g = str.search(memesregex);
     l = str.search(bestregexlel);
     m = str.indexOf("#news");
+    m = str.indexOf("#shit");
     n = str.search(checkemregex);
     p = str.indexOf("107001000");
     q = str.indexOf("-000");
