@@ -354,9 +354,9 @@ function prepareImage() {
         } else {
            superrandom = Math.floor(Math.random()*6);
            if (superrandom !== 5){
-                CLIENT.submit(text + "\n" + "https://i.imgur.com/Xpb0MWj.png");
+                CLIENT.submit(text + "\n" + "http://i.imgur.com/X1mfOpW.png");
            } else {
-                CLIENT.submit(text + "\n" + "https://i.imgur.com/CkdcWVU.gif");
+                CLIENT.submit(text + "\n" + "http://i.imgur.com/swvRm25.png");
            }
         }
     } else if (itype == "best"){
