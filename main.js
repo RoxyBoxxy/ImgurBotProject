@@ -1,3 +1,6 @@
+//WARRNING THIS IS NOT ALL OF MY CODE I HAVE USE MOST CODE WITH THE OPEN SORCE ACT
+//IF THE OWNER WISHES FOR THIS CODE NOT TO BE USED IT WILL BE TERMIANTED ASAP
+
 // Defining some basic functions and variables
 var disabled = false;
 var answering = false;
