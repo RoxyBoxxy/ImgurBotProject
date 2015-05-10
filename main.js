@@ -1,5 +1,10 @@
 //Loads google news API
-$('head').append('<script src="https://www.google.com/jsapi"></script>');
+$.getScript("https://www.google.com/jsapi",function(){
+                google.load('feeds', 1, {
+                callback: function() {} //intentionally left blank
+            });
+            console.log("Boxxy has loaded~");
+});
 
 //Declare global vars
 error = false,
@@ -52,9 +57,23 @@ CLIENT.on('message', function(data) {
                 p = str.indexOf("107001000");
                 if (data.type != "personal-message") {
                     if (n > -1) {
-                        itype = "checkem";
                         checkthis = checkem();
-                        processString();
+                        string = parseInt(checkthis);
+                        var insert;
+                        if (string % 111111 == 0) {
+                            text = checkthis.insert(0, "#CC00FF");
+                        } else if (string % 11111 == 0) {
+                            text = checkthis.insert(1, "#FF0000");
+                        } else if (string % 1111 == 0) {
+                            text = checkthis.insert(2, "#00FF15");
+                        } else if (string % 111 == 0) {
+                            text = checkthis.insert(3, "#00E1FF");
+                        } else if (string % 11) {
+                            text = checkthis.insert(4, "#FFE100");
+                        } else {
+                            text = checkthis;
+                        }
+                        send(text);
                     } else if (b > -1) {
                         sendRequest("GET", "https://api.imgur.com/3/gallery" + str.match(imageregex)[0], function(a) {
                             var b = a.data;
@@ -115,7 +134,6 @@ CLIENT.on('message', function(data) {
                                 }
                             });
                         } else if (l > -1) {
-                            itype = "best";
                             sortresult = sort[Math.floor(Math.random() * sort.length)];
                             sendRequest("GET", "https://api.imgur.com/3/gallery/top/" + sortresult, function(a) {
                                 var b = a.data;
@@ -127,10 +145,9 @@ CLIENT.on('message', function(data) {
                                 }
                             });
                         } else if (m > -1 || q > -1) {
-                            itype = "news";
                             feed = new google.feeds.Feed(newsURL);
                             feed.setNumEntries(feedlimit);
-                            loadit();
+                            feed.load(runfunction);
                         } else {
                             alaska = str.match(hashtagregex);
                             canada = alaska[alaska.length - 1];
@@ -172,8 +189,7 @@ CLIENT.on('message', function(data) {
                 img.src = "https://i.imgur.com/" + text + ".jpg";
             } else {
                 iURL = img.src;
-                itype = "random";
-                prepareImage();
+                noSpam.score < 5 && send(iURL);
             }
         }
 
@@ -233,45 +249,7 @@ CLIENT.on('message', function(data) {
 
         var checkemregex = /([A-Za-z]{1,3}(ec(h|k)|ek|oll)|(bowl|rawl|get))+ *(ing|(\w)*em|in|this|dese|de+ze*)+(?! *((\w)+)|\.)/ig;
 
-        dubs = false;
-
-        function processString(string) {
-            string = parseInt(string);
-            dubs = false;
-            var insert;
-            if (string % 111111 == 0) {
-                text = checkthis.insert(0, "#CC00FF");
-                dubs = true;
-            } else if (string % 11111 == 0) {
-                text = checkthis.insert(1, "#FF0000");
-                dubs = true;
-            } else if (string % 1111 == 0) {
-                text = checkthis.insert(2, "#00FF15");
-                dubs = true;
-            } else if (string % 111 == 0) {
-                text = checkthis.insert(3, "#00E1FF");
-                dubs = true;
-            } else if (string % 11) {
-                text = checkthis.insert(4, "#FFE100");
-                dubs = true;
-            } else {
-                text = checkthis;
-            }
-            prepareImage();
-        }
-
         // Google News
-
-        function guugle() {
-            google.load('feeds', 1, {
-                callback: function() {} //intentionally left blank
-            });
-            console.log("Google Feeds API and SpooksBot have succesfully loaded :)");
-        }
-
-        setTimeout(function() {
-            guugle();
-        }, 1500);
 
         var feedlimit = 10;
 
@@ -282,31 +260,16 @@ CLIENT.on('message', function(data) {
             title = newsresult.title;
             prelink = newsresult.link;
             link1 = prelink.match(boxregex);
-            link2 = stringify(link1).match(finalboxregex);
+            link2 = link1.join("").match(finalboxregex);
             link = link2[0];
-            prepareImage();
-        }
-
-        function loadit() {
-            feed.load(runfunction);
+            send(title + "\n" + link);
         }
 
         var newsURL = "http://news.google.com/?output=rss";
         var boxregex = /&url=(https*:\/\/(.)+)/gi;
         var finalboxregex = /(https*:\/\/(.)+)/gi;
 
-        function stringify(strArray) {
-            var tempstring = "";
-            for (var j = 0; j < strArray.length; j++) {
-                tempstring = tempstring + strArray[j];
-            }
-            return tempstring;
-        }
-
         function prepareImage() {
-            if (itype == "checkem") {
-                send(text);
-            } else if (itype == "best") {
                 if (!album) {
                     id = C.id;
                     send("https://i.imgur.com/" + id + ".jpg" + "\n" + title);
@@ -315,11 +278,6 @@ CLIENT.on('message', function(data) {
                     albumlink = C.link;
                     send("https://i.imgur.com/" + id + ".jpg" + "\n" + title + "\n" + "See more at " + albumlink);
                 }
-            } else if (itype == "news") {
-                send(title + "\n" + link);
-            } else if (itype == "random") {
-                noSpam.score < 5 && send(iURL);
-            }
         }
 
         sendRequest("GET", "https://api.imgur.com/3/credits", function(a) {
