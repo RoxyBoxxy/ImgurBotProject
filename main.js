@@ -1,4 +1,3 @@
-
 var error = false,
 URLs = "",
 score = 0,
@@ -181,9 +180,7 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 
 // Main Function
 
-function main() {
-    
-    str = $('#messages').children().slice(-1)[0].outerHTML;
+function main(str) {
 
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
@@ -381,19 +378,16 @@ function prepareImage() {
     score++;
 }
 
-$(function() {
-    var socket = io('/' + window.channel);
-    socket.on('message', function() {
+    CLIENT.on('message', function(data) {
       if (AntiSpam === false){
         if (score < 5) {
-                main();
+                main(data.message);
         } else if (score == 5){
         CLIENT.submit("#redPlease wait 6 seconds before sending again");
         AntiSpam = true;
         setTimeout(function(){AntiSpam=false;}, 600);
         }}
     });
-});
 
 $.ajax({
     type: "GET",
@@ -403,6 +397,3 @@ $.ajax({
         remaining = a.data.ClientRemaining;
     }
 });
-
-
-
