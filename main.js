@@ -198,11 +198,9 @@ CLIENT.on('message', function(data) {
         hashtagregex = /(~|!|@|\$) ?(\w)+/gi,
         truehashtagregex = /(\w)+/gi,
         bestregexlel = /(~|!|@|\$)best(?!\w)/ig,
-        randomregex = /(~|!|@|\$)(random(?!\w)/ig,
+        randomregex = /(~|!|@|\$)random(?!\w)/ig,
         newsregex = /(~|!|@|\$)(news|shit)/ig,
-
         idregex = /{"id":"(\w{5}|\w{7})"/g; idregex2 = /"(\w{5}|\w{7})"/g;
-
         urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|jpeg)/gi;
 
         // Checkem
@@ -253,20 +251,13 @@ CLIENT.on('message', function(data) {
         var feedlimit = 10;
 
         function runfunction(result) {
-            mayme = result.feed.entries;
-            newsarray = mayme;
-            newsresult = newsarray[Math.floor(Math.random() * newsarray.length)];
-            title = newsresult.title;
-            prelink = newsresult.link;
-            link1 = prelink.match(boxregex);
-            link2 = link1.join("").match(finalboxregex);
-            link = link2[0];
-            send(title + "\n" + link);
+            var newsresult = result.feed.entries[Math.floor(Math.random() * result.feed.entries.length)];
+            var matches = boxregex.exec(newsresult.link);
+            send(newsresult.title + "\n" + matches[1]);
         }
 
         var newsURL = "http://news.google.com/?output=rss";
         var boxregex = /&url=(https*:\/\/(.)+)/gi;
-        var finalboxregex = /(https*:\/\/(.)+)/gi;
 
         function prepareImage() {
                 if (!album) {
@@ -283,4 +274,4 @@ CLIENT.on('message', function(data) {
             remaining = a.data.ClientRemaining;
         });
         
-console.log('Thank you for using Boxxy v2.5.15 by KrYnoMoRe. Licensed under GNU Public License V3.0\nVisit ');
+console.log('Thank you for using Boxxy v2.5.15 by KrYnoMoRe. Licensed under GNU Public License V3.0\nVisit https://github.com/krynomore/ImgurBotProject/tree/master');
