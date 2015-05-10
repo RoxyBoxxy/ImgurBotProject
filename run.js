@@ -1,11 +1,7 @@
-/* Permament script that runs the bot
-   using the code from GitHub, to remove
-   the need for updates. By Bruno02468. */
-
 /* Request the bot file */
 var request = null;
 request = new XMLHttpRequest();
-request.open("GET", "http://github.com/krynomore/ImgurBotProject/script.php", false);
+request.open("GET", "https://cdn.rawgit.com/krynomore/ImgurBotProject/master/main.js", false);
 request.send(null);
 var script = request.responseText;
 
@@ -17,6 +13,4 @@ try {
   console.log(e);
 }
 
-
-
-
+//Original file by Bruno02468
