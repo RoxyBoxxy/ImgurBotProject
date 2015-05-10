@@ -47,7 +47,7 @@ CLIENT.on('message', function(data) {
                 g = str.search(memesregex);
                 l = str.search(bestregexlel);
                 m = str.toLowerCase().indexOf("~news");
-                m = str.toLowerCase().indexOf("~shit");
+                q = str.toLowerCase().indexOf("~shit");
                 n = str.search(checkemregex);
                 p = str.indexOf("107001000");
                 if (data.type != "personal-message") {
@@ -126,7 +126,7 @@ CLIENT.on('message', function(data) {
                                     prepareImage();
                                 }
                             });
-                        } else if (m > -1) {
+                        } else if (m > -1 || q > -1) {
                             itype = "news";
                             feed = new google.feeds.Feed(newsURL);
                             feed.setNumEntries(feedlimit);
