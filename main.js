@@ -179,12 +179,12 @@ CLIENT.on('message', function(data) {
 
         preimageregex = /ima*ge*\s*\/r\/(\w+)/ig,
         imageregex = /\/r\/(\w+)/i,
-        galleryregex = /~gal+ery(?!\w)/ig,
-        memesregex = /~(me|may){2,}s*(?!\w)/ig,
-        hashtagregex = /~ ?(\w)+/gi,
+        galleryregex = /(~|!|@|\$)gal+ery(?!\w)/ig,
+        memesregex = /(~|!|@|\$)(me|may){2,}s*(?!\w)/ig,
+        hashtagregex = /(~|!|@|\$) ?(\w)+/gi,
         truehashtagregex = /(\w)+/gi,
-        bestregexlel = /~best(?!\w)/ig,
-        randomregex = /~random(?!\w)/ig,
+        bestregexlel = /(~|!|@|\$)best(?!\w)/ig,
+        randomregex = /(~|!|@|\$)random(?!\w)/ig,
 
         idregex = /{"id":"(\w{5}|\w{7})"/g; idregex2 = /"(\w{5}|\w{7})"/g;
 
