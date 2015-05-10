@@ -3,7 +3,6 @@ $.getScript("https://www.google.com/jsapi",function(){
                 google.load('feeds', 1, {
                 callback: function() {} //intentionally left blank
             });
-            console.log("Boxxy has loaded~");
 });
 
 //Declare global vars
@@ -51,8 +50,7 @@ CLIENT.on('message', function(data) {
                 d = str.search(galleryregex);
                 g = str.search(memesregex);
                 l = str.search(bestregexlel);
-                m = str.toLowerCase().indexOf("~news");
-                q = str.toLowerCase().indexOf("~shit");
+                m = str.search(newsregex);
                 n = str.search(checkemregex);
                 p = str.indexOf("107001000");
                 if (data.type != "personal-message") {
@@ -144,7 +142,7 @@ CLIENT.on('message', function(data) {
                                     prepareImage();
                                 }
                             });
-                        } else if (m > -1 || q > -1) {
+                        } else if (m > -1) {
                             feed = new google.feeds.Feed(newsURL);
                             feed.setNumEntries(feedlimit);
                             feed.load(runfunction);
@@ -200,7 +198,8 @@ CLIENT.on('message', function(data) {
         hashtagregex = /(~|!|@|\$) ?(\w)+/gi,
         truehashtagregex = /(\w)+/gi,
         bestregexlel = /(~|!|@|\$)best(?!\w)/ig,
-        randomregex = /(~|!|@|\$)random(?!\w)/ig,
+        randomregex = /(~|!|@|\$)(random(?!\w)/ig,
+        newsregex = /(~|!|@|\$)(news|shit)/ig,
 
         idregex = /{"id":"(\w{5}|\w{7})"/g; idregex2 = /"(\w{5}|\w{7})"/g;
 
@@ -283,3 +282,5 @@ CLIENT.on('message', function(data) {
         sendRequest("GET", "https://api.imgur.com/3/credits", function(a) {
             remaining = a.data.ClientRemaining;
         });
+        
+console.log('Thank you for using Boxxy v2.5.15 by KrYnoMoRe. Licensed under GNU Public License V3.0\nVisit ');
