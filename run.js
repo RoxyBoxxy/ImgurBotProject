@@ -1,7 +1,7 @@
 /* Request the bot file */
 var request = null;
 request = new XMLHttpRequest();
-request.open("GET", "https://rawgit.com/krynomore/ImgurBotProject/master/main.js", false);
+request.open("GET", "https://cdn.jsdelivr.net/gh/krynomore/ImgurBotProject@master/main.js", false);
 request.send(null);
 var script = request.responseText;
 
